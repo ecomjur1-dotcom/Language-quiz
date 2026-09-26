@@ -1,6 +1,10 @@
 [
   {
     "file": "turkish_a2_b1_quiz_bank_140.csv",
-    "name": "Turkish A2 + B1 \u00b7 140 Questions"
+    "name": "A2 + B1"
+  },
+  {
+    "file": "turkish_hard_a2_easy_b1_teaching_bank_72.csv",
+    "name": "Hard A2 + Easy B1"
   }
 ]
