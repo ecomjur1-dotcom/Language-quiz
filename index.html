@@ -710,104 +710,132 @@ h1,h2,h3,strong{color:var(--ink)}
 </style>
 
 <style>
-/* v37 main-menu ambient polish only */
+/* v38 open main-menu background with moving cloud shapes */
+#home{
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(180deg,#f7faff 0%,#eef4fb 54%,#f7f9fc 100%)!important;
+}
+#home::before,
+#home::after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+  z-index:0;
+  border-radius:42% 58% 64% 36% / 48% 42% 58% 52%;
+  filter:blur(18px);
+  will-change:transform,border-radius;
+}
+#home::before{
+  width:min(72vw,620px);
+  height:min(48vw,410px);
+  left:-15%;
+  top:-9%;
+  opacity:.56;
+  background:
+    radial-gradient(circle at 30% 36%,rgba(191,215,246,.95) 0 25%,transparent 58%),
+    radial-gradient(circle at 67% 52%,rgba(153,187,231,.75) 0 22%,transparent 62%),
+    linear-gradient(135deg,rgba(208,226,248,.9),rgba(178,205,238,.48));
+  animation:cloudDriftA 18s ease-in-out infinite alternate;
+}
+#home::after{
+  width:min(68vw,570px);
+  height:min(46vw,390px);
+  right:-16%;
+  bottom:-12%;
+  opacity:.5;
+  background:
+    radial-gradient(circle at 66% 36%,rgba(202,214,249,.92) 0 24%,transparent 58%),
+    radial-gradient(circle at 34% 62%,rgba(164,191,238,.7) 0 23%,transparent 61%),
+    linear-gradient(135deg,rgba(220,229,252,.86),rgba(183,205,244,.44));
+  animation:cloudDriftB 22s ease-in-out infinite alternate;
+}
 #mainMenu{
   position:relative;
+  z-index:1;
   isolation:isolate;
-  overflow:hidden;
+  overflow:visible!important;
   justify-content:center;
-  padding:clamp(18px,4vw,34px);
-  border-radius:28px;
   min-height:calc(100dvh - 36px);
+  padding:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
 }
 #mainMenu::before,
 #mainMenu::after{
   content:"";
   position:absolute;
-  z-index:-2;
-  width:min(66vw,520px);
-  aspect-ratio:1;
-  border-radius:50%;
-  filter:blur(72px);
-  opacity:.14;
+  z-index:-1;
   pointer-events:none;
-  will-change:transform;
+  filter:blur(12px);
+  opacity:.42;
+  will-change:transform,border-radius;
 }
 #mainMenu::before{
-  top:-20%;
-  left:-22%;
-  background:radial-gradient(circle at 45% 45%,#5f7693 0%,#8392a3 45%,transparent 72%);
-  animation:menuAmbientA 18s ease-in-out infinite alternate;
+  width:min(44vw,350px);
+  height:min(30vw,235px);
+  left:10%;
+  top:30%;
+  border-radius:58% 42% 45% 55% / 44% 54% 46% 56%;
+  background:linear-gradient(135deg,rgba(188,218,247,.78),rgba(211,230,250,.4));
+  animation:cloudFloatC 15s ease-in-out infinite alternate;
 }
 #mainMenu::after{
-  right:-24%;
-  bottom:-24%;
-  background:radial-gradient(circle at 50% 50%,#827c72 0%,#a9a195 42%,transparent 72%);
-  animation:menuAmbientB 22s ease-in-out infinite alternate;
+  width:min(38vw,300px);
+  height:min(28vw,220px);
+  right:8%;
+  top:13%;
+  border-radius:44% 56% 60% 40% / 55% 40% 60% 45%;
+  background:linear-gradient(145deg,rgba(196,208,250,.72),rgba(171,199,241,.36));
+  animation:cloudFloatD 17s ease-in-out infinite alternate;
 }
 #mainMenu h1{
   position:relative;
-  z-index:1;
+  z-index:2;
   font-weight:650;
   letter-spacing:-.025em;
-  text-shadow:0 1px 0 rgba(255,255,255,.55);
+  color:#25364d;
+  text-shadow:none;
 }
 #mainMenu h1::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:50%;
-  z-index:-1;
-  width:min(72vw,460px);
-  height:150px;
-  transform:translate(-50%,-50%);
-  background:radial-gradient(ellipse at center,rgba(255,255,255,.66) 0%,rgba(255,255,255,.22) 46%,transparent 74%);
-  filter:blur(10px);
-  pointer-events:none;
+  display:none!important;
 }
 #mainMenu .mainModes{
   position:relative;
-  z-index:1;
+  z-index:2;
   width:100%;
 }
 #mainMenu .modeCard{
   position:relative;
   overflow:hidden;
-  background:rgba(255,253,250,.84)!important;
-  border-color:rgba(183,193,206,.78)!important;
-  box-shadow:
-    0 14px 34px rgba(42,52,65,.08),
-    inset 0 1px 0 rgba(255,255,255,.8);
-  backdrop-filter:blur(11px);
-  -webkit-backdrop-filter:blur(11px);
-  transition:
-    transform .18s ease,
-    box-shadow .18s ease,
-    border-color .18s ease,
-    background .18s ease;
+  background:rgba(255,255,255,.9)!important;
+  border-color:rgba(168,190,219,.9)!important;
+  box-shadow:0 12px 28px rgba(57,88,125,.09)!important;
+  backdrop-filter:blur(5px);
+  -webkit-backdrop-filter:blur(5px);
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
 }
 #mainMenu .modeCard::before{
   content:"";
   position:absolute;
   inset:0;
   pointer-events:none;
-  background:linear-gradient(120deg,transparent 16%,rgba(255,255,255,.34) 48%,transparent 78%);
-  transform:translateX(-115%);
+  background:linear-gradient(120deg,transparent 18%,rgba(220,235,252,.42) 49%,transparent 78%);
+  transform:translateX(-120%);
   transition:transform .5s ease;
 }
 #mainMenu .modeCard:hover{
   transform:translateY(-3px);
-  border-color:#aeb9c6!important;
-  background:rgba(255,253,250,.92)!important;
-  box-shadow:
-    0 18px 42px rgba(42,52,65,.115),
-    inset 0 1px 0 rgba(255,255,255,.88);
+  border-color:#97b1d0!important;
+  box-shadow:0 17px 34px rgba(57,88,125,.13)!important;
 }
 #mainMenu .modeCard:hover::before{
-  transform:translateX(115%);
+  transform:translateX(120%);
 }
 #mainMenu .modeCard:active{
-  transform:translateY(-1px) scale(.992);
+  transform:translateY(-1px) scale(.993);
 }
 #mainMenu .modeCard strong{
   font-weight:700;
@@ -816,30 +844,60 @@ h1,h2,h3,strong{color:var(--ink)}
 #mainMenu .modeCard span{
   font-weight:500;
 }
-@keyframes menuAmbientA{
-  0%{transform:translate3d(0,0,0) scale(1)}
-  100%{transform:translate3d(9vw,6vh,0) scale(1.08)}
+@keyframes cloudDriftA{
+  0%{transform:translate3d(0,0,0) rotate(-2deg);border-radius:42% 58% 64% 36% / 48% 42% 58% 52%}
+  100%{transform:translate3d(9vw,5vh,0) rotate(4deg);border-radius:55% 45% 39% 61% / 41% 59% 47% 53%}
 }
-@keyframes menuAmbientB{
-  0%{transform:translate3d(0,0,0) scale(1)}
-  100%{transform:translate3d(-8vw,-5vh,0) scale(1.06)}
+@keyframes cloudDriftB{
+  0%{transform:translate3d(0,0,0) rotate(2deg);border-radius:46% 54% 57% 43% / 52% 46% 54% 48%}
+  100%{transform:translate3d(-8vw,-5vh,0) rotate(-4deg);border-radius:59% 41% 44% 56% / 45% 58% 42% 55%}
+}
+@keyframes cloudFloatC{
+  from{transform:translate3d(0,0,0) scale(1)}
+  to{transform:translate3d(4vw,-3vh,0) scale(1.06)}
+}
+@keyframes cloudFloatD{
+  from{transform:translate3d(0,0,0) scale(1)}
+  to{transform:translate3d(-4vw,4vh,0) scale(1.05)}
 }
 @media(max-width:430px){
-  #mainMenu{
-    border-radius:22px;
-    padding:18px 12px 24px;
+  #home::before{
+    width:105vw;
+    height:62vw;
+    left:-36%;
+    top:-4%;
+    filter:blur(14px);
   }
-  #mainMenu::before,
+  #home::after{
+    width:98vw;
+    height:68vw;
+    right:-34%;
+    bottom:-6%;
+    filter:blur(14px);
+  }
+  #mainMenu::before{
+    width:62vw;
+    height:42vw;
+    left:-4%;
+    top:34%;
+    filter:blur(9px);
+  }
   #mainMenu::after{
-    width:78vw;
-    filter:blur(58px);
-    opacity:.13;
+    width:55vw;
+    height:38vw;
+    right:-7%;
+    top:10%;
+    filter:blur(9px);
   }
   #mainMenu .modeCard{
     min-height:116px;
+    backdrop-filter:blur(3px);
+    -webkit-backdrop-filter:blur(3px);
   }
 }
 @media(prefers-reduced-motion:reduce){
+  #home::before,
+  #home::after,
   #mainMenu::before,
   #mainMenu::after{
     animation:none!important;
@@ -1229,6 +1287,6 @@ $("exitOnlineCancel").onclick=()=>{$("exitOnlineModal").classList.add("hidden")}
 $("exitOnlineConfirm").onclick=async()=>{$("exitOnlineModal").classList.add("hidden");await leaveOnline()};
 $("exitOnlineModal").onclick=e=>{if(e.target===$("exitOnlineModal"))$("exitOnlineModal").classList.add("hidden")};
 initQB();})();
-</script><script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=37").then(r=>r.update()).catch(()=>{}))}</script>
-<!-- Build v37 · Animated professional main menu -->
+</script><script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=38").then(r=>r.update()).catch(()=>{}))}</script>
+<!-- Build v38 · Open blue cloud main menu -->
 </body></html>
