@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f1e8"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><title>Language Training</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#263f5d"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><title>Language Training</title>
 <style>
 :root{--bg:#f7f4ee;--card:#fffdf9;--text:#252a33;--muted:#747d8b;--line:#dedbd2;--accent:#66768b;--good:#dff2e5;--bad:#f8e5e2;--wait:#eeeae2}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,sans-serif}.hidden{display:none!important}button,label{font:inherit}button{cursor:pointer}
@@ -710,47 +710,7 @@ h1,h2,h3,strong{color:var(--ink)}
 </style>
 
 <style>
-/* v38 open main-menu background with moving cloud shapes */
-#home{
-  position:relative;
-  overflow:hidden;
-  background:
-    linear-gradient(180deg,#f7faff 0%,#eef4fb 54%,#f7f9fc 100%)!important;
-}
-#home::before,
-#home::after{
-  content:"";
-  position:absolute;
-  pointer-events:none;
-  z-index:0;
-  border-radius:42% 58% 64% 36% / 48% 42% 58% 52%;
-  filter:blur(18px);
-  will-change:transform,border-radius;
-}
-#home::before{
-  width:min(72vw,620px);
-  height:min(48vw,410px);
-  left:-15%;
-  top:-9%;
-  opacity:.56;
-  background:
-    radial-gradient(circle at 30% 36%,rgba(191,215,246,.95) 0 25%,transparent 58%),
-    radial-gradient(circle at 67% 52%,rgba(153,187,231,.75) 0 22%,transparent 62%),
-    linear-gradient(135deg,rgba(208,226,248,.9),rgba(178,205,238,.48));
-  animation:cloudDriftA 18s ease-in-out infinite alternate;
-}
-#home::after{
-  width:min(68vw,570px);
-  height:min(46vw,390px);
-  right:-16%;
-  bottom:-12%;
-  opacity:.5;
-  background:
-    radial-gradient(circle at 66% 36%,rgba(202,214,249,.92) 0 24%,transparent 58%),
-    radial-gradient(circle at 34% 62%,rgba(164,191,238,.7) 0 23%,transparent 61%),
-    linear-gradient(135deg,rgba(220,229,252,.86),rgba(183,205,244,.44));
-  animation:cloudDriftB 22s ease-in-out infinite alternate;
-}
+/* v39 true full-screen main-menu-only backdrop */
 #mainMenu{
   position:relative;
   z-index:1;
@@ -763,156 +723,681 @@ h1,h2,h3,strong{color:var(--ink)}
   background:transparent!important;
   box-shadow:none!important;
 }
-#mainMenu::before,
-#mainMenu::after{
+#mainMenu>.mainMenuBackdrop{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  overflow:hidden;
+  background:linear-gradient(180deg,#f8fbff 0%,#edf4fd 55%,#f7faff 100%);
+}
+#mainMenu>.mainMenuBackdrop::before{
   content:"";
   position:absolute;
-  z-index:-1;
+  inset:0;
   pointer-events:none;
-  filter:blur(12px);
-  opacity:.42;
+  background:
+    radial-gradient(circle at 50% 18%,rgba(255,255,255,.72),transparent 36%),
+    linear-gradient(180deg,rgba(255,255,255,.14),transparent 42%);
+}
+#mainMenu>.mainMenuBackdrop .cloud{
+  position:absolute;
+  display:block;
+  pointer-events:none;
   will-change:transform,border-radius;
+  filter:blur(8px);
 }
-#mainMenu::before{
-  width:min(44vw,350px);
-  height:min(30vw,235px);
-  left:10%;
-  top:30%;
-  border-radius:58% 42% 45% 55% / 44% 54% 46% 56%;
-  background:linear-gradient(135deg,rgba(188,218,247,.78),rgba(211,230,250,.4));
-  animation:cloudFloatC 15s ease-in-out infinite alternate;
+#mainMenu>.mainMenuBackdrop .cloudA{
+  width:min(64vw,560px);
+  height:min(38vw,330px);
+  left:-13%;
+  top:-6%;
+  opacity:.68;
+  border-radius:45% 55% 62% 38% / 52% 43% 57% 48%;
+  background:
+    radial-gradient(circle at 31% 39%,rgba(180,211,247,.95) 0 27%,transparent 59%),
+    radial-gradient(circle at 69% 56%,rgba(137,179,232,.72) 0 24%,transparent 61%),
+    linear-gradient(135deg,rgba(205,226,250,.93),rgba(155,193,237,.55));
+  animation:cloudA 18s ease-in-out infinite alternate;
 }
-#mainMenu::after{
-  width:min(38vw,300px);
-  height:min(28vw,220px);
-  right:8%;
-  top:13%;
-  border-radius:44% 56% 60% 40% / 55% 40% 60% 45%;
-  background:linear-gradient(145deg,rgba(196,208,250,.72),rgba(171,199,241,.36));
-  animation:cloudFloatD 17s ease-in-out infinite alternate;
+#mainMenu>.mainMenuBackdrop .cloudB{
+  width:min(58vw,500px);
+  height:min(36vw,310px);
+  right:-12%;
+  bottom:-7%;
+  opacity:.64;
+  border-radius:54% 46% 41% 59% / 45% 58% 42% 55%;
+  background:
+    radial-gradient(circle at 67% 34%,rgba(194,207,251,.95) 0 26%,transparent 58%),
+    radial-gradient(circle at 33% 65%,rgba(145,181,236,.72) 0 23%,transparent 61%),
+    linear-gradient(145deg,rgba(218,228,253,.9),rgba(167,196,242,.5));
+  animation:cloudB 21s ease-in-out infinite alternate;
 }
-#mainMenu h1{
+#mainMenu>.mainMenuBackdrop .cloudC{
+  width:min(34vw,300px);
+  height:min(23vw,205px);
+  left:13%;
+  bottom:19%;
+  opacity:.46;
+  border-radius:58% 42% 46% 54% / 43% 56% 44% 57%;
+  background:linear-gradient(135deg,rgba(178,211,247,.86),rgba(213,230,251,.54));
+  animation:cloudC 15s ease-in-out infinite alternate;
+}
+#mainMenu>.mainMenuBackdrop .cloudD{
+  width:min(30vw,270px);
+  height:min(21vw,190px);
+  right:15%;
+  top:16%;
+  opacity:.43;
+  border-radius:43% 57% 61% 39% / 56% 41% 59% 44%;
+  background:linear-gradient(145deg,rgba(191,203,249,.82),rgba(154,191,239,.46));
+  animation:cloudD 17s ease-in-out infinite alternate;
+}
+#mainMenu>h1,
+#mainMenu>.mainModes,
+#mainMenu>#status,
+#mainMenu>#err{
   position:relative;
   z-index:2;
+}
+#mainMenu h1{
   font-weight:650;
   letter-spacing:-.025em;
   color:#25364d;
   text-shadow:none;
 }
-#mainMenu h1::after{
-  display:none!important;
-}
-#mainMenu .mainModes{
-  position:relative;
-  z-index:2;
-  width:100%;
-}
+#mainMenu h1::after{display:none!important}
+#mainMenu .mainModes{width:100%}
 #mainMenu .modeCard{
   position:relative;
+  z-index:2;
   overflow:hidden;
-  background:rgba(255,255,255,.9)!important;
-  border-color:rgba(168,190,219,.9)!important;
-  box-shadow:0 12px 28px rgba(57,88,125,.09)!important;
-  backdrop-filter:blur(5px);
-  -webkit-backdrop-filter:blur(5px);
+  background:#fff!important;
+  border-color:#b7c9df!important;
+  box-shadow:0 12px 28px rgba(57,88,125,.10)!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
   transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
 }
 #mainMenu .modeCard::before{
   content:"";
   position:absolute;
   inset:0;
+  z-index:0;
   pointer-events:none;
   background:linear-gradient(120deg,transparent 18%,rgba(220,235,252,.42) 49%,transparent 78%);
   transform:translateX(-120%);
   transition:transform .5s ease;
 }
+#mainMenu .modeCard>*{
+  position:relative;
+  z-index:1;
+}
 #mainMenu .modeCard:hover{
   transform:translateY(-3px);
   border-color:#97b1d0!important;
-  box-shadow:0 17px 34px rgba(57,88,125,.13)!important;
+  box-shadow:0 17px 34px rgba(57,88,125,.14)!important;
 }
-#mainMenu .modeCard:hover::before{
-  transform:translateX(120%);
+#mainMenu .modeCard:hover::before{transform:translateX(120%)}
+#mainMenu .modeCard:active{transform:translateY(-1px) scale(.993)}
+#mainMenu .modeCard strong{font-weight:700;letter-spacing:-.015em}
+#mainMenu .modeCard span{font-weight:500}
+@keyframes cloudA{
+  from{transform:translate3d(0,0,0) rotate(-2deg);border-radius:45% 55% 62% 38% / 52% 43% 57% 48%}
+  to{transform:translate3d(8vw,5vh,0) rotate(3deg);border-radius:57% 43% 39% 61% / 42% 59% 41% 58%}
 }
-#mainMenu .modeCard:active{
-  transform:translateY(-1px) scale(.993);
+@keyframes cloudB{
+  from{transform:translate3d(0,0,0) rotate(2deg);border-radius:54% 46% 41% 59% / 45% 58% 42% 55%}
+  to{transform:translate3d(-7vw,-4vh,0) rotate(-3deg);border-radius:42% 58% 59% 41% / 57% 44% 56% 43%}
 }
-#mainMenu .modeCard strong{
-  font-weight:700;
-  letter-spacing:-.015em;
-}
-#mainMenu .modeCard span{
-  font-weight:500;
-}
-@keyframes cloudDriftA{
-  0%{transform:translate3d(0,0,0) rotate(-2deg);border-radius:42% 58% 64% 36% / 48% 42% 58% 52%}
-  100%{transform:translate3d(9vw,5vh,0) rotate(4deg);border-radius:55% 45% 39% 61% / 41% 59% 47% 53%}
-}
-@keyframes cloudDriftB{
-  0%{transform:translate3d(0,0,0) rotate(2deg);border-radius:46% 54% 57% 43% / 52% 46% 54% 48%}
-  100%{transform:translate3d(-8vw,-5vh,0) rotate(-4deg);border-radius:59% 41% 44% 56% / 45% 58% 42% 55%}
-}
-@keyframes cloudFloatC{
+@keyframes cloudC{
   from{transform:translate3d(0,0,0) scale(1)}
-  to{transform:translate3d(4vw,-3vh,0) scale(1.06)}
+  to{transform:translate3d(4vw,-3vh,0) scale(1.05)}
 }
-@keyframes cloudFloatD{
+@keyframes cloudD{
   from{transform:translate3d(0,0,0) scale(1)}
-  to{transform:translate3d(-4vw,4vh,0) scale(1.05)}
+  to{transform:translate3d(-4vw,4vh,0) scale(1.04)}
 }
 @media(max-width:430px){
-  #home::before{
-    width:105vw;
-    height:62vw;
-    left:-36%;
-    top:-4%;
-    filter:blur(14px);
+  #mainMenu>.mainMenuBackdrop .cloud{filter:blur(6px)}
+  #mainMenu>.mainMenuBackdrop .cloudA{
+    width:105vw;height:63vw;left:-38%;top:-4%;
   }
-  #home::after{
-    width:98vw;
-    height:68vw;
-    right:-34%;
-    bottom:-6%;
-    filter:blur(14px);
+  #mainMenu>.mainMenuBackdrop .cloudB{
+    width:98vw;height:66vw;right:-35%;bottom:-5%;
   }
-  #mainMenu::before{
-    width:62vw;
-    height:42vw;
-    left:-4%;
-    top:34%;
-    filter:blur(9px);
+  #mainMenu>.mainMenuBackdrop .cloudC{
+    width:58vw;height:39vw;left:-3%;bottom:25%;
   }
-  #mainMenu::after{
-    width:55vw;
-    height:38vw;
-    right:-7%;
-    top:10%;
-    filter:blur(9px);
+  #mainMenu>.mainMenuBackdrop .cloudD{
+    width:52vw;height:36vw;right:-4%;top:17%;
   }
-  #mainMenu .modeCard{
-    min-height:116px;
-    backdrop-filter:blur(3px);
-    -webkit-backdrop-filter:blur(3px);
+  #mainMenu .modeCard{min-height:116px}
+}
+@media(prefers-reduced-motion:reduce){
+  #mainMenu>.mainMenuBackdrop .cloud{animation:none!important}
+  #mainMenu .modeCard{transition:none!important}
+  #mainMenu .modeCard::before{display:none}
+}
+</style>
+
+<style>
+/* v40 unified navy / charcoal / white visual system */
+:root{
+  --app-bg:#eef3f9;
+  --surface:#ffffff;
+  --surface-muted:#e8edf4;
+  --ink:#1f2732;
+  --muted:#657184;
+  --border:#c7d2df;
+  --border-strong:#9fb1c5;
+  --navy:#263f5d;
+  --navy-dark:#1c314a;
+  --navy-mid:#365b82;
+  --navy-soft:#e3edf8;
+  --navy-border:#9db7d4;
+  --navy-glow:rgba(54,91,130,.28);
+  --correct-bg:#dcecff;
+  --correct-border:#5f8fc8;
+  --correct-text:#173b62;
+  --wrong-bg:#f2e0e4;
+  --wrong-border:#994a59;
+  --wrong-text:#682633;
+  --wait-bg:#e8edf4;
+
+  /* legacy variable aliases */
+  --bg:var(--app-bg);
+  --card:var(--surface);
+  --text:var(--ink);
+  --line:var(--border);
+  --accent:var(--navy);
+  --accent-strong:var(--navy-dark);
+  --accent-dark:var(--navy-dark);
+  --accent-soft:var(--navy-soft);
+  --accent-border:var(--navy-border);
+  --accent-shadow:var(--navy-glow);
+  --ux-accent:var(--navy);
+  --ux-accent-strong:var(--navy-dark);
+  --ux-accent-soft:var(--navy-soft);
+  --ux-accent-border:var(--navy-border);
+  --ux-accent-shadow:var(--navy-glow);
+  --good:var(--correct-bg);
+  --bad:var(--wrong-bg);
+  --wait:var(--wait-bg);
+}
+html,body{
+  background:var(--app-bg)!important;
+  color:var(--ink)!important;
+}
+body{letter-spacing:.002em}
+#app{background:transparent!important}
+#home{
+  background:var(--app-bg)!important;
+  color:var(--ink);
+}
+h1,h2,h3,strong{color:var(--ink)}
+.status,.muted,.stateText,.setupLabel span,.codeCard>span,.lobbyHead span,.subFlowHead span,
+.questionProgress,.readyState,.flowCard small,.quizPicker small,.soloMeta,.meta{
+  color:var(--muted)!important;
+}
+
+/* The animated main-menu backdrop is truly behind every main-menu UI element. */
+#mainMenu{isolation:isolate!important;background:transparent!important}
+#mainMenu>.mainMenuBackdrop{
+  z-index:0!important;
+  pointer-events:none!important;
+}
+#mainMenu>h1,#mainMenu>.mainModes,#mainMenu>#status,#mainMenu>#err{
+  position:relative!important;
+  z-index:3!important;
+}
+#mainMenu .modeCard{
+  z-index:3!important;
+  background:#fff!important;
+  color:var(--ink)!important;
+  border:1px solid var(--navy-border)!important;
+  box-shadow:0 13px 30px rgba(38,63,93,.13)!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+#mainMenu .modeCard:hover{
+  border-color:var(--navy-mid)!important;
+  box-shadow:0 17px 38px rgba(38,63,93,.20),0 0 24px rgba(83,129,178,.16)!important;
+}
+
+/* All non-main-menu screens use the same clean cool background with opaque UI surfaces. */
+.menuScreen:not(#mainMenu),#soloGame,#game,.onlineGame{
+  background:var(--app-bg)!important;
+  color:var(--ink)!important;
+}
+.card,.player,.question,.soloCard,
+.modeCard,.bankCard,.flowCard,.setupCard,.codeCard,.lobbyCard,
+.quizPickerCard,.onlineResultView,.onlineFinalView,
+.gameModalCard,.connectionGraceCard,dialog,.menu,
+.finalPlayer,.resultFeedback,.resultAnswer{
+  background:var(--surface)!important;
+  color:var(--ink)!important;
+  border-color:var(--border)!important;
+  box-shadow:0 9px 24px rgba(31,39,50,.08);
+}
+
+/* Navigation / secondary buttons */
+.backBtn,.miniBack,.exit,.exitOnline,.finalSecondary,.exitCancel,
+#game.sideMode .more,#game.sideMode .menu button,#game:not(.sideMode) #menu button{
+  background:#fff!important;
+  color:var(--navy)!important;
+  border-color:var(--border)!important;
+  box-shadow:0 4px 12px rgba(31,39,50,.06)!important;
+}
+.backBtn:hover,.miniBack:hover,.exit:hover,.exitOnline:hover,.finalSecondary:hover{
+  background:var(--navy-soft)!important;
+  color:var(--navy-dark)!important;
+  border-color:var(--navy-border)!important;
+}
+
+/* Setup / selection graphics */
+.flowCard,.bankCard,.quizPicker,.setupCard,.codeCard,.lobbyCard{
+  background:#fff!important;
+}
+.flowCard,.bankCard{
+  border-color:var(--border)!important;
+}
+.flowCard:hover,.bankCard:hover{
+  border-color:var(--navy-border)!important;
+  box-shadow:0 12px 29px rgba(38,63,93,.12)!important;
+}
+.flowIcon,.gameModalIcon:not(.exitModalIcon){
+  background:var(--navy-soft)!important;
+  color:var(--navy-dark)!important;
+}
+.flowJoin .flowIcon{background:#dfe9f5!important}
+.flowArrow{color:var(--navy-mid)}
+.bankCard.selected{
+  background:var(--navy-soft)!important;
+  border:2px solid var(--navy-mid)!important;
+  color:var(--navy-dark)!important;
+}
+.quizPicker{
+  color:var(--ink)!important;
+}
+.quizPicker>b{color:var(--navy-mid)!important}
+.quizPickerPanel{border-top-color:var(--border)!important}
+.amountChoice,.soloAmountChoice,.timerChoice{
+  background:#fff!important;
+  color:var(--ink)!important;
+  border-color:var(--border)!important;
+}
+.amountChoice.sel,.soloAmountChoice.sel,.timerChoice.sel,.scoreChip.me{
+  background:var(--navy-soft)!important;
+  color:var(--navy-dark)!important;
+  border-color:var(--navy-border)!important;
+}
+.switchTrack{background:#cfd8e3!important}
+.timerSwitch input:checked+.switchTrack{background:var(--navy)!important}
+.timerSwitch input:checked+.switchTrack:after{background:#fff!important}
+.timerSecondsWrap input,.codeCard input,#roomCodeInput,#timerSecondsInput,#soloTimerSecondsInput{
+  background:#fff!important;
+  color:var(--ink)!important;
+  border-color:var(--border)!important;
+}
+.roomPill,.onlineIdentity span{
+  background:var(--navy-soft)!important;
+  color:var(--navy-dark)!important;
+  border-color:var(--navy-border)!important;
+}
+.playerBadge{
+  background:#fff!important;
+  border-color:var(--border)!important;
+}
+.playerBadge.connected{
+  background:var(--navy-soft)!important;
+  border-color:var(--navy-border)!important;
+}
+.playerBadge .playerOrb{
+  background:#dfe8f2!important;
+  color:var(--navy-dark)!important;
+}
+.playerBadge.connected .playerOrb{
+  background:#cddff2!important;
+}
+.playerBadge .joinPulse{
+  border-color:#c8d3df!important;
+  border-top-color:var(--navy-mid)!important;
+}
+
+/* Timers, scores, progress */
+.scoreChip{
+  background:#fff!important;
+  color:var(--ink)!important;
+  border-color:var(--border)!important;
+}
+.timerBar,#soloTimerBar{
+  background:#dbe3ec!important;
+}
+.timerFill,#soloTimerFill{
+  background:linear-gradient(90deg,#527ca9,#263f5d)!important;
+}
+.timerText,#soloTimerText{color:var(--navy-dark)!important}
+.questionProgress{letter-spacing:.04em}
+
+/* Question readability: larger, lighter, and slightly more letter spacing. */
+.questionInstruction{
+  color:var(--muted)!important;
+  font-size:clamp(.76rem,2.35vw,.88rem)!important;
+  font-weight:650!important;
+  line-height:1.35!important;
+  letter-spacing:.035em!important;
+}
+.questionText{
+  color:var(--ink)!important;
+  font-size:clamp(1.42rem,5.4vw,1.86rem)!important;
+  font-weight:500!important;
+  line-height:1.56!important;
+  letter-spacing:.018em!important;
+}
+.onlineGame .question,.soloQ,#q,.localq{
+  background:#fff!important;
+  color:var(--ink)!important;
+  border-color:var(--border)!important;
+}
+.onlineGame .question,.soloQ{
+  max-width:720px!important;
+}
+#game.sideMode .questionText{
+  font-size:clamp(1.08rem,3dvh,1.52rem)!important;
+  line-height:1.42!important;
+  letter-spacing:.016em!important;
+}
+#game:not(.sideMode) .localq .questionText{
+  font-size:clamp(1.16rem,4.7vw,1.62rem)!important;
+  line-height:1.44!important;
+  letter-spacing:.016em!important;
+}
+
+/* All answer options share the same navy/white visual language. */
+.soloOpt,.opt{
+  background:#fff!important;
+  color:var(--ink)!important;
+  border-color:var(--border)!important;
+  box-shadow:0 4px 12px rgba(31,39,50,.045);
+}
+.soloOpt:hover:not(:disabled),.opt:hover:not(:disabled){
+  background:#f4f8fc!important;
+  border-color:var(--navy-border)!important;
+  box-shadow:0 7px 16px rgba(38,63,93,.09);
+}
+.waiting{
+  background:var(--wait-bg)!important;
+  color:var(--muted)!important;
+  border-color:var(--border)!important;
+}
+
+/* Correct is blue everywhere. */
+.good,.soloFeedback.good,
+.soloOpt.correct,.soloOpt.answer,
+.onlineGame .soloOpt.correct,.onlineGame .soloOpt.answer,
+#game.sideMode .good,#game:not(.sideMode) .opposite .good,
+.resultAnswer,.resultMark.correctState{
+  background:var(--correct-bg)!important;
+  border-color:var(--correct-border)!important;
+  color:var(--correct-text)!important;
+}
+/* Wrong / timeout is maroon everywhere. */
+.bad,.soloFeedback.bad,
+.soloOpt.wrong,.onlineGame .soloOpt.wrong,
+#game.sideMode .bad,#game:not(.sideMode) .opposite .bad,
+.resultMark.wrongState,.error{
+  background:var(--wrong-bg)!important;
+  border-color:var(--wrong-border)!important;
+  color:var(--wrong-text)!important;
+}
+.soloFeedback{
+  border:1px solid var(--border);
+  background:var(--surface-muted)!important;
+  color:var(--ink)!important;
+}
+.resultMark.correctState,.resultMark.wrongState{
+  box-shadow:none!important;
+}
+.resultFeedback{
+  background:#fff!important;
+  color:var(--ink)!important;
+  border-color:var(--border)!important;
+}
+
+/* Local multiplayer */
+#game,#game.sideMode,#game:not(.sideMode){
+  background:var(--app-bg)!important;
+}
+#game.sideMode .question,
+#game.sideMode .player,
+#game:not(.sideMode) .opposite .player,
+#game.sideMode .menu,
+#game:not(.sideMode) #menu{
+  background:#fff!important;
+  color:var(--ink)!important;
+  border-color:var(--border)!important;
+}
+#game.sideMode .more{
+  background:#fff!important;
+  color:var(--navy)!important;
+  border-color:var(--border)!important;
+}
+
+/* Countdown / reconnect overlays */
+.onlineCountdown{
+  background:rgba(238,243,249,.97)!important;
+  backdrop-filter:blur(3px)!important;
+}
+.countdownLabel{color:var(--muted)!important}
+.countdownNumber{
+  color:var(--navy)!important;
+  text-shadow:0 0 28px rgba(54,91,130,.18);
+}
+.connectionGrace{
+  background:rgba(20,31,45,.48)!important;
+}
+.connectionGraceCard{
+  background:#fff!important;
+  color:var(--ink)!important;
+  border-color:var(--border)!important;
+}
+.connectionGraceDot{
+  background:var(--wrong-border)!important;
+  box-shadow:0 0 0 7px rgba(153,74,89,.13)!important;
+}
+.connectionGraceCard b{color:var(--navy)!important}
+
+/* Modals / destructive controls */
+.gameModal{
+  background:rgba(18,27,39,.48)!important;
+  backdrop-filter:blur(4px);
+}
+.gameModalCard,dialog{
+  background:#fff!important;
+  color:var(--ink)!important;
+  border-color:var(--border)!important;
+}
+.exitModalIcon{
+  background:var(--wrong-bg)!important;
+  color:var(--wrong-text)!important;
+}
+.exitDanger,.gameModalCard .exitDanger{
+  background:#742d3a!important;
+  color:#fff!important;
+  border-color:#642531!important;
+  box-shadow:0 8px 22px rgba(104,38,51,.20)!important;
+}
+
+/* Final / leaderboard */
+.onlineFinalView{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  background:var(--app-bg)!important;
+  box-shadow:none!important;
+  border:0!important;
+}
+.onlineFinalView>*:not(.winFireworks){
+  position:relative;
+  z-index:2;
+}
+.finalPlayer{
+  background:#fff!important;
+  border-color:var(--border)!important;
+  box-shadow:0 8px 20px rgba(31,39,50,.07);
+}
+.finalPlayer.me{
+  background:var(--navy-soft)!important;
+  border:2px solid var(--navy-mid)!important;
+  color:var(--navy-dark)!important;
+}
+.finalPlayer span{color:var(--muted)!important}
+.finalDash{color:var(--muted)!important}
+.finalMessage{color:var(--navy-dark)!important}
+.onlineFinalView.winState .finalMessage{
+  text-shadow:0 0 20px rgba(76,126,180,.22);
+}
+
+/* Important actions: stronger navy glow + restrained moving sheen. */
+.flowPrimary,.continueOnline,.finalPrimary,#startOnline,#createRoom,#joinRoom,#soloBegin,
+.gameModalCard button:not(.exitDanger):not(.exitCancel){
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  background:linear-gradient(180deg,#315273 0%,#263f5d 100%)!important;
+  color:#fff!important;
+  border:1px solid #365f87!important;
+  box-shadow:
+    0 10px 24px rgba(38,63,93,.24),
+    0 0 0 1px rgba(102,153,207,.10),
+    0 0 24px rgba(74,120,170,.17)!important;
+  animation:primaryGlow 3.4s ease-in-out infinite;
+}
+.flowPrimary::after,.continueOnline::after,.finalPrimary::after,#startOnline::after,
+#createRoom::after,#joinRoom::after,#soloBegin::after,
+.gameModalCard button:not(.exitDanger):not(.exitCancel)::after{
+  content:"";
+  position:absolute;
+  inset:-30% auto -30% -46%;
+  width:34%;
+  z-index:-1;
+  pointer-events:none;
+  transform:skewX(-18deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);
+  animation:primarySheen 4.6s ease-in-out infinite;
+}
+.flowPrimary:hover:not(:disabled),.continueOnline:hover:not(:disabled),.finalPrimary:hover:not(:disabled),
+#startOnline:hover:not(:disabled),#createRoom:hover:not(:disabled),#joinRoom:hover:not(:disabled),#soloBegin:hover:not(:disabled){
+  background:linear-gradient(180deg,#3a6289 0%,#294866 100%)!important;
+  box-shadow:
+    0 12px 28px rgba(38,63,93,.30),
+    0 0 32px rgba(75,127,183,.25)!important;
+}
+.flowPrimary:disabled,.continueOnline:disabled,.finalPrimary:disabled,#startOnline:disabled,
+#createRoom:disabled,#joinRoom:disabled,#soloBegin:disabled{
+  background:#d8e0e9!important;
+  color:#7b8795!important;
+  border-color:#c8d1dc!important;
+  box-shadow:none!important;
+  animation:none!important;
+}
+.flowPrimary:disabled::after,.continueOnline:disabled::after,.finalPrimary:disabled::after,
+#startOnline:disabled::after,#createRoom:disabled::after,#joinRoom:disabled::after,#soloBegin:disabled::after{
+  display:none;
+}
+@keyframes primaryGlow{
+  0%,100%{box-shadow:0 10px 24px rgba(38,63,93,.22),0 0 0 1px rgba(102,153,207,.08),0 0 18px rgba(74,120,170,.13)}
+  50%{box-shadow:0 12px 28px rgba(38,63,93,.29),0 0 0 1px rgba(118,169,222,.17),0 0 31px rgba(74,120,170,.24)}
+}
+@keyframes primarySheen{
+  0%,64%{left:-46%;opacity:0}
+  72%{opacity:.85}
+  90%,100%{left:118%;opacity:0}
+}
+
+/* Main-mode cards get the same family of glow, but lighter than primary action buttons. */
+#mainMenu .modeCard{
+  animation:modeCardGlow 5s ease-in-out infinite;
+}
+@keyframes modeCardGlow{
+  0%,100%{box-shadow:0 13px 30px rgba(38,63,93,.12)}
+  50%{box-shadow:0 15px 34px rgba(38,63,93,.17),0 0 24px rgba(91,140,193,.12)}
+}
+
+/* Lightweight fireworks behind the winning final-score UI. */
+.winFireworks{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+  pointer-events:none;
+}
+.winFireworkBurst{
+  position:absolute;
+  width:4px;
+  height:4px;
+  pointer-events:none;
+}
+.winFireworkBurst::after{
+  content:"";
+  position:absolute;
+  inset:-4px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 18px rgba(103,161,223,.65);
+  animation:fireworkFlash .72s ease-out var(--burst-delay) both;
+}
+.winFireworkSpark{
+  position:absolute;
+  left:0;
+  top:0;
+  width:5px;
+  height:2px;
+  border-radius:99px;
+  background:var(--spark);
+  box-shadow:0 0 9px var(--spark);
+  transform-origin:0 50%;
+  animation:fireworkSpark 1.2s cubic-bezier(.12,.62,.16,1) var(--burst-delay) both;
+}
+@keyframes fireworkFlash{
+  0%{transform:scale(.2);opacity:0}
+  18%{transform:scale(1.4);opacity:1}
+  100%{transform:scale(3.6);opacity:0}
+}
+@keyframes fireworkSpark{
+  0%{transform:rotate(var(--angle)) translateX(0) scaleX(.45);opacity:0}
+  12%{opacity:1}
+  72%{opacity:.92}
+  100%{transform:rotate(var(--angle)) translateX(var(--distance)) scaleX(.2);opacity:0}
+}
+
+:focus-visible{
+  outline:3px solid rgba(54,91,130,.30)!important;
+  outline-offset:2px;
+}
+
+@media(max-width:430px){
+  .questionText{
+    font-size:clamp(1.34rem,6vw,1.7rem)!important;
+    letter-spacing:.016em!important;
   }
 }
 @media(prefers-reduced-motion:reduce){
-  #home::before,
-  #home::after,
-  #mainMenu::before,
-  #mainMenu::after{
+  .flowPrimary,.continueOnline,.finalPrimary,#startOnline,#createRoom,#joinRoom,#soloBegin,
+  #mainMenu .modeCard{
     animation:none!important;
   }
-  #mainMenu .modeCard{
-    transition:none!important;
-  }
-  #mainMenu .modeCard::before{
-    display:none;
+  .flowPrimary::after,.continueOnline::after,.finalPrimary::after,#startOnline::after,
+  #createRoom::after,#joinRoom::after,#soloBegin::after,
+  .winFireworks{
+    display:none!important;
   }
 }
 </style>
 </head><body><div id="app">
 <section id="home" class="home">
-<div id="mainMenu" class="menuScreen"><h1>Language Training</h1>
+<div id="mainMenu" class="menuScreen"><div class="mainMenuBackdrop" aria-hidden="true"><span class="cloud cloudA"></span><span class="cloud cloudB"></span><span class="cloud cloudC"></span><span class="cloud cloudD"></span></div><h1>Language Training</h1>
 <div class="mainModes"><button id="soloStart" class="modeCard" disabled><strong>One Player</strong><span>Practice solo</span></button><button id="twoFlow" class="modeCard" disabled><strong>Multiplayer</strong><span>Play together</span></button></div>
 <div id="status" class="status hidden">Loading quiz library…</div><div id="err" class="error hidden"></div></div>
 <div id="soloMenu" class="menuScreen hidden setupScreen">
@@ -999,6 +1484,7 @@ h1,h2,h3,strong{color:var(--ink)}
 <div id="onlinePlayView"><div id="timerText" class="timerText"></div><div id="timerBar" class="timerBar hidden"><div id="timerFill" class="timerFill"></div></div><div id="onlineQ" class="question"></div><div id="onlineOpts" class="soloOpts"></div><div id="onlineWait" class="status"></div></div>
 <div id="onlineResultView" class="onlineResultView hidden"><div id="resultMark" class="resultMark"></div><div id="resultAnswer" class="resultAnswer"></div><div id="onlineFeedback" class="resultFeedback"></div><button id="onlineContinue" class="continueOnline">Next</button><div id="readyState" class="readyState"></div></div>
 <div id="onlineFinalView" class="onlineFinalView hidden">
+  <div id="winFireworks" class="winFireworks" aria-hidden="true"></div>
   <div class="finalTitle">Game complete</div>
   <div class="finalScore">
     <div id="finalP1" class="finalPlayer"><span>P1</span><strong>0</strong></div>
@@ -1147,7 +1633,7 @@ $("soloTimerEnabled").onchange=()=>{$("soloTimerSecondsWrap").classList.toggle("
 $("soloTimerSecondsInput").oninput=()=>{let v=$("soloTimerSecondsInput").value.replace?.(/\D/g,"");if(v!==undefined&&v!=="")$("soloTimerSecondsInput").value=Math.min(600,Math.max(1,Number(v)))};
 $("twoFlow").onclick=()=>showL("twoMenu");$("twoBack").onclick=()=>showL("mainMenu");$("localOpen").onclick=()=>showL("localMenu");$("localBack").onclick=()=>showL("twoMenu");$("onlineOpen").onclick=()=>{showL("onlineMenu");showOnlineEntry()};$("onlineBack").onclick=async()=>{if(onlineChannel){await leaveOnline();showL("twoMenu")}else{clearOnlineSessionUI();showL("twoMenu")}};
 function resetJoinCode(){$("roomCodeInput").value=""}
-function clearOnlineSessionUI(){stopTimer();stopReadyRetry();stopOnlineCountdown();stopPeerGrace();stopAnswerRetry();resetJoinCode();onlineRoom=null;onlineRole=null;onlineQuestion=null;onlineScores=[0,0];onlineAnswers=[null,null];onlineReady=[false,false];onlineReplayReady=[false,false];onlineReadyRetryId=null;onlineAnswerRetryId=null;onlinePendingAnswer=null;onlineStarting=false;onlinePhase="lobby";onlineQuestionNumber=0;onlineQuestionLimit=10;onlineDeadline=0;onlineCountdownEnd=0;onlineHostOrder=[];onlineHostPos=0;onlineSelfAwayAt=0;onlinePauseStarted=0;$("roomCodeLabel").textContent="------";$("lobbyPlayers").innerHTML="";$("startOnline").classList.add("hidden");$("onlineLobby").classList.add("hidden");$("onlineGame").classList.add("hidden");$("onlineCountdown").classList.add("hidden");$("connectionGrace").classList.add("hidden");$("onlinePlayView").classList.remove("hidden");$("onlineResultView").classList.add("hidden");$("onlineFinalView").classList.add("hidden");$("timerText").textContent="";$("timerBar").classList.add("hidden");$("questionProgress").textContent="";$("onlineWait").textContent="";$("readyState").textContent="";$("replayState").textContent="";$("exitOnlineModal").classList.add("hidden")}
+function clearOnlineSessionUI(){stopTimer();stopReadyRetry();stopOnlineCountdown();stopPeerGrace();stopAnswerRetry();clearWinFireworks();winFireworksPlayed=false;resetJoinCode();onlineRoom=null;onlineRole=null;onlineQuestion=null;onlineScores=[0,0];onlineAnswers=[null,null];onlineReady=[false,false];onlineReplayReady=[false,false];onlineReadyRetryId=null;onlineAnswerRetryId=null;onlinePendingAnswer=null;onlineStarting=false;onlinePhase="lobby";onlineQuestionNumber=0;onlineQuestionLimit=10;onlineDeadline=0;onlineCountdownEnd=0;onlineHostOrder=[];onlineHostPos=0;onlineSelfAwayAt=0;onlinePauseStarted=0;$("roomCodeLabel").textContent="------";$("lobbyPlayers").innerHTML="";$("startOnline").classList.add("hidden");$("onlineLobby").classList.add("hidden");$("onlineGame").classList.add("hidden");$("onlineCountdown").classList.add("hidden");$("connectionGrace").classList.add("hidden");$("onlinePlayView").classList.remove("hidden");$("onlineResultView").classList.add("hidden");$("onlineFinalView").classList.add("hidden");$("timerText").textContent="";$("timerBar").classList.add("hidden");$("questionProgress").textContent="";$("onlineWait").textContent="";$("readyState").textContent="";$("replayState").textContent="";$("exitOnlineModal").classList.add("hidden")}
 function showOnlineEntry(){resetJoinCode();$("onlineLobby").classList.add("hidden");$("onlineEntry").classList.remove("hidden");$("createGameFlow").classList.add("hidden");$("joinGameFlow").classList.add("hidden");$("createRoom").disabled=false;$("createRoom").querySelector("span").textContent="Create room";$("joinRoom").disabled=false;$("joinRoom").querySelector("span").textContent="Join room";$("startOnline").disabled=false;$("startOnline").querySelector("span").textContent="Start game";$("onlineMsg").textContent=""}
 function resetOnlineEntry(){showOnlineEntry()}
 $("createFlowOpen").onclick=()=>{closeQuizPickers();drawBanks();$("onlineEntry").classList.add("hidden");$("createGameFlow").classList.remove("hidden")};
@@ -1155,7 +1641,7 @@ $("joinFlowOpen").onclick=()=>{resetJoinCode();$("onlineEntry").classList.add("h
 $("layoutSide").onclick=()=>{layout="side";startGame()};$("layoutOpp").onclick=()=>{layout="opposite";startGame()};
 /* Supabase online multiplayer */
 const SB_URL="https://weqwbvlyxpcdueupinbd.supabase.co",SB_KEY="sb_publishable_i8xAsf80hKZWSLhPwPM7gg_1SKr1_Bi";
-let sb=null,onlineChannel=null,onlineRole=null,onlineRoom=null,onlineUser=null,onlineQuestion=null,onlineScores=[0,0],onlineAnswers=[null,null],onlineReady=[false,false],onlinePhase="lobby",onlineHostOrder=[],onlineHostPos=0,onlineTimerSeconds=0,onlineTimerId=null,onlineDeadline=0,onlineIntentionalLeave=false,onlineQuestionLimit=10,onlineQuestionNumber=0,onlineReplayReady=[false,false],onlineReadyRetryId=null,onlineStarting=false,onlineCountdownId=null,onlineCountdownEnd=0,onlinePeerGraceId=null,onlinePeerGraceDeadline=0,onlinePauseStarted=0,onlineSelfAwayAt=0,onlineAnswerRetryId=null,onlinePendingAnswer=null,onlineRecovering=false;const onlineLetters=["A","B","C","D"];
+let sb=null,onlineChannel=null,onlineRole=null,onlineRoom=null,onlineUser=null,onlineQuestion=null,onlineScores=[0,0],onlineAnswers=[null,null],onlineReady=[false,false],onlinePhase="lobby",onlineHostOrder=[],onlineHostPos=0,onlineTimerSeconds=0,onlineTimerId=null,onlineDeadline=0,onlineIntentionalLeave=false,onlineQuestionLimit=10,onlineQuestionNumber=0,onlineReplayReady=[false,false],onlineReadyRetryId=null,onlineStarting=false,onlineCountdownId=null,onlineCountdownEnd=0,onlinePeerGraceId=null,onlinePeerGraceDeadline=0,onlinePauseStarted=0,onlineSelfAwayAt=0,onlineAnswerRetryId=null,onlinePendingAnswer=null,onlineRecovering=false,winFireworksPlayed=false;const onlineLetters=["A","B","C","D"];
 function gameSound(k){
   unlockAudio().then(()=>{
     if(k==="tick")playToneSequence([880],"sine",.035,.045,.05);
@@ -1265,28 +1751,53 @@ if(m.t==="ready_ack"&&onlineRole==="guest"&&Number(m.num)===onlineQuestionNumber
 if(m.t==="finish"&&onlineRole==="guest"){onlineScores=m.scores;onlinePhase="finished";renderOnlineFinal()}
 if(m.t==="replay"&&onlineRole==="host"&&onlinePhase==="finished"){onlineReplayReady[1]=true;if(onlineReplayReady[0])hostRestart()}
 if(m.t==="leave"){stopPeerGrace();otherPlayerLeft()}
-if(m.t==="restart"&&onlineRole==="guest"){stopReadyRetry();stopAnswerRetry();onlinePendingAnswer=null;onlineScores=m.scores||[0,0];onlineQuestionNumber=Number(m.num||0);onlineAnswers=[null,null];onlineReady=[false,false];onlineReplayReady=[false,false];onlineCountdownEnd=Number(m.countdownEnd||0);let q=await resolveOnlineQuestion(m);if(q){onlineQuestion=q;markDeckQuestionSeen(q.id);onlinePhase="answer";onlineTimerSeconds=+m.timer||onlineTimerSeconds;onlineDeadline=+m.deadline||0;onlineQuestionLimit=Number(m.limit??onlineQuestionLimit);$("onlineFinalView").classList.add("hidden");$("onlineResultView").classList.add("hidden");$("onlineGame").classList.remove("hidden");if(onlineCountdownEnd>Date.now())runOnlineCountdown(onlineCountdownEnd,()=>renderOnlineQuestion(false));else renderOnlineQuestion(false)}}
+if(m.t==="restart"&&onlineRole==="guest"){stopReadyRetry();stopAnswerRetry();onlinePendingAnswer=null;onlineScores=m.scores||[0,0];onlineQuestionNumber=Number(m.num||0);onlineAnswers=[null,null];onlineReady=[false,false];onlineReplayReady=[false,false];onlineCountdownEnd=Number(m.countdownEnd||0);let q=await resolveOnlineQuestion(m);if(q){onlineQuestion=q;markDeckQuestionSeen(q.id);onlinePhase="answer";onlineTimerSeconds=+m.timer||onlineTimerSeconds;onlineDeadline=+m.deadline||0;onlineQuestionLimit=Number(m.limit??onlineQuestionLimit);clearWinFireworks();winFireworksPlayed=false;$("onlineFinalView").classList.add("hidden");$("onlineResultView").classList.add("hidden");$("onlineGame").classList.remove("hidden");if(onlineCountdownEnd>Date.now())runOnlineCountdown(onlineCountdownEnd,()=>renderOnlineQuestion(false));else renderOnlineQuestion(false)}}
 }function renderOnlineScores(){let a=$("scoreP1"),b=$("scoreP2");a.querySelector("strong").textContent=onlineScores[0];b.querySelector("strong").textContent=onlineScores[1];a.classList.toggle("me",onlineRole==="host");b.classList.toggle("me",onlineRole==="guest")}
 function renderOnlineQuestion(playSound=true){if(!onlineQuestion?.question)return false;renderOnlineScores();$("onlineFinalView").classList.add("hidden");$("questionProgress").textContent=onlineQuestionLimit>0?("Question "+onlineQuestionNumber+" of "+onlineQuestionLimit):("Question "+onlineQuestionNumber);$("onlinePlayView").classList.remove("hidden");$("onlineResultView").classList.add("hidden");$("onlineWait").textContent="";setQuestionContent($("onlineQ"),onlineQuestion);let b=$("onlineOpts");b.innerHTML="";onlineLetters.forEach(l=>{let x=document.createElement("button");x.className="soloOpt";x.textContent=onlineQuestion["option_"+l.toLowerCase()];x.onclick=e=>{e.stopPropagation();onlineAnswer(l)};b.append(x)});if(!onlinePeerGraceId)startTimer();if(playSound)gameSound("new");return true}
 function onlineAnswer(l){unlockAudio();if(onlinePhase!=="answer"||onlinePeerGraceId)return;let p=onlineRole==="host"?0:1;if(onlineAnswers[p])return;onlineAnswers[p]=l;[...$("onlineOpts").children].forEach(x=>x.disabled=true);$("onlineWait").textContent="Answer locked · waiting for the other player";if(onlineRole==="guest"){onlinePendingAnswer={answer:l,num:onlineQuestionNumber};sendPendingAnswer()}else if(onlineAnswers[1])hostReveal()}
 function hostReveal(timedOut=false){if(onlinePhase!=="answer")return;stopTimer();onlinePhase="result";for(let i=0;i<2;i++)if(onlineAnswers[i]===onlineQuestion.correct)onlineScores[i]++;sendOnline({t:"reveal",answers:onlineAnswers,scores:onlineScores,timedOut,view:"result"});renderOnlineReveal(timedOut);if(onlineReady[0]&&onlineReady[1])hostNextQuestion()}
 function renderOnlineReveal(timedOut=false,silent=false){stopTimer();$("timerText").textContent="";$("timerBar").classList.add("hidden");$("timerFill").style.transform="scaleX(0)";renderOnlineScores();let p=onlineRole==="host"?0:1,a=onlineAnswers[p],ok=a===onlineQuestion.correct;$("onlinePlayView").classList.add("hidden");$("onlineResultView").classList.remove("hidden");$("resultMark").textContent=ok?"Correct":"Incorrect";$("resultMark").classList.toggle("correctState",ok);$("resultMark").classList.toggle("wrongState",!ok);$("resultAnswer").textContent=onlineQuestion["option_"+onlineQuestion.correct.toLowerCase()];$("onlineFeedback").textContent=onlineQuestion["feedback_"+onlineQuestion.correct.toLowerCase()];$("onlineContinue").disabled=false;$("onlineContinue").textContent="Next";$("readyState").textContent="";if(!silent)gameSound(ok?"correct":timedOut&&a===null?"timeout":"wrong")}
 function hostFinishGame(){stopTimer();stopReadyRetry();stopAnswerRetry();stopPeerGrace();stopOnlineCountdown();onlinePhase="finished";sendOnline({t:"finish",scores:onlineScores});renderOnlineFinal()}
-function renderOnlineFinal(){stopTimer();$("onlinePlayView").classList.add("hidden");$("onlineResultView").classList.add("hidden");$("questionProgress").textContent="";$("onlineFinalView").classList.remove("hidden");$("finalP1").querySelector("strong").textContent=onlineScores[0];$("finalP2").querySelector("strong").textContent=onlineScores[1];$("finalP1").classList.toggle("me",onlineRole==="host");$("finalP2").classList.toggle("me",onlineRole==="guest");let p=onlineRole==="host"?0:1,o=1-p;$("finalMessage").textContent=onlineScores[p]>onlineScores[o]?"You win":onlineScores[p]<onlineScores[o]?"Good game":"Draw";$("replayOnline").disabled=false;$("replayOnline").textContent="Replay";$("replayState").textContent=""}
+function clearWinFireworks(){let root=$("winFireworks");if(root)root.replaceChildren()}
+function launchWinFireworks(){
+  if(winFireworksPlayed||window.matchMedia?.("(prefers-reduced-motion: reduce)").matches)return;
+  let root=$("winFireworks");if(!root)return;
+  winFireworksPlayed=true;clearWinFireworks();
+  const colors=["#ffffff","#9bc8f5","#6fa6dc","#406f9f","#b8d9fb"];
+  const bursts=[
+    [18,28,0],[78,23,.18],[32,63,.34],[68,58,.52],[50,36,.72],[85,67,.92]
+  ];
+  bursts.forEach(([x,y,d],bi)=>{
+    let burst=document.createElement("div");burst.className="winFireworkBurst";
+    burst.style.left=x+"%";burst.style.top=y+"%";burst.style.setProperty("--burst-delay",d+"s");
+    let count=16;
+    for(let i=0;i<count;i++){
+      let spark=document.createElement("i");spark.className="winFireworkSpark";
+      let jitter=(Math.random()-.5)*10;
+      spark.style.setProperty("--angle",(i*(360/count)+jitter)+"deg");
+      spark.style.setProperty("--distance",(64+Math.random()*66)+"px");
+      spark.style.setProperty("--spark",colors[(i+bi)%colors.length]);
+      burst.appendChild(spark)
+    }
+    root.appendChild(burst)
+  });
+  setTimeout(clearWinFireworks,2600)
+}
+function renderOnlineFinal(){stopTimer();$("onlinePlayView").classList.add("hidden");$("onlineResultView").classList.add("hidden");$("questionProgress").textContent="";$("onlineFinalView").classList.remove("hidden");$("finalP1").querySelector("strong").textContent=onlineScores[0];$("finalP2").querySelector("strong").textContent=onlineScores[1];$("finalP1").classList.toggle("me",onlineRole==="host");$("finalP2").classList.toggle("me",onlineRole==="guest");let p=onlineRole==="host"?0:1,o=1-p,won=onlineScores[p]>onlineScores[o];$("finalMessage").textContent=won?"You win":onlineScores[p]<onlineScores[o]?"Good game":"Draw";$("onlineFinalView").classList.toggle("winState",won);if(won)launchWinFireworks();else clearWinFireworks();$("replayOnline").disabled=false;$("replayOnline").textContent="Replay";$("replayState").textContent=""}
 function requestReplay(){if(onlinePhase!=="finished")return;let p=onlineRole==="host"?0:1;if(onlineReplayReady[p])return;onlineReplayReady[p]=true;$("replayOnline").disabled=true;$("replayOnline").textContent="Ready";$("replayState").textContent="Waiting for the other player";if(onlineRole==="guest")sendOnline({t:"replay"});else if(onlineReplayReady[1])hostRestart()}
-function hostRestart(){stopReadyRetry();stopAnswerRetry();onlinePendingAnswer=null;onlineScores=[0,0];onlineQuestionNumber=0;onlineReplayReady=[false,false];$("onlineFinalView").classList.add("hidden");let countdownEnd=Date.now()+3000;if(!hostNextQuestion(false,false,countdownEnd))return;onlineCountdownEnd=countdownEnd;onlineDeadline=onlineTimerSeconds?countdownEnd+onlineTimerSeconds*1000:0;let payload={t:"restart",id:onlineQuestion.id,question:onlineQuestion,scores:onlineScores,bank:selectedBankFile,timer:onlineTimerSeconds,deadline:onlineDeadline,num:onlineQuestionNumber,limit:onlineQuestionLimit,countdownEnd};sendOnline(payload);runOnlineCountdown(countdownEnd,()=>renderOnlineQuestion(false))}
+function hostRestart(){stopReadyRetry();stopAnswerRetry();onlinePendingAnswer=null;clearWinFireworks();winFireworksPlayed=false;onlineScores=[0,0];onlineQuestionNumber=0;onlineReplayReady=[false,false];$("onlineFinalView").classList.add("hidden");let countdownEnd=Date.now()+3000;if(!hostNextQuestion(false,false,countdownEnd))return;onlineCountdownEnd=countdownEnd;onlineDeadline=onlineTimerSeconds?countdownEnd+onlineTimerSeconds*1000:0;let payload={t:"restart",id:onlineQuestion.id,question:onlineQuestion,scores:onlineScores,bank:selectedBankFile,timer:onlineTimerSeconds,deadline:onlineDeadline,num:onlineQuestionNumber,limit:onlineQuestionLimit,countdownEnd};sendOnline(payload);runOnlineCountdown(countdownEnd,()=>renderOnlineQuestion(false))}
 function onlineReadyNext(){if(onlinePhase!=="result")return;let p=onlineRole==="host"?0:1;if(onlineReady[p])return;onlineReady[p]=true;$("onlineContinue").disabled=true;$("onlineContinue").textContent="Ready";$("readyState").textContent=onlineRole==="host"?"Waiting for Player 2":"Waiting for Player 1";if(onlineRole==="guest")sendGuestReady();else if(onlineReady[1])hostNextQuestion()}$("onlineContinue").onclick=onlineReadyNext;
 async function otherPlayerLeft(){if(onlineIntentionalLeave)return;stopTimer();stopPeerGrace();stopOnlineCountdown();stopAnswerRetry();try{if(onlineChannel)await sb.removeChannel(onlineChannel)}catch(e){}onlineChannel=null;clearOnlineSessionUI();$("home").classList.remove("hidden");showL("onlineMenu");showOnlineEntry();$("playerLeftModal").classList.remove("hidden")}
 async function leaveOnline(){onlineIntentionalLeave=true;stopTimer();stopPeerGrace();stopOnlineCountdown();stopAnswerRetry();try{if(onlineChannel)sendOnline({t:"leave"})}catch(e){}try{if(onlineChannel)await sb.removeChannel(onlineChannel)}catch(e){}onlineChannel=null;clearOnlineSessionUI();onlineIntentionalLeave=false;$("home").classList.remove("hidden");showL("onlineMenu");showOnlineEntry()}
 $("playerLeftOk").onclick=()=>$("playerLeftModal").classList.add("hidden");
 $("createRoom").onclick=async()=>{closeQuizPickers();await unlockAudio();let b=$("createRoom"),s=b.querySelector("span");b.disabled=true;s.textContent="Creating…";onlineStatus("");try{onlineTimerSeconds=selectedTimer();onlineQuestionLimit=selectedAmount();await openRoom(makeCode(),"host")}catch(e){onlineStatus(e.message||"Could not create room.");b.disabled=false;s.textContent="Create room"}};
 $("joinRoom").onclick=async()=>{await unlockAudio();let c=$("roomCodeInput").value,b=$("joinRoom"),s=b.querySelector("span");if(c.length!==6)return onlineStatus("Enter the room code.");b.disabled=true;s.textContent="Joining…";onlineStatus("");try{await openRoom(c,"guest");resetJoinCode()}catch(e){onlineStatus(e.message||"Could not join room.");b.disabled=false;s.textContent="Join room"}};
-$("startOnline").onclick=async()=>{await unlockAudio();if(onlineStarting)return;if(!presenceRoles().includes("guest"))return onlineStatus("Waiting for Player 2.");if(!bank||!bank.length)return onlineStatus("Quiz library is not ready.");onlineStarting=true;onlineStatus("");syncLobby();onlineQuestionNumber=0;onlineScores=[0,0];let countdownEnd=Date.now()+3000;if(!hostNextQuestion(false,false,countdownEnd)){onlineStarting=false;syncLobby();return}onlineCountdownEnd=countdownEnd;onlineDeadline=onlineTimerSeconds?countdownEnd+onlineTimerSeconds*1000:0;let startPayload={t:"start",id:onlineQuestion.id,question:onlineQuestion,bank:selectedBankFile,scores:onlineScores,timer:onlineTimerSeconds,deadline:onlineDeadline,num:onlineQuestionNumber,limit:onlineQuestionLimit,countdownEnd};$("onlineLobby").classList.add("hidden");$("home").classList.add("hidden");$("onlineGame").classList.remove("hidden");onlineStarting=false;sendOnline(startPayload).then(ok=>{if(!ok&&onlinePhase==="answer")$("onlineWait").textContent="Connection issue — reconnecting…"});runOnlineCountdown(countdownEnd,()=>renderOnlineQuestion(false))};
+$("startOnline").onclick=async()=>{clearWinFireworks();winFireworksPlayed=false;await unlockAudio();if(onlineStarting)return;if(!presenceRoles().includes("guest"))return onlineStatus("Waiting for Player 2.");if(!bank||!bank.length)return onlineStatus("Quiz library is not ready.");onlineStarting=true;onlineStatus("");syncLobby();onlineQuestionNumber=0;onlineScores=[0,0];let countdownEnd=Date.now()+3000;if(!hostNextQuestion(false,false,countdownEnd)){onlineStarting=false;syncLobby();return}onlineCountdownEnd=countdownEnd;onlineDeadline=onlineTimerSeconds?countdownEnd+onlineTimerSeconds*1000:0;let startPayload={t:"start",id:onlineQuestion.id,question:onlineQuestion,bank:selectedBankFile,scores:onlineScores,timer:onlineTimerSeconds,deadline:onlineDeadline,num:onlineQuestionNumber,limit:onlineQuestionLimit,countdownEnd};$("onlineLobby").classList.add("hidden");$("home").classList.add("hidden");$("onlineGame").classList.remove("hidden");onlineStarting=false;sendOnline(startPayload).then(ok=>{if(!ok&&onlinePhase==="answer")$("onlineWait").textContent="Connection issue — reconnecting…"});runOnlineCountdown(countdownEnd,()=>renderOnlineQuestion(false))};
 $("replayOnline").onclick=requestReplay;$("mainMenuOnline").onclick=leaveOnline;$("onlineExit").onclick=()=>{$("exitOnlineModal").classList.remove("hidden")};
 $("exitOnlineCancel").onclick=()=>{$("exitOnlineModal").classList.add("hidden")};
 $("exitOnlineConfirm").onclick=async()=>{$("exitOnlineModal").classList.add("hidden");await leaveOnline()};
 $("exitOnlineModal").onclick=e=>{if(e.target===$("exitOnlineModal"))$("exitOnlineModal").classList.add("hidden")};
 initQB();})();
-</script><script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=38").then(r=>r.update()).catch(()=>{}))}</script>
-<!-- Build v38 · Open blue cloud main menu -->
+</script><script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=40").then(r=>r.update()).catch(()=>{}))}</script>
+<!-- Build v40 · Unified navy visual system + win fireworks -->
 </body></html>
