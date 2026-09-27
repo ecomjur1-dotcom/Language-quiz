@@ -1577,6 +1577,200 @@ button:active{
   -webkit-tap-highlight-color:transparent!important;
 }
 </style>
+
+<style>
+/* v43 compact 2–4 player online multiplayer UI */
+#onlineLobby{
+  width:min(520px,100%)!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  margin:0 auto!important;
+  padding:16px!important;
+  display:block!important;
+  overflow:visible!important;
+}
+#onlineLobby.hidden{display:none!important}
+#onlineLobby .lobbyHead{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+  margin:0 0 11px!important;
+}
+.lobbyCapacity{
+  flex:0 0 auto;
+  padding:6px 9px;
+  border:1px solid var(--navy-border);
+  border-radius:999px;
+  background:var(--navy-soft);
+  color:var(--navy-dark);
+  font-size:12px;
+  font-weight:850;
+}
+.lobbyInviteRow{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  margin:2px 0 7px;
+}
+.lobbyInviteRow .roomPill{margin:0!important}
+.shareRoom{
+  min-height:39px;
+  padding:8px 11px;
+  border:1px solid var(--navy-border)!important;
+  border-radius:11px;
+  background:#fff!important;
+  color:var(--navy)!important;
+  font-weight:800;
+  box-shadow:0 4px 12px rgba(31,39,50,.06)!important;
+}
+.shareRoom:hover{background:var(--navy-soft)!important}
+.lobbyShareStatus{
+  min-height:17px;
+  margin:0 0 5px;
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:650;
+}
+#onlineLobby .lobbyPlayers{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:7px!important;
+  width:100%!important;
+  min-height:0!important;
+  max-height:230px!important;
+  margin:8px 0 13px!important;
+  padding:0!important;
+  overflow-y:auto!important;
+  align-content:start!important;
+}
+.lobbyPlayerRow{
+  display:grid;
+  grid-template-columns:38px minmax(0,1fr) auto;
+  grid-template-rows:auto auto;
+  column-gap:10px;
+  align-items:center;
+  min-height:52px;
+  padding:7px 10px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:#fff;
+}
+.lobbyPlayerRow.me{border-color:var(--navy-border);background:var(--navy-soft)}
+.lobbyPlayerRow.disconnected{opacity:.62}
+.lobbyAvatar{
+  grid-row:1/3;
+  display:grid;
+  place-items:center;
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  background:var(--navy-soft);
+  color:var(--navy-dark);
+  font-size:12px;
+  font-weight:950;
+}
+.lobbyPlayerRow.me .lobbyAvatar{background:#cddff2}
+.lobbyPlayerRow strong{font-size:14px;line-height:1.15}
+.lobbyPlayerRow small{color:var(--muted);font-size:11px;font-weight:650}
+.lobbyPlayerState{grid-column:3;grid-row:1/3;color:var(--muted);font-size:11px;font-weight:800}
+#onlineLobby #startOnline{width:100%!important;margin:0!important}
+
+/* Compact dynamic score strip for up to four players. */
+.onlineTop{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:center!important;
+  gap:9px!important;
+  max-width:720px!important;
+  padding:6px 0 10px!important;
+  background:linear-gradient(180deg,rgba(238,243,249,.99) 0%,rgba(238,243,249,.99) 76%,rgba(238,243,249,0) 100%)!important;
+}
+.onlineScoreStrip{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  min-width:0;
+  overflow-x:auto;
+  padding:2px 1px 3px;
+  scrollbar-width:none;
+}
+.onlineScoreStrip::-webkit-scrollbar{display:none}
+.scoreMini{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  min-width:64px;
+  height:38px;
+  padding:5px 8px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:#fff;
+  color:var(--ink);
+  box-shadow:0 4px 12px rgba(31,39,50,.06);
+}
+.scoreMini.me{background:var(--navy-soft);border-color:var(--navy-border)}
+.scoreMini.disconnected{opacity:.55}
+.scoreMini.inactive{opacity:.42;text-decoration:line-through}
+.scoreMini span{
+  display:grid;
+  place-items:center;
+  width:24px;
+  height:24px;
+  border-radius:8px;
+  background:var(--navy-soft);
+  color:var(--navy-dark);
+  font-size:10px;
+  font-weight:950;
+}
+.scoreMini.me span{background:#cddff2}
+.scoreMini strong{font-size:18px;line-height:1;color:var(--ink)!important}
+.onlineTop .exitOnline{justify-self:end!important}
+
+/* Ranked final leaderboard. */
+.finalLeaderboard{
+  width:min(430px,100%);
+  display:grid;
+  gap:8px;
+  margin:0 auto 18px;
+}
+.finalLeaderRow{
+  display:grid;
+  grid-template-columns:34px 40px minmax(0,1fr) auto;
+  align-items:center;
+  gap:9px;
+  min-height:56px;
+  padding:8px 11px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:#fff;
+  box-shadow:0 6px 16px rgba(31,39,50,.06);
+}
+.finalLeaderRow.me{background:var(--navy-soft);border-color:var(--navy-border)}
+.finalRank{color:var(--navy-dark);font-size:17px;font-weight:950;text-align:center}
+.finalLeaderBadge{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--navy-soft);color:var(--navy-dark);font-size:11px;font-weight:950}
+.finalLeaderRow.me .finalLeaderBadge{background:#cddff2}
+.finalLeaderName{min-width:0;text-align:left}
+.finalLeaderName strong{display:block;font-size:14px}
+.finalLeaderName small{display:block;color:var(--muted);font-size:11px}
+.finalLeaderScore{font-size:25px;font-weight:950;color:var(--navy-dark)}
+
+/* Guest disconnects do not block the remaining players; their score chip/roster row dims. */
+.scoreMini.disconnected::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--wrong-border);box-shadow:0 0 0 3px rgba(153,74,89,.10)}
+
+@media(max-width:430px){
+  #onlineLobby{padding:13px!important}
+  .lobbyInviteRow{align-items:stretch}
+  .shareRoom{padding-inline:9px}
+  .scoreMini{min-width:58px;padding-inline:7px}
+  .finalLeaderRow{grid-template-columns:30px 36px minmax(0,1fr) auto;gap:7px;padding-inline:9px}
+  .finalLeaderBadge{width:36px;height:36px}
+}
+</style>
 </head><body><div id="app">
 <section id="home" class="home">
 <div id="mainMenu" class="menuScreen"><div class="mainMenuBackdrop" aria-hidden="true"><span class="cloud cloudA"></span><span class="cloud cloudB"></span><span class="cloud cloudC"></span><span class="cloud cloudD"></span></div><h1>Language Training</h1>
@@ -1650,8 +1844,15 @@ button:active{
   <button id="joinRoom" class="flowPrimary"><span>Join room</span><b>→</b></button>
 </div>
 <div id="onlineLobby" class="hidden lobbyCard">
-  <div id="lobbyHead" class="lobbyHead"><div><strong id="lobbyTitle"></strong><span id="lobbySubtitle"></span></div></div>
-  <div id="roomCodeLabel" class="roomPill">------</div>
+  <div id="lobbyHead" class="lobbyHead">
+    <div><strong id="lobbyTitle">Players</strong><span id="lobbySubtitle">Waiting for players</span></div>
+    <span id="lobbyCapacity" class="lobbyCapacity">1 / 4</span>
+  </div>
+  <div id="lobbyInviteRow" class="lobbyInviteRow">
+    <div id="roomCodeLabel" class="roomPill">------</div>
+    <button id="shareRoom" class="shareRoom hidden" type="button">Share invite</button>
+  </div>
+  <div id="lobbyShareStatus" class="lobbyShareStatus" aria-live="polite"></div>
   <div id="lobbyPlayers" class="lobbyPlayers"></div>
   <button id="startOnline" class="flowPrimary hidden"><span>Start game</span><b>→</b></button>
 </div></div>
@@ -1661,18 +1862,14 @@ button:active{
   <div class="countdownLabel">Get ready</div>
   <div id="onlineCountdownNumber" class="countdownNumber">3</div>
 </div>
-<div class="onlineTop"><div id="scoreP1" class="scoreChip"><span>P1</span><strong>0</strong></div><button id="onlineExit" class="exitOnline">Exit</button><div id="scoreP2" class="scoreChip"><span>P2</span><strong>0</strong></div></div>
+<div class="onlineTop"><div id="onlineScoreStrip" class="onlineScoreStrip" aria-label="Current scores"></div><button id="onlineExit" class="exitOnline">Exit</button></div>
 <div id="questionProgress" class="questionProgress"></div>
 <div id="onlinePlayView"><div id="timerText" class="timerText"></div><div id="timerBar" class="timerBar hidden"><div id="timerFill" class="timerFill"></div></div><div id="onlineQ" class="question"></div><div id="onlineOpts" class="soloOpts"></div><div id="onlineWait" class="status"></div></div>
 <div id="onlineResultView" class="onlineResultView hidden"><div id="resultMark" class="resultMark"></div><div id="resultAnswer" class="resultAnswer"></div><div id="onlineFeedback" class="resultFeedback"></div><button id="onlineContinue" class="continueOnline">Next</button><div id="readyState" class="readyState"></div></div>
 <div id="onlineFinalView" class="onlineFinalView hidden">
   <div id="winFireworks" class="winFireworks" aria-hidden="true"></div>
   <div class="finalTitle">Game complete</div>
-  <div class="finalScore">
-    <div id="finalP1" class="finalPlayer"><span>P1</span><strong>0</strong></div>
-    <div class="finalDash">–</div>
-    <div id="finalP2" class="finalPlayer"><span>P2</span><strong>0</strong></div>
-  </div>
+  <div id="finalLeaderboard" class="finalLeaderboard" aria-label="Final leaderboard"></div>
   <div id="finalMessage" class="finalMessage"></div>
   <button id="replayOnline" class="finalPrimary">Replay</button>
   <button id="mainMenuOnline" class="finalSecondary">Main menu</button>
@@ -1701,16 +1898,16 @@ button:active{
 <div id="connectionGrace" class="connectionGrace hidden" role="alert" aria-live="assertive">
   <div class="connectionGraceCard">
     <div class="connectionGraceDot"></div>
-    <strong>Player disconnected</strong>
-    <p>Waiting for them to return.</p>
+    <strong id="connectionGraceTitle">Host disconnected</strong>
+    <p id="connectionGraceText">Waiting for the host to return.</p>
     <div>Ending game in <b id="connectionGraceSeconds">20</b>s</div>
   </div>
 </div>
 <div id="playerLeftModal" class="gameModal hidden" role="dialog" aria-modal="true">
   <div class="gameModalCard">
     <div class="gameModalIcon">↩</div>
-    <strong>Player left the round</strong>
-    <p>The online game has ended.</p>
+    <strong id="playerLeftTitle">Online game ended</strong>
+    <p id="playerLeftText">The room is no longer available.</p>
     <button id="playerLeftOk">Back to online menu</button>
   </div>
 </div>
@@ -1718,7 +1915,7 @@ button:active{
   <div class="gameModalCard exitConfirmCard">
     <div class="gameModalIcon exitModalIcon">↩</div>
     <strong id="exitOnlineTitle">Leave this game?</strong>
-    <p>Your current multiplayer round and score will end for both players.</p>
+    <p id="exitOnlineText">Leave this online game?</p>
     <div class="exitModalActions">
       <button id="exitOnlineCancel" class="exitCancel">Keep playing</button>
       <button id="exitOnlineConfirm" class="exitDanger">Exit game</button>
@@ -1815,171 +2012,171 @@ $("soloTimerEnabled").onchange=()=>{$("soloTimerSecondsWrap").classList.toggle("
 $("soloTimerSecondsInput").oninput=()=>{let v=$("soloTimerSecondsInput").value.replace?.(/\D/g,"");if(v!==undefined&&v!=="")$("soloTimerSecondsInput").value=Math.min(600,Math.max(1,Number(v)))};
 $("twoFlow").onclick=()=>showL("twoMenu");$("twoBack").onclick=()=>showL("mainMenu");$("localOpen").onclick=()=>showL("localMenu");$("localBack").onclick=()=>showL("twoMenu");$("onlineOpen").onclick=()=>{showL("onlineMenu");showOnlineEntry()};$("onlineBack").onclick=async()=>{if(onlineChannel){await leaveOnline();showL("twoMenu")}else{clearOnlineSessionUI();showL("twoMenu")}};
 function resetJoinCode(){$("roomCodeInput").value=""}
-function clearOnlineSessionUI(){stopTimer();stopReadyRetry();stopOnlineCountdown();stopPeerGrace();stopAnswerRetry();clearWinFireworks();winFireworksPlayed=false;resetJoinCode();onlineRoom=null;onlineRole=null;onlineQuestion=null;onlineScores=[0,0];onlineAnswers=[null,null];onlineReady=[false,false];onlineReplayReady=[false,false];onlineReadyRetryId=null;onlineAnswerRetryId=null;onlinePendingAnswer=null;onlineStarting=false;onlinePhase="lobby";onlineQuestionNumber=0;onlineQuestionLimit=10;onlineDeadline=0;onlineCountdownEnd=0;onlineHostOrder=[];onlineHostPos=0;onlineSelfAwayAt=0;onlinePauseStarted=0;$("roomCodeLabel").textContent="------";$("lobbyPlayers").innerHTML="";$("startOnline").classList.add("hidden");$("onlineLobby").classList.add("hidden");$("onlineGame").classList.add("hidden");$("onlineCountdown").classList.add("hidden");$("connectionGrace").classList.add("hidden");$("onlinePlayView").classList.remove("hidden");$("onlineResultView").classList.add("hidden");$("onlineFinalView").classList.add("hidden");$("timerText").textContent="";$("timerBar").classList.add("hidden");$("questionProgress").textContent="";$("onlineWait").textContent="";$("readyState").textContent="";$("replayState").textContent="";$("exitOnlineModal").classList.add("hidden")}
+function clearJoinHandshake(){if(onlineJoinTimer){clearTimeout(onlineJoinTimer);onlineJoinTimer=null}if(onlineJoinRetryId){clearInterval(onlineJoinRetryId);onlineJoinRetryId=null}onlineJoinResolve=null;onlineJoinReject=null}
+function clearPlayerGrace(id){let g=onlineDisconnectTimers.get(id);if(!g)return;if(g.timeout)clearTimeout(g.timeout);if(g.interval)clearInterval(g.interval);onlineDisconnectTimers.delete(id)}
+function clearAllPlayerGrace(){[...onlineDisconnectTimers.keys()].forEach(clearPlayerGrace)}
+function clearOnlineSessionUI(){
+  stopTimer();stopReadyRetry();stopReplayRetry();stopOnlineCountdown();stopHostGrace();stopAnswerRetry();clearJoinHandshake();clearAllPlayerGrace();clearWinFireworks();winFireworksPlayed=false;resetJoinCode();
+  onlineRoom=null;onlineRole=null;onlineHostId=null;onlinePlayers=[];onlineQuestion=null;onlineScores={};onlineAnswers={};onlineReady={};onlineReplayReady={};onlinePendingAnswer=null;onlineStarting=false;onlinePhase="lobby";onlineQuestionNumber=0;onlineQuestionLimit=10;onlineDeadline=0;onlineCountdownEnd=0;onlineSelfAwayAt=0;onlineJoinedAt=0;onlineAwayPlayers.clear();
+  $("roomCodeLabel").textContent="------";$("lobbyPlayers").replaceChildren();$("lobbyCapacity").textContent="0 / 4";$("lobbyShareStatus").textContent="";$("shareRoom").classList.add("hidden");$("startOnline").classList.add("hidden");$("onlineLobby").classList.add("hidden");$("onlineGame").classList.add("hidden");$("onlineCountdown").classList.add("hidden");$("connectionGrace").classList.add("hidden");$("onlinePlayView").classList.remove("hidden");$("onlineResultView").classList.add("hidden");$("onlineFinalView").classList.add("hidden");$("onlineScoreStrip").replaceChildren();$("finalLeaderboard").replaceChildren();$("timerText").textContent="";$("timerBar").classList.add("hidden");$("questionProgress").textContent="";$("onlineWait").textContent="";$("readyState").textContent="";$("replayState").textContent="";$("exitOnlineModal").classList.add("hidden")
+}
 function showOnlineEntry(){resetJoinCode();$("onlineLobby").classList.add("hidden");$("onlineEntry").classList.remove("hidden");$("createGameFlow").classList.add("hidden");$("joinGameFlow").classList.add("hidden");$("createRoom").disabled=false;$("createRoom").querySelector("span").textContent="Create room";$("joinRoom").disabled=false;$("joinRoom").querySelector("span").textContent="Join room";$("startOnline").disabled=false;$("startOnline").querySelector("span").textContent="Start game";$("onlineMsg").textContent=""}
 function resetOnlineEntry(){showOnlineEntry()}
 $("createFlowOpen").onclick=()=>{closeQuizPickers();drawBanks();$("onlineEntry").classList.add("hidden");$("createGameFlow").classList.remove("hidden")};
 $("joinFlowOpen").onclick=()=>{resetJoinCode();$("onlineEntry").classList.add("hidden");$("joinGameFlow").classList.remove("hidden");$("roomCodeInput").focus()};
 $("layoutSide").onclick=()=>{layout="side";startGame()};$("layoutOpp").onclick=()=>{layout="opposite";startGame()};
-/* Supabase online multiplayer */
-const SB_URL="https://weqwbvlyxpcdueupinbd.supabase.co",SB_KEY="sb_publishable_i8xAsf80hKZWSLhPwPM7gg_1SKr1_Bi";
-let sb=null,onlineChannel=null,onlineRole=null,onlineRoom=null,onlineUser=null,onlineQuestion=null,onlineScores=[0,0],onlineAnswers=[null,null],onlineReady=[false,false],onlinePhase="lobby",onlineHostOrder=[],onlineHostPos=0,onlineTimerSeconds=0,onlineTimerId=null,onlineDeadline=0,onlineIntentionalLeave=false,onlineQuestionLimit=10,onlineQuestionNumber=0,onlineReplayReady=[false,false],onlineReadyRetryId=null,onlineStarting=false,onlineCountdownId=null,onlineCountdownEnd=0,onlinePeerGraceId=null,onlinePeerGraceDeadline=0,onlinePauseStarted=0,onlineSelfAwayAt=0,onlineAnswerRetryId=null,onlinePendingAnswer=null,onlineRecovering=false,winFireworksPlayed=false;const onlineLetters=["A","B","C","D"];
-function gameSound(k){
-  unlockAudio().then(()=>{
-    if(k==="tick")playToneSequence([880],"sine",.035,.045,.05);
-    else if(k==="countdown")playToneSequence([440],"sine",.11,.10,.06);
-    else if(k==="go")playToneSequence([523.25,783.99],"sine",.14,.16,.08);
-    else if(k==="new")playToneSequence([392,523.25],"sine",.07,.10,.07);
-    else if(k==="correct")playToneSequence([523.25,659.25,783.99],"sine",.13,.16,.09);
-    else if(k==="wrong"||k==="timeout")playToneSequence([220,164.81],"triangle",.11,.22,.09)
-  })
-}
-async function ensureSB(){if(!window.supabase)throw Error("Could not load Supabase.");if(!sb)sb=window.supabase.createClient(SB_URL,SB_KEY);let{data:{session}}=await sb.auth.getSession();if(!session){let r=await sb.auth.signInAnonymously();if(r.error)throw r.error;session=r.data.session}onlineUser=session.user.id}
-function onlineStatus(t){$("onlineMsg").textContent=t||""}function makeCode(){return String(Math.floor(100000+Math.random()*900000))}
+
+/* v43 Supabase online multiplayer: host-authoritative, 2–4 players. */
+const SB_URL="https://weqwbvlyxpcdueupinbd.supabase.co",SB_KEY="sb_publishable_i8xAsf80hKZWSLhPwPM7gg_1SKr1_Bi",MAX_ONLINE_PLAYERS=4;
+function sessionPlayerId(){let id="";try{id=sessionStorage.getItem("turkishOnlinePlayerId")||"";if(!id){id=(crypto.randomUUID?.()||("p-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2)));sessionStorage.setItem("turkishOnlinePlayerId",id)}}catch(e){id="p-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2)}return id}
+let sb=null,onlineChannel=null,onlineRole=null,onlineRoom=null,onlineAuthUser=null,onlinePlayerId=sessionPlayerId(),onlineJoinedAt=0,onlineHostId=null,onlinePlayers=[],onlineQuestion=null,onlineScores={},onlineAnswers={},onlineReady={},onlinePhase="lobby",onlineTimerSeconds=0,onlineTimerId=null,onlineDeadline=0,onlineIntentionalLeave=false,onlineQuestionLimit=10,onlineQuestionNumber=0,onlineReplayReady={},onlineReadyRetryId=null,onlineReplayRetryId=null,onlineStarting=false,onlineCountdownId=null,onlineCountdownEnd=0,onlineHostGraceId=null,onlineHostGraceDeadline=0,onlineSelfAwayAt=0,onlineAnswerRetryId=null,onlinePendingAnswer=null,onlineRecovering=false,onlineDisconnectTimers=new Map(),onlineAwayPlayers=new Set(),onlineJoinResolve=null,onlineJoinReject=null,onlineJoinTimer=null,onlineJoinRetryId=null,winFireworksPlayed=false;const onlineLetters=["A","B","C","D"];
+function gameSound(k){unlockAudio().then(()=>{if(k==="tick")playToneSequence([880],"sine",.035,.045,.05);else if(k==="countdown")playToneSequence([440],"sine",.11,.10,.06);else if(k==="go")playToneSequence([523.25,783.99],"sine",.14,.16,.08);else if(k==="new")playToneSequence([392,523.25],"sine",.07,.10,.07);else if(k==="correct")playToneSequence([523.25,659.25,783.99],"sine",.13,.16,.09);else if(k==="wrong"||k==="timeout")playToneSequence([220,164.81],"triangle",.11,.22,.09)})}
+async function ensureSB(){if(!window.supabase)throw Error("Could not load Supabase.");if(!sb)sb=window.supabase.createClient(SB_URL,SB_KEY);let{data:{session}}=await sb.auth.getSession();if(!session){let r=await sb.auth.signInAnonymously();if(r.error)throw r.error;session=r.data.session}onlineAuthUser=session.user.id}
+function onlineStatus(t){$("onlineMsg").textContent=t||""}
+function makeCode(){return String(Math.floor(100000+Math.random()*900000))}
 function selectedTimer(){if(!$("timerEnabled").checked)return 0;let n=Math.floor(Number($("timerSecondsInput").value));if(!Number.isFinite(n)||n<1)n=1;if(n>600)n=600;$("timerSecondsInput").value=n;return n}
 $("timerEnabled").onchange=()=>{$("timerSecondsWrap").classList.toggle("hidden",!$("timerEnabled").checked)};
 $("timerSecondsInput").oninput=()=>{let v=$("timerSecondsInput").value.replace?.(/\D/g,"");if(v!==undefined&&v!=="")$("timerSecondsInput").value=Math.min(600,Math.max(1,Number(v)))};
-
 document.querySelectorAll(".amountChoice").forEach(b=>b.onclick=()=>{document.querySelectorAll(".amountChoice").forEach(x=>x.classList.remove("sel"));b.classList.add("sel")});
 function selectedAmount(){return Number(document.querySelector(".amountChoice.sel")?.dataset.amount||10)}
 $("roomCodeInput").oninput=e=>e.target.value=e.target.value.replace(/\D/g,"").slice(0,6);$("roomCodeInput").onkeydown=e=>{if(e.key==="Enter")$("joinRoom").click()};
-async function subscribeOnlineChannel(c,r){
-  await ensureSB();
-  if(onlineChannel){try{await sb.removeChannel(onlineChannel)}catch(e){}}
-  onlineChannel=sb.channel("turkish-room-"+c,{config:{broadcast:{self:false},presence:{key:onlineUser}}});
-  onlineChannel.on("broadcast",{event:"game"},({payload})=>handleOnline(payload));
-  onlineChannel.on("presence",{event:"sync"},()=>{syncLobby();handlePresenceHealth()});
-  onlineChannel.on("presence",{event:"join"},()=>{syncLobby();handlePresenceHealth()});
-  onlineChannel.on("presence",{event:"leave"},()=>{syncLobby();handlePresenceHealth()});
-  await new Promise((ok,no)=>{let settled=false;onlineChannel.subscribe(async s=>{if(s==="SUBSCRIBED"&&!settled){settled=true;try{await onlineChannel.track({role:r})}catch(e){}ok()}else if((s==="CHANNEL_ERROR"||s==="TIMED_OUT")&&!settled){settled=true;no(Error("Realtime connection failed"))}})})
-}
-async function openRoom(c,r){onlineIntentionalLeave=false;onlineRoom=c;onlineRole=r;$("onlineGame").dataset.role=r;onlineScores=[0,0];onlineQuestionNumber=0;onlineReplayReady=[false,false];onlinePhase="lobby";await subscribeOnlineChannel(c,r);$("onlineEntry").classList.add("hidden");$("createGameFlow").classList.add("hidden");$("joinGameFlow").classList.add("hidden");$("onlineLobby").classList.remove("hidden");$("roomCodeLabel").textContent=c;$("startOnline").classList.toggle("hidden",r!=="host");syncLobby()}
-function presenceRoles(){let a=[];Object.values(onlineChannel?.presenceState()||{}).forEach(v=>v.forEach(x=>a.push(x.role)));return a}
-function peerRole(){return onlineRole==="host"?"guest":"host"}
-function syncLobby(){let r=presenceRoles(),b=r.includes("guest"),host=onlineRole==="host";$("lobbyHead").classList.toggle("hidden",!host);$("lobbyTitle").textContent=b?"Ready to start":"Waiting for Player 2";$("lobbySubtitle").textContent=b?"":"Share this room code";$("roomCodeLabel").classList.toggle("hidden",!host||b);$("lobbyPlayers").innerHTML=host?`<div class="playerBadge ${b?"connected arrived":""}">${b?'<div class="playerOrb">P2</div>':'<div class="joinPulse"></div>'}<b>Player 2</b><span class="stateText">${b?"Joined":"Waiting to join…"}</span></div>`:`<div class="playerBadge connected arrived"><div class="playerOrb">P1</div><b>Player 1</b><span class="stateText">Waiting for Player 1 to start</span></div>`;if(host){$("startOnline").classList.remove("hidden");$("startOnline").disabled=!b||onlineStarting;$("startOnline").querySelector("span").textContent=onlineStarting?"Starting…":b?"Start game":"Waiting for Player 2"}else $("startOnline").classList.add("hidden")}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+function cloneMap(v){return v&&typeof v==="object"&&!Array.isArray(v)?{...v}:{}}
+function cleanPlayers(list){return(Array.isArray(list)?list:[]).slice(0,MAX_ONLINE_PLAYERS).filter(p=>p&&p.id).map((p,i)=>({id:String(p.id),label:p.label||("P"+(i+1)),role:p.role==="host"?"host":"player",connected:p.connected!==false,active:p.active!==false,joinedAt:Number(p.joinedAt)||0}))}
+function playerById(id){return onlinePlayers.find(p=>p.id===String(id))||null}
+function ownPlayer(){return playerById(onlinePlayerId)}
+function activePlayers(){return onlinePlayers.filter(p=>p.active!==false)}
+function activeIds(){return activePlayers().map(p=>p.id)}
+function assignPlayerLabels(){onlinePlayers.forEach((p,i)=>p.label="P"+(i+1))}
+function playerName(p){return"Player "+String(p?.label||"").replace(/^P/,"")}
+function presencePlayers(){let m=new Map();Object.entries(onlineChannel?.presenceState()||{}).forEach(([key,arr])=>(arr||[]).forEach(x=>{let id=String(x.playerId||key||"");if(!id)return;let cur=m.get(id),joinedAt=Number(x.joinedAt)||0;if(!cur||joinedAt>=cur.joinedAt)m.set(id,{id,role:x.role==="host"?"host":"player",joinedAt})}));return[...m.values()]}
+function presenceIds(){return new Set(presencePlayers().map(p=>p.id))}
 async function sendOnline(p){if(!onlineChannel)return false;try{let r=await onlineChannel.send({type:"broadcast",event:"game",payload:p});return r==="ok"||r===undefined||r===true}catch(e){return false}}
+function broadcastRoster(){if(onlineRole!=="host")return;sendOnline({t:"roster",players:onlinePlayers,hostId:onlineHostId,max:MAX_ONLINE_PLAYERS})}
+async function subscribeOnlineChannel(c,r){await ensureSB();if(onlineChannel){try{await sb.removeChannel(onlineChannel)}catch(e){}}onlineChannel=sb.channel("turkish-room-"+c,{config:{broadcast:{self:false},presence:{key:onlinePlayerId}}});onlineChannel.on("broadcast",{event:"game"},({payload})=>handleOnline(payload));onlineChannel.on("presence",{event:"sync"},handlePresenceHealth);onlineChannel.on("presence",{event:"join"},handlePresenceHealth);onlineChannel.on("presence",{event:"leave"},handlePresenceHealth);await new Promise((ok,no)=>{let settled=false;onlineChannel.subscribe(async s=>{if(s==="SUBSCRIBED"&&!settled){settled=true;try{await onlineChannel.track({role:r,playerId:onlinePlayerId,joinedAt:onlineJoinedAt})}catch(e){}ok()}else if((s==="CHANNEL_ERROR"||s==="TIMED_OUT")&&!settled){settled=true;no(Error("Realtime connection failed"))}})})}
+function hostReconcileLobby(extra=null){if(onlineRole!=="host"||onlinePhase!=="lobby")return;let present=presencePlayers(),ids=new Set(present.map(x=>x.id));let host=onlinePlayers.find(p=>p.id===onlinePlayerId)||{id:onlinePlayerId,role:"host",joinedAt:onlineJoinedAt,active:true,connected:true};host.role="host";host.active=true;host.connected=true;let keep=onlinePlayers.filter(p=>p.id!==onlinePlayerId&&ids.has(p.id));let known=new Set(keep.map(p=>p.id));let newcomers=present.filter(p=>p.id!==onlinePlayerId&&!known.has(p.id)).sort((a,b)=>a.joinedAt-b.joinedAt);if(extra&&extra.id&&extra.id!==onlinePlayerId&&!known.has(String(extra.id))&&!newcomers.some(p=>p.id===String(extra.id)))newcomers.push({id:String(extra.id),role:"player",joinedAt:Number(extra.joinedAt)||Date.now()});let guests=[...keep,...newcomers].slice(0,MAX_ONLINE_PLAYERS-1).map(p=>({...p,role:"player",active:true,connected:ids.has(p.id)||String(extra?.id||"")===p.id}));onlinePlayers=[host,...guests];onlineHostId=onlinePlayerId;assignPlayerLabels();syncLobby();broadcastRoster()}
+function renderLobbyPlayers(){let root=$("lobbyPlayers");root.replaceChildren();onlinePlayers.forEach(p=>{let row=document.createElement("div");row.className="lobbyPlayerRow"+(p.id===onlinePlayerId?" me":"")+(p.connected===false?" disconnected":"");let avatar=document.createElement("span");avatar.className="lobbyAvatar";avatar.textContent=p.label;let text=document.createElement("div"),name=document.createElement("strong"),meta=document.createElement("small"),state=document.createElement("span");name.textContent=playerName(p);meta.textContent=(p.role==="host"?"Host":"Player")+(p.id===onlinePlayerId?" · You":"");state.className="lobbyPlayerState";state.textContent=p.connected===false?"Reconnecting…":p.role==="host"?"Host":"Joined";text.append(name,meta);row.append(avatar,text,state);root.append(row)})}
+function syncLobby(){let count=onlinePlayers.length,host=onlineRole==="host";$("lobbyTitle").textContent="Players";$("lobbySubtitle").textContent=host?(count<MAX_ONLINE_PLAYERS?"Share the code or invite link":"Room is full"):"Waiting for the host to start";$("lobbyCapacity").textContent=count+" / "+MAX_ONLINE_PLAYERS;$("roomCodeLabel").textContent=onlineRoom||"------";$("shareRoom").classList.toggle("hidden",!host);renderLobbyPlayers();if(host){$("startOnline").classList.remove("hidden");$("startOnline").disabled=count<2||onlineStarting;$("startOnline").querySelector("span").textContent=onlineStarting?"Starting…":count<2?"Waiting for players":"Start game"}else $("startOnline").classList.add("hidden")}
+function finishJoinDecision(ok,msg=""){let resolve=onlineJoinResolve,reject=onlineJoinReject;clearJoinHandshake();if(ok)resolve?.(true);else reject?.(Error(msg||"Could not join room."))}
+function requestJoinDecision(){return new Promise((resolve,reject)=>{onlineJoinResolve=resolve;onlineJoinReject=reject;let req=()=>sendOnline({t:"join_request",playerId:onlinePlayerId,joinedAt:onlineJoinedAt});req();onlineJoinRetryId=setInterval(req,700);onlineJoinTimer=setTimeout(()=>finishJoinDecision(false,"Room not found or host is offline."),5000)})}
+async function openRoom(c,r){onlineIntentionalLeave=false;onlineRoom=c;onlineRole=r;onlineJoinedAt=Date.now();onlinePhase="lobby";onlineQuestionNumber=0;onlinePlayers=r==="host"?[{id:onlinePlayerId,label:"P1",role:"host",connected:true,active:true,joinedAt:onlineJoinedAt}]:[];onlineHostId=r==="host"?onlinePlayerId:null;onlineScores={};onlineAnswers={};onlineReady={};onlineReplayReady={};$("onlineGame").dataset.role=r;await subscribeOnlineChannel(c,r);if(r==="host"){await sleep(180);let collision=presencePlayers().some(p=>p.role==="host"&&p.id!==onlinePlayerId);if(collision){try{await sb.removeChannel(onlineChannel)}catch(e){}onlineChannel=null;throw Error("Room code collision. Try again.")}hostReconcileLobby()}else{try{await requestJoinDecision()}catch(e){try{if(onlineChannel)await sb.removeChannel(onlineChannel)}catch(_e){}onlineChannel=null;throw e}}$("onlineEntry").classList.add("hidden");$("createGameFlow").classList.add("hidden");$("joinGameFlow").classList.add("hidden");$("onlineLobby").classList.toggle("hidden",onlinePhase!=="lobby");$("roomCodeLabel").textContent=c;if(onlinePhase==="lobby")syncLobby();if(r!=="host")clearRoomInviteParam()}
+function initStateForActive(defaultValue=null){let o={};activeIds().forEach(id=>o[id]=defaultValue);return o}
+function waitingForAnswers(){return activePlayers().filter(p=>onlineAnswers[p.id]==null).length}
+function waitingForReady(){return activePlayers().filter(p=>!onlineReady[p.id]).length}
+function waitingForReplay(){return activePlayers().filter(p=>!onlineReplayReady[p.id]).length}
+function allActiveAnswered(){let ids=activeIds();return ids.length>=2&&ids.every(id=>onlineAnswers[id]!=null)}
+function allActiveReady(){let ids=activeIds();return ids.length>=2&&ids.every(id=>onlineReady[id])}
+function allActiveReplayReady(){let ids=activeIds();return ids.length>=2&&ids.every(id=>onlineReplayReady[id])}
 function stopReadyRetry(){if(onlineReadyRetryId){clearInterval(onlineReadyRetryId);onlineReadyRetryId=null}}
-function sendGuestReady(){if(onlineRole!=="guest"||onlinePhase!=="result"||!onlineReady[1])return;sendOnline({t:"ready",num:onlineQuestionNumber});if(!onlineReadyRetryId)onlineReadyRetryId=setInterval(()=>{if(onlineRole==="guest"&&onlinePhase==="result"&&onlineReady[1])sendOnline({t:"ready",num:onlineQuestionNumber});else stopReadyRetry()},900)}
-function hostAcceptGuestReady(num){if(onlineRole!=="host"||Number(num)!==onlineQuestionNumber)return;onlineReady[1]=true;sendOnline({t:"ready_ack",num:onlineQuestionNumber});if(onlinePhase==="result"&&onlineReady[0])hostNextQuestion()}
+function sendPlayerReady(){if(onlineRole==="host"||onlinePhase!=="result"||!onlineReady[onlinePlayerId])return;let send=()=>sendOnline({t:"ready",playerId:onlinePlayerId,num:onlineQuestionNumber});send();if(!onlineReadyRetryId)onlineReadyRetryId=setInterval(()=>{if(onlineRole!=="host"&&onlinePhase==="result"&&onlineReady[onlinePlayerId])send();else stopReadyRetry()},900)}
+function stopReplayRetry(){if(onlineReplayRetryId){clearInterval(onlineReplayRetryId);onlineReplayRetryId=null}}
+function sendReplayReady(){if(onlineRole==="host"||onlinePhase!=="finished"||!onlineReplayReady[onlinePlayerId])return;let send=()=>sendOnline({t:"replay",playerId:onlinePlayerId});send();if(!onlineReplayRetryId)onlineReplayRetryId=setInterval(()=>{if(onlineRole!=="host"&&onlinePhase==="finished"&&onlineReplayReady[onlinePlayerId])send();else stopReplayRetry()},900)}
 function stopAnswerRetry(){if(onlineAnswerRetryId){clearInterval(onlineAnswerRetryId);onlineAnswerRetryId=null}}
-function sendPendingAnswer(){if(onlineRole!=="guest"||!onlinePendingAnswer)return;sendOnline({t:"answer",answer:onlinePendingAnswer.answer,num:onlinePendingAnswer.num});if(!onlineAnswerRetryId)onlineAnswerRetryId=setInterval(()=>{if(onlineRole==="guest"&&onlinePendingAnswer)sendOnline({t:"answer",answer:onlinePendingAnswer.answer,num:onlinePendingAnswer.num});else stopAnswerRetry()},900)}
+function sendPendingAnswer(){if(onlineRole==="host"||!onlinePendingAnswer)return;let send=()=>sendOnline({t:"answer",playerId:onlinePlayerId,answer:onlinePendingAnswer.answer,num:onlinePendingAnswer.num});send();if(!onlineAnswerRetryId)onlineAnswerRetryId=setInterval(()=>{if(onlineRole!=="host"&&onlinePendingAnswer)send();else stopAnswerRetry()},900)}
 function qById(id){return bank.find(x=>String(x.id)===String(id))}
 async function resolveOnlineQuestion(m){if(m?.question?.question)return m.question;if(m?.bank)await ensureBank(m.bank);return qById(m?.id)}
 function stopOnlineCountdown(){if(onlineCountdownId!==null){cancelAnimationFrame(onlineCountdownId);onlineCountdownId=null}let el=$("onlineCountdown");if(el)el.classList.add("hidden")}
 function runOnlineCountdown(end,done){stopOnlineCountdown();onlineCountdownEnd=Number(end)||Date.now()+3000;$("onlineCountdown").classList.remove("hidden");$("onlinePlayView").classList.add("hidden");$("onlineResultView").classList.add("hidden");$("onlineFinalView").classList.add("hidden");let last=null,finished=false;let frame=()=>{if(finished)return;let ms=onlineCountdownEnd-Date.now();if(ms<=0){finished=true;onlineCountdownId=null;$("onlineCountdown").classList.add("hidden");gameSound("go");done?.();return}let n=Math.max(1,Math.min(3,Math.ceil(ms/1000)));if(n!==last){let el=$("onlineCountdownNumber");el.textContent=n;el.classList.remove("pulse");void el.offsetWidth;el.classList.add("pulse");gameSound("countdown");last=n}onlineCountdownId=requestAnimationFrame(frame)};frame()}
-function buildOnlineSnapshot(){return{phase:onlinePhase,id:onlineQuestion?.id||null,question:onlineQuestion,bank:selectedBankFile,scores:onlineScores,answers:onlineAnswers,ready:onlineReady,timer:onlineTimerSeconds,deadline:onlineDeadline,num:onlineQuestionNumber,limit:onlineQuestionLimit,countdownEnd:onlineCountdownEnd}}
-async function applyOnlineSnapshot(s){if(!s)return;let q=await resolveOnlineQuestion(s);if(q){onlineQuestion=q;markDeckQuestionSeen(q.id)}onlineScores=s.scores||onlineScores;onlineAnswers=s.answers||onlineAnswers;onlineReady=s.ready||[false,false];onlineTimerSeconds=+s.timer||0;onlineDeadline=+s.deadline||0;onlineQuestionNumber=Number(s.num||onlineQuestionNumber);onlineQuestionLimit=Number(s.limit??onlineQuestionLimit);onlineCountdownEnd=Number(s.countdownEnd||0);onlinePhase=s.phase||onlinePhase;$("onlineLobby").classList.add("hidden");$("home").classList.add("hidden");$("onlineGame").classList.remove("hidden");if(onlinePhase==="answer"&&onlineQuestion){if(onlineCountdownEnd>Date.now())runOnlineCountdown(onlineCountdownEnd,()=>{renderOnlineQuestion(false);restoreOwnAnswerState()});else{renderOnlineQuestion(false);restoreOwnAnswerState()}}else if(onlinePhase==="result"&&onlineQuestion){renderOnlineReveal(false,true)}else if(onlinePhase==="finished"){renderOnlineFinal()}}
-function restoreOwnAnswerState(){let p=onlineRole==="host"?0:1,a=onlineAnswers[p];if(a){[...$("onlineOpts").children].forEach(x=>x.disabled=true);$("onlineWait").textContent="Answer locked · waiting for the other player"}if(onlineRole==="guest"){if(onlineAnswers[1]){onlinePendingAnswer=null;stopAnswerRetry()}else if(onlinePendingAnswer&&onlinePendingAnswer.num===onlineQuestionNumber)sendPendingAnswer()}}
-function stopPeerGrace(){if(onlinePeerGraceId){clearInterval(onlinePeerGraceId);onlinePeerGraceId=null}onlinePeerGraceDeadline=0;let el=$("connectionGrace");if(el)el.classList.add("hidden")}
-function beginPeerGrace(){if(onlineIntentionalLeave||onlinePhase==="lobby"||onlinePhase==="finished"||!onlineRoom||onlinePeerGraceId)return;stopTimer();onlinePauseStarted=onlinePauseStarted||Date.now();onlinePeerGraceDeadline=Date.now()+20000;$("connectionGrace").classList.remove("hidden");let tick=()=>{let sec=Math.max(0,Math.ceil((onlinePeerGraceDeadline-Date.now())/1000));$("connectionGraceSeconds").textContent=sec;if(sec<=0){stopPeerGrace();otherPlayerLeft()}};tick();onlinePeerGraceId=setInterval(tick,250)}
-function resumeAfterPeerReturn(){if(!onlinePeerGraceId&&!onlinePauseStarted)return;let paused=onlinePauseStarted?Date.now()-onlinePauseStarted:0;stopPeerGrace();if(onlineRole==="host"&&onlinePhase==="answer"&&onlineTimerSeconds&&onlineDeadline)onlineDeadline+=paused;onlinePauseStarted=0;if(onlineRole==="host"){sendOnline({t:"sync_state",state:buildOnlineSnapshot()});if(onlinePhase==="answer"&&onlineQuestion&&onlineCountdownEnd<=Date.now())startTimer()}else sendOnline({t:"sync_request",num:onlineQuestionNumber})}
-function handlePresenceHealth(){if(!onlineRoom||onlinePhase==="lobby"||onlinePhase==="finished"||onlineIntentionalLeave)return;presenceRoles().includes(peerRole())?resumeAfterPeerReturn():beginPeerGrace()}
-async function recoverOnlineConnection(){if(onlineRecovering||!onlineRoom||!onlineRole||onlineIntentionalLeave)return;onlineRecovering=true;try{await subscribeOnlineChannel(onlineRoom,onlineRole);sendOnline({t:"back",role:onlineRole,num:onlineQuestionNumber});if(onlineRole==="guest")sendOnline({t:"sync_request",num:onlineQuestionNumber});else sendOnline({t:"sync_state",state:buildOnlineSnapshot()});handlePresenceHealth()}catch(e){beginPeerGrace()}finally{onlineRecovering=false}}
-document.addEventListener("visibilitychange",()=>{if(!onlineRoom||onlineIntentionalLeave||onlinePhase==="lobby"||onlinePhase==="finished")return;if(document.hidden){onlineSelfAwayAt=Date.now();onlinePauseStarted=onlinePauseStarted||onlineSelfAwayAt;stopTimer();sendOnline({t:"away",role:onlineRole,num:onlineQuestionNumber})}else{let awayFor=onlineSelfAwayAt?Date.now()-onlineSelfAwayAt:0;onlineSelfAwayAt=0;if(awayFor>=20000){otherPlayerLeft();return}recoverOnlineConnection()}});
-window.addEventListener("focus",()=>{if(onlineRoom&&!document.hidden&&onlinePhase!=="lobby"&&onlinePhase!=="finished")recoverOnlineConnection()});
+function buildOnlineSnapshot(){return{phase:onlinePhase,id:onlineQuestion?.id||null,question:onlineQuestion,bank:selectedBankFile,players:onlinePlayers,hostId:onlineHostId,scores:onlineScores,answers:onlineAnswers,ready:onlineReady,replayReady:onlineReplayReady,timer:onlineTimerSeconds,deadline:onlineDeadline,num:onlineQuestionNumber,limit:onlineQuestionLimit,countdownEnd:onlineCountdownEnd}}
+async function applyOnlineSnapshot(s){if(!s)return;if(s.players)onlinePlayers=cleanPlayers(s.players);onlineHostId=s.hostId||onlinePlayers.find(p=>p.role==="host")?.id||onlineHostId;onlineScores=cloneMap(s.scores);onlineAnswers=cloneMap(s.answers);onlineReady=cloneMap(s.ready);onlineReplayReady=cloneMap(s.replayReady);onlineTimerSeconds=+s.timer||0;onlineDeadline=+s.deadline||0;onlineQuestionNumber=Number(s.num||onlineQuestionNumber);onlineQuestionLimit=Number(s.limit??onlineQuestionLimit);onlineCountdownEnd=Number(s.countdownEnd||0);onlinePhase=s.phase||onlinePhase;let me=ownPlayer();if(me&&me.active===false){showOnlineEnded("You left the game","Your reconnect window expired.");return}let q=await resolveOnlineQuestion(s);if(q){onlineQuestion=q;markDeckQuestionSeen(q.id)}$("onlineLobby").classList.add("hidden");$("home").classList.add("hidden");$("onlineGame").classList.remove("hidden");renderOnlineScores();if(onlinePhase==="answer"&&onlineQuestion){if(onlineCountdownEnd>Date.now())runOnlineCountdown(onlineCountdownEnd,()=>{renderOnlineQuestion(false);restoreOwnAnswerState()});else{renderOnlineQuestion(false);restoreOwnAnswerState()}}else if(onlinePhase==="result"&&onlineQuestion){renderOnlineReveal(false,true)}else if(onlinePhase==="finished")renderOnlineFinal()}
+function restoreOwnAnswerState(){let a=onlineAnswers[onlinePlayerId];if(a){[...$("onlineOpts").children].forEach(x=>x.disabled=true);$("onlineWait").textContent="Answer locked · waiting for other players"}if(onlineRole!=="host"){if(onlineAnswers[onlinePlayerId]){onlinePendingAnswer=null;stopAnswerRetry()}else if(onlinePendingAnswer&&onlinePendingAnswer.num===onlineQuestionNumber)sendPendingAnswer()}}
+function stopHostGrace(){if(onlineHostGraceId){clearInterval(onlineHostGraceId);onlineHostGraceId=null}onlineHostGraceDeadline=0;$("connectionGrace").classList.add("hidden")}
+function beginHostGrace(){if(onlineRole==="host"||onlineIntentionalLeave||onlinePhase==="lobby"||!onlineRoom||onlineHostGraceId)return;stopTimer();onlineHostGraceDeadline=Date.now()+20000;$("connectionGraceTitle").textContent="Host disconnected";$("connectionGraceText").textContent="Waiting for the host to return.";$("connectionGrace").classList.remove("hidden");let tick=()=>{let sec=Math.max(0,Math.ceil((onlineHostGraceDeadline-Date.now())/1000));$("connectionGraceSeconds").textContent=sec;if(sec<=0){stopHostGrace();showOnlineEnded("Host disconnected","The host did not reconnect within 20 seconds.")}};tick();onlineHostGraceId=setInterval(tick,250)}
+function markPlayerDisconnected(id){if(onlineRole!=="host"||id===onlinePlayerId)return;let p=playerById(id);if(!p||p.active===false)return;p.connected=false;renderOnlineScores();broadcastRoster();if(onlineDisconnectTimers.has(id))return;let deadline=Date.now()+20000,timeout=setTimeout(()=>dropPlayer(id,"Disconnected for more than 20 seconds"),20000);onlineDisconnectTimers.set(id,{deadline,timeout,interval:null})}
+function restorePlayerConnected(id){if(onlineRole!=="host")return;let p=playerById(id);if(!p)return;if(p.active===false){sendOnline({t:"player_dropped",target:id,reason:"Your reconnect window expired."});return}if(p.connected!==false&&!onlineDisconnectTimers.has(id))return;p.connected=true;clearPlayerGrace(id);broadcastRoster();renderOnlineScores();sendOnline({t:"sync_state",target:id,state:buildOnlineSnapshot()})}
+function dropPlayer(id,reason="Player left",notify=true){if(onlineRole!=="host")return;let p=playerById(id);if(!p||p.role==="host"||p.active===false)return;p.active=false;p.connected=false;onlineAwayPlayers.delete(String(id));clearPlayerGrace(id);if(notify)sendOnline({t:"player_dropped",target:id,reason});broadcastRoster();renderOnlineScores();if(activePlayers().length<2){endHostOnlyGame();return}if(onlinePhase==="answer"&&allActiveAnswered())hostReveal(false);else if(onlinePhase==="result"&&allActiveReady())hostNextQuestion();else if(onlinePhase==="finished"&&allActiveReplayReady())hostRestart()}
+function hostHandlePresence(){if(onlineRole!=="host"||onlinePhase==="lobby")return;let ids=presenceIds();onlinePlayers.forEach(p=>{if(p.id===onlinePlayerId||p.active===false)return;ids.has(p.id)&&!onlineAwayPlayers.has(p.id)?restorePlayerConnected(p.id):markPlayerDisconnected(p.id)})}
+function guestHandleHostPresence(){if(onlineRole==="host"||onlinePhase==="lobby"||!onlineHostId)return;presenceIds().has(onlineHostId)?stopHostGrace():beginHostGrace()}
+function handlePresenceHealth(){if(!onlineRoom||onlineIntentionalLeave)return;if(onlineRole==="host"){if(onlinePhase==="lobby")hostReconcileLobby();else hostHandlePresence()}else guestHandleHostPresence()}
+async function recoverOnlineConnection(){if(onlineRecovering||!onlineRoom||!onlineRole||onlineIntentionalLeave)return;onlineRecovering=true;try{await subscribeOnlineChannel(onlineRoom,onlineRole);sendOnline({t:"back",playerId:onlinePlayerId,role:onlineRole,num:onlineQuestionNumber});if(onlineRole==="host"){broadcastRoster();sendOnline({t:"sync_state",state:buildOnlineSnapshot()});if(onlinePhase==="answer"){if(onlineTimerSeconds&&onlineDeadline<=Date.now())hostTimeout();else if(onlineCountdownEnd>Date.now())runOnlineCountdown(onlineCountdownEnd,()=>renderOnlineQuestion(false));else{renderOnlineQuestion(false);startTimer()}}}else sendOnline({t:"sync_request",playerId:onlinePlayerId,num:onlineQuestionNumber});handlePresenceHealth()}catch(e){if(onlineRole!=="host")beginHostGrace()}finally{onlineRecovering=false}}
+document.addEventListener("visibilitychange",()=>{if(!onlineRoom||onlineIntentionalLeave||onlinePhase==="lobby")return;if(document.hidden){onlineSelfAwayAt=Date.now();stopTimer();sendOnline({t:"away",playerId:onlinePlayerId,role:onlineRole,num:onlineQuestionNumber})}else{onlineSelfAwayAt=0;recoverOnlineConnection()}});
+window.addEventListener("focus",()=>{if(onlineRoom&&!document.hidden&&onlinePhase!=="lobby")recoverOnlineConnection()});
 function stopTimer(){if(onlineTimerId!==null){cancelAnimationFrame(onlineTimerId);onlineTimerId=null}}
-function startTimer(){
-  stopTimer();
-  const fill=$("timerFill");
-  if(!onlineTimerSeconds){
-    $("timerText").textContent="";
-    $("timerBar").classList.add("hidden");
-    fill.style.transform="scaleX(1)";
-    return
-  }
-  $("timerBar").classList.remove("hidden");
-  let lastSecond=null,ended=false;
-  const duration=onlineTimerSeconds*1000;
-  const frame=()=>{
-    if(ended)return;
-    const ms=Math.max(0,onlineDeadline-Date.now());
-    const sec=Math.ceil(ms/1000);
-    const ratio=Math.max(0,Math.min(1,ms/duration));
-    fill.style.transform=`scaleX(${ratio})`;
-    if(sec!==lastSecond){
-      $("timerText").textContent=sec+"s";
-      if(sec<=5&&sec>0)gameSound("tick");
-      lastSecond=sec
-    }
-    if(ms<=0){
-      ended=true;
-      onlineTimerId=null;
-      fill.style.transform="scaleX(0)";
-      if(onlineRole==="host"&&onlinePhase==="answer")hostTimeout();
-      return
-    }
-    onlineTimerId=requestAnimationFrame(frame)
-  };
-  frame()
-}
-function hostTimeout(){
-  if(onlineRole!=="host"||onlinePhase!=="answer")return;
-  hostReveal(true)
-}
-function hostNextQuestion(broadcast=true,renderNow=true,deadlineBase=Date.now()){stopTimer();stopReadyRetry();stopAnswerRetry();onlinePendingAnswer=null;if(!bank||!bank.length){onlineStatus("Quiz library is not ready.");return false}if(onlineQuestionLimit>0&&onlineQuestionNumber>=onlineQuestionLimit){hostFinishGame();return false}onlineQuestion=nextDeckQuestion();if(!onlineQuestion?.question){onlineStatus("Could not load a question.");return false}onlineQuestionNumber++;onlineAnswers=[null,null];onlineReady=[false,false];onlinePhase="answer";onlineCountdownEnd=0;onlineDeadline=onlineTimerSeconds?deadlineBase+onlineTimerSeconds*1000:0;if(renderNow)renderOnlineQuestion();if(broadcast)sendOnline({t:"question",id:onlineQuestion.id,question:onlineQuestion,scores:onlineScores,bank:selectedBankFile,timer:onlineTimerSeconds,deadline:onlineDeadline,num:onlineQuestionNumber,limit:onlineQuestionLimit,view:"play"});return true}
+function startTimer(){stopTimer();const fill=$("timerFill");if(!onlineTimerSeconds){$("timerText").textContent="";$("timerBar").classList.add("hidden");fill.style.transform="scaleX(1)";return}$("timerBar").classList.remove("hidden");let lastSecond=null,ended=false,duration=onlineTimerSeconds*1000;const frame=()=>{if(ended)return;const ms=Math.max(0,onlineDeadline-Date.now()),sec=Math.ceil(ms/1000),ratio=Math.max(0,Math.min(1,ms/duration));fill.style.transform=`scaleX(${ratio})`;if(sec!==lastSecond){$("timerText").textContent=sec+"s";if(sec<=5&&sec>0)gameSound("tick");lastSecond=sec}if(ms<=0){ended=true;onlineTimerId=null;fill.style.transform="scaleX(0)";if(onlineRole==="host"&&onlinePhase==="answer")hostTimeout();return}onlineTimerId=requestAnimationFrame(frame)};frame()}
+function hostTimeout(){if(onlineRole!=="host"||onlinePhase!=="answer")return;hostReveal(true)}
+function hostNextQuestion(broadcast=true,renderNow=true,deadlineBase=Date.now()){stopTimer();stopReadyRetry();stopAnswerRetry();onlinePendingAnswer=null;if(!bank||!bank.length){onlineStatus("Quiz library is not ready.");return false}if(activePlayers().length<2){endHostOnlyGame();return false}if(onlineQuestionLimit>0&&onlineQuestionNumber>=onlineQuestionLimit){hostFinishGame();return false}onlineQuestion=nextDeckQuestion();if(!onlineQuestion?.question){onlineStatus("Could not load a question.");return false}onlineQuestionNumber++;onlineAnswers=initStateForActive(null);onlineReady=initStateForActive(false);onlinePhase="answer";onlineCountdownEnd=0;onlineDeadline=onlineTimerSeconds?deadlineBase+onlineTimerSeconds*1000:0;if(renderNow)renderOnlineQuestion();if(broadcast)sendOnline({t:"question",id:onlineQuestion.id,question:onlineQuestion,players:onlinePlayers,hostId:onlineHostId,scores:onlineScores,bank:selectedBankFile,timer:onlineTimerSeconds,deadline:onlineDeadline,num:onlineQuestionNumber,limit:onlineQuestionLimit,view:"play"});return true}
 async function ensureBank(f){if(f&&(f!==selectedBankFile||!bank.length)){let o=quizCatalog.find(x=>(typeof x==="string"?x:x.file)===f);await loadQB(f,typeof o==="string"?nice(f):(o?.name||nice(f)))}}
-async function handleOnline(m){if(!m)return;
-if(m.t==="away"&&m.role===peerRole()){beginPeerGrace();return}
-if(m.t==="back"&&m.role===peerRole()){resumeAfterPeerReturn();return}
-if(m.t==="sync_request"&&onlineRole==="host"){sendOnline({t:"sync_state",state:buildOnlineSnapshot()});return}
-if(m.t==="sync_state"&&onlineRole==="guest"){stopPeerGrace();await applyOnlineSnapshot(m.state);return}
-if(m.t==="start"&&onlineRole==="guest"){stopReadyRetry();stopAnswerRetry();onlinePendingAnswer=null;onlineTimerSeconds=+m.timer||0;onlineQuestionLimit=Number(m.limit??0);onlineQuestionNumber=Number(m.num||0);onlineScores=m.scores||[0,0];onlineAnswers=[null,null];onlineReady=[false,false];onlineReplayReady=[false,false];onlineCountdownEnd=Number(m.countdownEnd||0);let q=await resolveOnlineQuestion(m);if(q){onlineQuestion=q;markDeckQuestionSeen(q.id);onlinePhase="answer";onlineDeadline=+m.deadline||0;$("onlineLobby").classList.add("hidden");$("home").classList.add("hidden");$("onlineGame").classList.remove("hidden");if(onlineCountdownEnd>Date.now())runOnlineCountdown(onlineCountdownEnd,()=>renderOnlineQuestion(false));else renderOnlineQuestion(false)}else $("lobbySubtitle").textContent="Waiting for the first question…"}
-if(m.t==="question"&&onlineRole==="guest"){let n=Number(m.num||onlineQuestionNumber+1);if(n<onlineQuestionNumber)return;if(n===onlineQuestionNumber&&onlinePhase==="answer"&&String(onlineQuestion?.id)===String(m.id))return;stopReadyRetry();stopAnswerRetry();onlinePendingAnswer=null;let q=await resolveOnlineQuestion(m);if(!q?.question){onlineStatus("Question data could not be loaded.");return}onlineQuestion=q;markDeckQuestionSeen(q.id);$("onlineLobby").classList.add("hidden");$("home").classList.add("hidden");$("onlineGame").classList.remove("hidden");onlineScores=m.scores||onlineScores;onlineAnswers=[null,null];onlineReady=[false,false];onlinePhase="answer";onlineTimerSeconds=+m.timer||0;onlineDeadline=+m.deadline||0;onlineQuestionNumber=n;onlineQuestionLimit=Number(m.limit??onlineQuestionLimit);renderOnlineQuestion()}
-if(m.t==="answer"&&onlineRole==="host"&&Number(m.num||onlineQuestionNumber)===onlineQuestionNumber&&onlinePhase==="answer"){onlineAnswers[1]=m.answer;sendOnline({t:"answer_ack",num:onlineQuestionNumber,answer:m.answer});if(onlineAnswers[0])hostReveal()}
-if(m.t==="answer_ack"&&onlineRole==="guest"&&onlinePendingAnswer&&Number(m.num)===onlinePendingAnswer.num){onlinePendingAnswer=null;stopAnswerRetry()}
-if(m.t==="reveal"&&onlineRole==="guest"){onlineScores=m.scores;onlineAnswers=m.answers;onlinePendingAnswer=null;stopAnswerRetry();onlinePhase="result";renderOnlineReveal(!!m.timedOut)}
-if(m.t==="ready"&&onlineRole==="host")hostAcceptGuestReady(m.num)
-if(m.t==="ready_ack"&&onlineRole==="guest"&&Number(m.num)===onlineQuestionNumber){stopReadyRetry();$("readyState").textContent="Waiting for Player 1"}
-if(m.t==="finish"&&onlineRole==="guest"){onlineScores=m.scores;onlinePhase="finished";renderOnlineFinal()}
-if(m.t==="replay"&&onlineRole==="host"&&onlinePhase==="finished"){onlineReplayReady[1]=true;if(onlineReplayReady[0])hostRestart()}
-if(m.t==="leave"){stopPeerGrace();otherPlayerLeft()}
-if(m.t==="restart"&&onlineRole==="guest"){stopReadyRetry();stopAnswerRetry();onlinePendingAnswer=null;onlineScores=m.scores||[0,0];onlineQuestionNumber=Number(m.num||0);onlineAnswers=[null,null];onlineReady=[false,false];onlineReplayReady=[false,false];onlineCountdownEnd=Number(m.countdownEnd||0);let q=await resolveOnlineQuestion(m);if(q){onlineQuestion=q;markDeckQuestionSeen(q.id);onlinePhase="answer";onlineTimerSeconds=+m.timer||onlineTimerSeconds;onlineDeadline=+m.deadline||0;onlineQuestionLimit=Number(m.limit??onlineQuestionLimit);clearWinFireworks();winFireworksPlayed=false;$("onlineFinalView").classList.add("hidden");$("onlineResultView").classList.add("hidden");$("onlineGame").classList.remove("hidden");if(onlineCountdownEnd>Date.now())runOnlineCountdown(onlineCountdownEnd,()=>renderOnlineQuestion(false));else renderOnlineQuestion(false)}}
-}function renderOnlineScores(){let a=$("scoreP1"),b=$("scoreP2");a.querySelector("strong").textContent=onlineScores[0];b.querySelector("strong").textContent=onlineScores[1];a.classList.toggle("me",onlineRole==="host");b.classList.toggle("me",onlineRole==="guest")}
-function renderOnlineQuestion(playSound=true){if(!onlineQuestion?.question)return false;renderOnlineScores();$("onlineFinalView").classList.add("hidden");$("questionProgress").textContent=onlineQuestionLimit>0?("Question "+onlineQuestionNumber+" of "+onlineQuestionLimit):("Question "+onlineQuestionNumber);$("onlinePlayView").classList.remove("hidden");$("onlineResultView").classList.add("hidden");$("onlineWait").textContent="";setQuestionContent($("onlineQ"),onlineQuestion);let b=$("onlineOpts");b.innerHTML="";onlineLetters.forEach(l=>{let x=document.createElement("button");x.className="soloOpt";x.textContent=onlineQuestion["option_"+l.toLowerCase()];x.onclick=e=>{e.stopPropagation();onlineAnswer(l)};b.append(x)});if(!onlinePeerGraceId)startTimer();if(playSound)gameSound("new");return true}
-function onlineAnswer(l){unlockAudio();if(onlinePhase!=="answer"||onlinePeerGraceId)return;let p=onlineRole==="host"?0:1;if(onlineAnswers[p])return;onlineAnswers[p]=l;[...$("onlineOpts").children].forEach(x=>x.disabled=true);$("onlineWait").textContent="Answer locked · waiting for the other player";if(onlineRole==="guest"){onlinePendingAnswer={answer:l,num:onlineQuestionNumber};sendPendingAnswer()}else if(onlineAnswers[1])hostReveal()}
-function hostReveal(timedOut=false){if(onlinePhase!=="answer")return;stopTimer();onlinePhase="result";for(let i=0;i<2;i++)if(onlineAnswers[i]===onlineQuestion.correct)onlineScores[i]++;sendOnline({t:"reveal",answers:onlineAnswers,scores:onlineScores,timedOut,view:"result"});renderOnlineReveal(timedOut);if(onlineReady[0]&&onlineReady[1])hostNextQuestion()}
-function renderOnlineReveal(timedOut=false,silent=false){stopTimer();$("timerText").textContent="";$("timerBar").classList.add("hidden");$("timerFill").style.transform="scaleX(0)";renderOnlineScores();let p=onlineRole==="host"?0:1,a=onlineAnswers[p],ok=a===onlineQuestion.correct;$("onlinePlayView").classList.add("hidden");$("onlineResultView").classList.remove("hidden");$("resultMark").textContent=ok?"Correct":"Incorrect";$("resultMark").classList.toggle("correctState",ok);$("resultMark").classList.toggle("wrongState",!ok);$("resultAnswer").textContent=onlineQuestion["option_"+onlineQuestion.correct.toLowerCase()];$("onlineFeedback").textContent=onlineQuestion["feedback_"+onlineQuestion.correct.toLowerCase()];$("onlineContinue").disabled=false;$("onlineContinue").textContent="Next";$("readyState").textContent="";if(!silent)gameSound(ok?"correct":timedOut&&a===null?"timeout":"wrong")}
-function hostFinishGame(){stopTimer();stopReadyRetry();stopAnswerRetry();stopPeerGrace();stopOnlineCountdown();onlinePhase="finished";sendOnline({t:"finish",scores:onlineScores});renderOnlineFinal()}
-function clearWinFireworks(){let root=$("winFireworks");if(root)root.replaceChildren()}
-function launchWinFireworks(){
-  if(winFireworksPlayed||window.matchMedia?.("(prefers-reduced-motion: reduce)").matches)return;
-  let root=$("winFireworks");if(!root)return;
-  winFireworksPlayed=true;clearWinFireworks();
-  const colors=["#ffffff","#9bc8f5","#6fa6dc","#406f9f","#b8d9fb"];
-  const bursts=[
-    [18,28,0],[78,23,.18],[32,63,.34],[68,58,.52],[50,36,.72],[85,67,.92]
-  ];
-  bursts.forEach(([x,y,d],bi)=>{
-    let burst=document.createElement("div");burst.className="winFireworkBurst";
-    burst.style.left=x+"%";burst.style.top=y+"%";burst.style.setProperty("--burst-delay",d+"s");
-    let count=16;
-    for(let i=0;i<count;i++){
-      let spark=document.createElement("i");spark.className="winFireworkSpark";
-      let jitter=(Math.random()-.5)*10;
-      spark.style.setProperty("--angle",(i*(360/count)+jitter)+"deg");
-      spark.style.setProperty("--distance",(64+Math.random()*66)+"px");
-      spark.style.setProperty("--spark",colors[(i+bi)%colors.length]);
-      burst.appendChild(spark)
+async function applyRoundPacket(m,useCountdown=false){if(m.players)onlinePlayers=cleanPlayers(m.players);onlineHostId=m.hostId||onlinePlayers.find(p=>p.role==="host")?.id||onlineHostId;onlineScores=cloneMap(m.scores);onlineAnswers=initStateForActive(null);onlineReady=initStateForActive(false);onlineReplayReady=initStateForActive(false);onlineTimerSeconds=+m.timer||0;onlineDeadline=+m.deadline||0;onlineQuestionNumber=Number(m.num||0);onlineQuestionLimit=Number(m.limit??onlineQuestionLimit);onlineCountdownEnd=Number(m.countdownEnd||0);let q=await resolveOnlineQuestion(m);if(!q?.question){onlineStatus("Question data could not be loaded.");return}onlineQuestion=q;markDeckQuestionSeen(q.id);onlinePhase="answer";$("onlineLobby").classList.add("hidden");$("home").classList.add("hidden");$("onlineGame").classList.remove("hidden");clearWinFireworks();winFireworksPlayed=false;if(useCountdown&&onlineCountdownEnd>Date.now())runOnlineCountdown(onlineCountdownEnd,()=>renderOnlineQuestion(false));else renderOnlineQuestion(false)}
+async function handleOnline(m){if(!m)return;if(m.target&&m.target!==onlinePlayerId)return;
+  if(m.t==="join_request"&&onlineRole==="host"){
+    let id=String(m.playerId||"");if(!id||id===onlinePlayerId)return;let existing=playerById(id);
+    if(onlinePhase!=="lobby"){
+      if(existing&&existing.active!==false){sendOnline({t:"join_accept",target:id,players:onlinePlayers,hostId:onlineHostId,max:MAX_ONLINE_PLAYERS,rejoin:true});sendOnline({t:"sync_state",target:id,state:buildOnlineSnapshot()})}
+      else sendOnline({t:"room_locked",target:id});return
     }
-    root.appendChild(burst)
-  });
-  setTimeout(clearWinFireworks,2600)
+    if(!existing&&onlinePlayers.length>=MAX_ONLINE_PLAYERS){sendOnline({t:"room_full",target:id});return}
+    hostReconcileLobby({id,joinedAt:m.joinedAt});existing=playerById(id);if(!existing){sendOnline({t:"room_full",target:id});return}sendOnline({t:"join_accept",target:id,players:onlinePlayers,hostId:onlineHostId,max:MAX_ONLINE_PLAYERS});return
+  }
+  if(m.t==="join_accept"&&onlineRole!=="host"){onlinePlayers=cleanPlayers(m.players);onlineHostId=m.hostId||onlinePlayers.find(p=>p.role==="host")?.id||null;finishJoinDecision(true);syncLobby();return}
+  if(m.t==="room_full"&&onlineRole!=="host"){finishJoinDecision(false,"This room already has 4 players.");return}
+  if(m.t==="room_locked"&&onlineRole!=="host"){finishJoinDecision(false,"This game has already started.");return}
+  if(m.t==="roster"){onlinePlayers=cleanPlayers(m.players);onlineHostId=m.hostId||onlineHostId;if(onlinePhase==="lobby")syncLobby();else renderOnlineScores();return}
+  if(m.t==="away"){
+    if(onlineRole==="host"&&m.playerId!==onlinePlayerId){onlineAwayPlayers.add(String(m.playerId));markPlayerDisconnected(m.playerId)}else if(onlineRole!=="host"&&m.playerId===onlineHostId)beginHostGrace();return
+  }
+  if(m.t==="back"){
+    if(onlineRole==="host"&&m.playerId!==onlinePlayerId){onlineAwayPlayers.delete(String(m.playerId));restorePlayerConnected(m.playerId)}else if(onlineRole!=="host"&&m.playerId===onlineHostId){stopHostGrace();sendOnline({t:"sync_request",playerId:onlinePlayerId,num:onlineQuestionNumber})}return
+  }
+  if(m.t==="sync_request"&&onlineRole==="host"){let id=String(m.playerId||""),p=playerById(id);if(p?.active!==false){onlineAwayPlayers.delete(id);if(p&&p.connected===false){p.connected=true;clearPlayerGrace(id);broadcastRoster();renderOnlineScores()}sendOnline({t:"sync_state",target:id,state:buildOnlineSnapshot()})}else sendOnline({t:"player_dropped",target:id,reason:"Your reconnect window expired."});return}
+  if(m.t==="sync_state"&&onlineRole!=="host"){stopHostGrace();await applyOnlineSnapshot(m.state);return}
+  if((m.t==="start"||m.t==="restart")&&onlineRole!=="host"){stopHostGrace();stopReadyRetry();stopReplayRetry();stopAnswerRetry();onlinePendingAnswer=null;await applyRoundPacket(m,true);return}
+  if(m.t==="question"&&onlineRole!=="host"){
+    stopHostGrace();let n=Number(m.num||onlineQuestionNumber+1);if(n<onlineQuestionNumber)return;if(n===onlineQuestionNumber&&onlinePhase==="answer"&&String(onlineQuestion?.id)===String(m.id))return;stopReadyRetry();stopAnswerRetry();onlinePendingAnswer=null;await applyRoundPacket(m,false);return
+  }
+  if(m.t==="answer"&&onlineRole==="host"&&Number(m.num||onlineQuestionNumber)===onlineQuestionNumber&&onlinePhase==="answer"){
+    let id=String(m.playerId||""),p=playerById(id);if(!p?.active)return;onlineAwayPlayers.delete(id);if(p.connected===false){p.connected=true;clearPlayerGrace(id);broadcastRoster();renderOnlineScores()}onlineAnswers[id]=m.answer;sendOnline({t:"answer_ack",target:id,num:onlineQuestionNumber,answer:m.answer});if(allActiveAnswered())hostReveal();return
+  }
+  if(m.t==="answer_ack"&&onlineRole!=="host"&&onlinePendingAnswer&&Number(m.num)===onlinePendingAnswer.num){onlinePendingAnswer=null;stopAnswerRetry();return}
+  if(m.t==="reveal"&&onlineRole!=="host"){stopHostGrace();onlinePlayers=cleanPlayers(m.players||onlinePlayers);onlineScores=cloneMap(m.scores);onlineAnswers=cloneMap(m.answers);onlinePendingAnswer=null;stopAnswerRetry();onlinePhase="result";renderOnlineReveal(!!m.timedOut);return}
+  if(m.t==="ready"&&onlineRole==="host"&&onlinePhase==="result"){
+    let id=String(m.playerId||""),p=playerById(id);if(Number(m.num)!==onlineQuestionNumber||!p?.active)return;onlineAwayPlayers.delete(id);if(p.connected===false){p.connected=true;clearPlayerGrace(id);broadcastRoster();renderOnlineScores()}onlineReady[id]=true;sendOnline({t:"ready_ack",target:id,num:onlineQuestionNumber,ready:onlineReady});sendOnline({t:"ready_state",ready:onlineReady,num:onlineQuestionNumber});if(allActiveReady())hostNextQuestion();return
+  }
+  if(m.t==="ready_ack"&&onlineRole!=="host"&&Number(m.num)===onlineQuestionNumber){stopReadyRetry();if(m.ready)onlineReady=cloneMap(m.ready);let n=waitingForReady();$("readyState").textContent=n?"Waiting for "+n+" player"+(n===1?"":"s"):"Starting…";return}
+  if(m.t==="ready_state"&&onlineRole!=="host"&&Number(m.num)===onlineQuestionNumber){onlineReady=cloneMap(m.ready);if(onlineReady[onlinePlayerId]){let n=waitingForReady();$("readyState").textContent=n?"Waiting for "+n+" player"+(n===1?"":"s"):"Starting…"}return}
+  if(m.t==="finish"&&onlineRole!=="host"){stopHostGrace();onlinePlayers=cleanPlayers(m.players||onlinePlayers);onlineScores=cloneMap(m.scores);onlinePhase="finished";renderOnlineFinal();return}
+  if(m.t==="replay"&&onlineRole==="host"&&onlinePhase==="finished"){
+    let id=String(m.playerId||""),p=playerById(id);if(!p?.active)return;onlineAwayPlayers.delete(id);if(p.connected===false){p.connected=true;clearPlayerGrace(id);broadcastRoster();renderOnlineScores()}onlineReplayReady[id]=true;sendOnline({t:"replay_ack",target:id,replayReady:onlineReplayReady});sendOnline({t:"replay_state",replayReady:onlineReplayReady});if(allActiveReplayReady())hostRestart();return
+  }
+  if(m.t==="replay_ack"&&onlineRole!=="host"){stopReplayRetry();if(m.replayReady)onlineReplayReady=cloneMap(m.replayReady);let n=waitingForReplay();$("replayState").textContent=n?"Waiting for "+n+" player"+(n===1?"":"s"):"Starting…";return}
+  if(m.t==="replay_state"&&onlineRole!=="host"){onlineReplayReady=cloneMap(m.replayReady);if(onlineReplayReady[onlinePlayerId]){let n=waitingForReplay();$("replayState").textContent=n?"Waiting for "+n+" player"+(n===1?"":"s"):"Starting…"}return}
+  if(m.t==="leave"&&onlineRole==="host"){
+    let id=String(m.playerId||"");if(onlinePhase==="lobby"){onlinePlayers=onlinePlayers.filter(p=>p.id!==id);assignPlayerLabels();syncLobby();broadcastRoster()}else dropPlayer(id,"Player left the game",false);return
+  }
+  if(m.t==="host_left"&&onlineRole!=="host"){showOnlineEnded("Host left the game","The online game has ended.");return}
+  if(m.t==="player_dropped"&&onlineRole!=="host"){showOnlineEnded("Disconnected too long",m.reason||"Your reconnect window expired.");return}
+  if(m.t==="game_ended"){showOnlineEnded("Online game ended",m.reason||"The game has ended.");return}
 }
-function renderOnlineFinal(){stopTimer();$("onlinePlayView").classList.add("hidden");$("onlineResultView").classList.add("hidden");$("questionProgress").textContent="";$("onlineFinalView").classList.remove("hidden");$("finalP1").querySelector("strong").textContent=onlineScores[0];$("finalP2").querySelector("strong").textContent=onlineScores[1];$("finalP1").classList.toggle("me",onlineRole==="host");$("finalP2").classList.toggle("me",onlineRole==="guest");let p=onlineRole==="host"?0:1,o=1-p,won=onlineScores[p]>onlineScores[o];$("finalMessage").textContent=won?"You win":onlineScores[p]<onlineScores[o]?"Good game":"Draw";$("onlineFinalView").classList.toggle("winState",won);if(won)launchWinFireworks();else clearWinFireworks();$("replayOnline").disabled=false;$("replayOnline").textContent="Replay";$("replayState").textContent=""}
-function requestReplay(){if(onlinePhase!=="finished")return;let p=onlineRole==="host"?0:1;if(onlineReplayReady[p])return;onlineReplayReady[p]=true;$("replayOnline").disabled=true;$("replayOnline").textContent="Ready";$("replayState").textContent="Waiting for the other player";if(onlineRole==="guest")sendOnline({t:"replay"});else if(onlineReplayReady[1])hostRestart()}
-function hostRestart(){stopReadyRetry();stopAnswerRetry();onlinePendingAnswer=null;clearWinFireworks();winFireworksPlayed=false;onlineScores=[0,0];onlineQuestionNumber=0;onlineReplayReady=[false,false];$("onlineFinalView").classList.add("hidden");let countdownEnd=Date.now()+3000;if(!hostNextQuestion(false,false,countdownEnd))return;onlineCountdownEnd=countdownEnd;onlineDeadline=onlineTimerSeconds?countdownEnd+onlineTimerSeconds*1000:0;let payload={t:"restart",id:onlineQuestion.id,question:onlineQuestion,scores:onlineScores,bank:selectedBankFile,timer:onlineTimerSeconds,deadline:onlineDeadline,num:onlineQuestionNumber,limit:onlineQuestionLimit,countdownEnd};sendOnline(payload);runOnlineCountdown(countdownEnd,()=>renderOnlineQuestion(false))}
-function onlineReadyNext(){if(onlinePhase!=="result")return;let p=onlineRole==="host"?0:1;if(onlineReady[p])return;onlineReady[p]=true;$("onlineContinue").disabled=true;$("onlineContinue").textContent="Ready";$("readyState").textContent=onlineRole==="host"?"Waiting for Player 2":"Waiting for Player 1";if(onlineRole==="guest")sendGuestReady();else if(onlineReady[1])hostNextQuestion()}$("onlineContinue").onclick=onlineReadyNext;
-async function otherPlayerLeft(){if(onlineIntentionalLeave)return;stopTimer();stopPeerGrace();stopOnlineCountdown();stopAnswerRetry();try{if(onlineChannel)await sb.removeChannel(onlineChannel)}catch(e){}onlineChannel=null;clearOnlineSessionUI();$("home").classList.remove("hidden");showL("onlineMenu");showOnlineEntry();$("playerLeftModal").classList.remove("hidden")}
-async function leaveOnline(){onlineIntentionalLeave=true;stopTimer();stopPeerGrace();stopOnlineCountdown();stopAnswerRetry();try{if(onlineChannel)sendOnline({t:"leave"})}catch(e){}try{if(onlineChannel)await sb.removeChannel(onlineChannel)}catch(e){}onlineChannel=null;clearOnlineSessionUI();onlineIntentionalLeave=false;$("home").classList.remove("hidden");showL("onlineMenu");showOnlineEntry()}
+function renderOnlineScores(){let root=$("onlineScoreStrip");root.replaceChildren();onlinePlayers.forEach(p=>{let chip=document.createElement("div");chip.className="scoreMini"+(p.id===onlinePlayerId?" me":"")+(p.connected===false?" disconnected":"")+(p.active===false?" inactive":"");chip.title=playerName(p)+(p.id===onlinePlayerId?" (You)":"");let lab=document.createElement("span"),scoreEl=document.createElement("strong");lab.textContent=p.label;scoreEl.textContent=Number(onlineScores[p.id]||0);chip.append(lab,scoreEl);root.append(chip)})}
+function renderOnlineQuestion(playSound=true){if(!onlineQuestion?.question)return false;renderOnlineScores();$("onlineFinalView").classList.add("hidden");$("questionProgress").textContent=onlineQuestionLimit>0?("Question "+onlineQuestionNumber+" of "+onlineQuestionLimit):("Question "+onlineQuestionNumber);$("onlinePlayView").classList.remove("hidden");$("onlineResultView").classList.add("hidden");$("onlineWait").textContent="";setQuestionContent($("onlineQ"),onlineQuestion);let b=$("onlineOpts");b.replaceChildren();onlineLetters.forEach(l=>{let x=document.createElement("button");x.className="soloOpt";x.textContent=onlineQuestion["option_"+l.toLowerCase()];x.onclick=e=>{e.stopPropagation();onlineAnswer(l)};b.append(x)});startTimer();if(playSound)gameSound("new");return true}
+function onlineAnswer(l){unlockAudio();if(onlinePhase!=="answer"||!ownPlayer()?.active)return;if(onlineAnswers[onlinePlayerId])return;onlineAnswers[onlinePlayerId]=l;[...$("onlineOpts").children].forEach(x=>x.disabled=true);$("onlineWait").textContent="Answer locked · waiting for other players";if(onlineRole!=="host"){onlinePendingAnswer={answer:l,num:onlineQuestionNumber};sendPendingAnswer()}else if(allActiveAnswered())hostReveal()}
+function hostReveal(timedOut=false){if(onlineRole!=="host"||onlinePhase!=="answer")return;stopTimer();onlinePhase="result";activePlayers().forEach(p=>{if(onlineAnswers[p.id]===onlineQuestion.correct)onlineScores[p.id]=Number(onlineScores[p.id]||0)+1});sendOnline({t:"reveal",players:onlinePlayers,answers:onlineAnswers,scores:onlineScores,timedOut,view:"result"});renderOnlineReveal(timedOut);if(allActiveReady())hostNextQuestion()}
+function renderOnlineReveal(timedOut=false,silent=false){stopTimer();$("timerText").textContent="";$("timerBar").classList.add("hidden");$("timerFill").style.transform="scaleX(0)";renderOnlineScores();let a=onlineAnswers[onlinePlayerId],ok=a===onlineQuestion.correct;$("onlinePlayView").classList.add("hidden");$("onlineResultView").classList.remove("hidden");$("resultMark").textContent=ok?"Correct":"Incorrect";$("resultMark").classList.toggle("correctState",ok);$("resultMark").classList.toggle("wrongState",!ok);$("resultAnswer").textContent=onlineQuestion["option_"+onlineQuestion.correct.toLowerCase()];$("onlineFeedback").textContent=onlineQuestion["feedback_"+onlineQuestion.correct.toLowerCase()];$("onlineContinue").disabled=!ownPlayer()?.active;$("onlineContinue").textContent="Next";$("readyState").textContent="";if(!silent)gameSound(ok?"correct":timedOut&&a==null?"timeout":"wrong")}
+function hostFinishGame(){stopTimer();stopReadyRetry();stopAnswerRetry();stopOnlineCountdown();onlinePhase="finished";onlineReplayReady=initStateForActive(false);sendOnline({t:"finish",players:onlinePlayers,scores:onlineScores});renderOnlineFinal()}
+function clearWinFireworks(){let root=$("winFireworks");if(root)root.replaceChildren()}
+function launchWinFireworks(){if(winFireworksPlayed||window.matchMedia?.("(prefers-reduced-motion: reduce)").matches)return;let root=$("winFireworks");if(!root)return;winFireworksPlayed=true;clearWinFireworks();const colors=["#ffffff","#9bc8f5","#6fa6dc","#406f9f","#b8d9fb"],bursts=[[18,28,0],[78,23,.18],[32,63,.34],[68,58,.52],[50,36,.72],[85,67,.92]];bursts.forEach(([x,y,d],bi)=>{let burst=document.createElement("div");burst.className="winFireworkBurst";burst.style.left=x+"%";burst.style.top=y+"%";burst.style.setProperty("--burst-delay",d+"s");for(let i=0;i<16;i++){let spark=document.createElement("i");spark.className="winFireworkSpark";spark.style.setProperty("--angle",(i*22.5+(Math.random()-.5)*10)+"deg");spark.style.setProperty("--distance",(64+Math.random()*66)+"px");spark.style.setProperty("--spark",colors[(i+bi)%colors.length]);burst.appendChild(spark)}root.appendChild(burst)});setTimeout(clearWinFireworks,2600)}
+function rankedPlayers(){let rows=onlinePlayers.map(p=>({p,score:Number(onlineScores[p.id]||0)})).sort((a,b)=>b.score-a.score||a.p.label.localeCompare(b.p.label));let last=null,rank=0;rows.forEach((r,i)=>{if(r.score!==last){rank=i+1;last=r.score}r.rank=rank});return rows}
+function renderOnlineFinal(){stopTimer();$("onlinePlayView").classList.add("hidden");$("onlineResultView").classList.add("hidden");$("questionProgress").textContent="";$("onlineFinalView").classList.remove("hidden");let root=$("finalLeaderboard");root.replaceChildren();let rows=rankedPlayers();rows.forEach(r=>{let row=document.createElement("div");row.className="finalLeaderRow"+(r.p.id===onlinePlayerId?" me":"");let rank=document.createElement("div"),badge=document.createElement("div"),name=document.createElement("div"),strong=document.createElement("strong"),small=document.createElement("small"),score=document.createElement("div");rank.className="finalRank";rank.textContent=r.rank;badge.className="finalLeaderBadge";badge.textContent=r.p.label;name.className="finalLeaderName";strong.textContent=playerName(r.p);small.textContent=(r.p.id===onlinePlayerId?"You · ":"")+(r.p.active===false?"Left game":r.p.role==="host"?"Host":"Player");name.append(strong,small);score.className="finalLeaderScore";score.textContent=r.score;row.append(rank,badge,name,score);root.append(row)});let own=rows.find(r=>r.p.id===onlinePlayerId),top=rows[0]?.score??0,winners=rows.filter(r=>r.score===top),won=own?.rank===1&&winners.length===1;$("finalMessage").textContent=won?"You win":own?.rank===1?"Tied for first":"Game complete";$("onlineFinalView").classList.toggle("winState",!!won);if(won)launchWinFireworks();else clearWinFireworks();$("replayOnline").disabled=!ownPlayer()?.active;$("replayOnline").textContent="Replay";$("replayState").textContent=""}
+function requestReplay(){if(onlinePhase!=="finished"||!ownPlayer()?.active||onlineReplayReady[onlinePlayerId])return;onlineReplayReady[onlinePlayerId]=true;$("replayOnline").disabled=true;$("replayOnline").textContent="Ready";let n=waitingForReplay();$("replayState").textContent=n?"Waiting for "+n+" player"+(n===1?"":"s"):"Starting…";if(onlineRole!=="host")sendReplayReady();else{sendOnline({t:"replay_state",replayReady:onlineReplayReady});if(allActiveReplayReady())hostRestart()}}
+function hostRestart(){if(onlineRole!=="host")return;stopReadyRetry();stopReplayRetry();stopAnswerRetry();onlinePendingAnswer=null;clearWinFireworks();winFireworksPlayed=false;onlinePlayers=onlinePlayers.filter(p=>p.active!==false);assignPlayerLabels();onlineScores={};onlinePlayers.forEach(p=>onlineScores[p.id]=0);onlineQuestionNumber=0;onlineReplayReady=initStateForActive(false);$("onlineFinalView").classList.add("hidden");let countdownEnd=Date.now()+3000;if(!hostNextQuestion(false,false,countdownEnd))return;onlineCountdownEnd=countdownEnd;let payload={t:"restart",id:onlineQuestion.id,question:onlineQuestion,players:onlinePlayers,hostId:onlineHostId,scores:onlineScores,bank:selectedBankFile,timer:onlineTimerSeconds,deadline:onlineDeadline,num:onlineQuestionNumber,limit:onlineQuestionLimit,countdownEnd};sendOnline(payload);runOnlineCountdown(countdownEnd,()=>renderOnlineQuestion(false))}
+function onlineReadyNext(){if(onlinePhase!=="result"||!ownPlayer()?.active||onlineReady[onlinePlayerId])return;onlineReady[onlinePlayerId]=true;$("onlineContinue").disabled=true;$("onlineContinue").textContent="Ready";let n=waitingForReady();$("readyState").textContent=n?"Waiting for "+n+" player"+(n===1?"":"s"):"Starting…";if(onlineRole!=="host")sendPlayerReady();else{sendOnline({t:"ready_state",ready:onlineReady,num:onlineQuestionNumber});if(allActiveReady())hostNextQuestion()}}
+$("onlineContinue").onclick=onlineReadyNext;
+async function showOnlineEnded(title,text){if(onlineIntentionalLeave)return;stopTimer();stopHostGrace();stopOnlineCountdown();stopAnswerRetry();stopReadyRetry();stopReplayRetry();clearAllPlayerGrace();try{if(onlineChannel)await sb.removeChannel(onlineChannel)}catch(e){}onlineChannel=null;clearOnlineSessionUI();$("home").classList.remove("hidden");showL("onlineMenu");showOnlineEntry();$("playerLeftTitle").textContent=title||"Online game ended";$("playerLeftText").textContent=text||"The room is no longer available.";$("playerLeftModal").classList.remove("hidden")}
+function endHostOnlyGame(){if(onlineRole!=="host")return;sendOnline({t:"game_ended",reason:"No other players remain in the room."});showOnlineEnded("Players left","No other players remain in the room.")}
+async function leaveOnline(){onlineIntentionalLeave=true;stopTimer();stopHostGrace();stopOnlineCountdown();stopAnswerRetry();stopReadyRetry();stopReplayRetry();clearAllPlayerGrace();try{if(onlineChannel){if(onlineRole==="host")await sendOnline({t:"host_left",playerId:onlinePlayerId});else await sendOnline({t:"leave",playerId:onlinePlayerId})}}catch(e){}try{if(onlineChannel)await sb.removeChannel(onlineChannel)}catch(e){}onlineChannel=null;clearOnlineSessionUI();onlineIntentionalLeave=false;$("home").classList.remove("hidden");showL("onlineMenu");showOnlineEntry()}
 $("playerLeftOk").onclick=()=>$("playerLeftModal").classList.add("hidden");
-$("createRoom").onclick=async()=>{closeQuizPickers();await unlockAudio();let b=$("createRoom"),s=b.querySelector("span");b.disabled=true;s.textContent="Creating…";onlineStatus("");try{onlineTimerSeconds=selectedTimer();onlineQuestionLimit=selectedAmount();await openRoom(makeCode(),"host")}catch(e){onlineStatus(e.message||"Could not create room.");b.disabled=false;s.textContent="Create room"}};
-$("joinRoom").onclick=async()=>{await unlockAudio();let c=$("roomCodeInput").value,b=$("joinRoom"),s=b.querySelector("span");if(c.length!==6)return onlineStatus("Enter the room code.");b.disabled=true;s.textContent="Joining…";onlineStatus("");try{await openRoom(c,"guest");resetJoinCode()}catch(e){onlineStatus(e.message||"Could not join room.");b.disabled=false;s.textContent="Join room"}};
-$("startOnline").onclick=async()=>{clearWinFireworks();winFireworksPlayed=false;await unlockAudio();if(onlineStarting)return;if(!presenceRoles().includes("guest"))return onlineStatus("Waiting for Player 2.");if(!bank||!bank.length)return onlineStatus("Quiz library is not ready.");onlineStarting=true;onlineStatus("");syncLobby();onlineQuestionNumber=0;onlineScores=[0,0];let countdownEnd=Date.now()+3000;if(!hostNextQuestion(false,false,countdownEnd)){onlineStarting=false;syncLobby();return}onlineCountdownEnd=countdownEnd;onlineDeadline=onlineTimerSeconds?countdownEnd+onlineTimerSeconds*1000:0;let startPayload={t:"start",id:onlineQuestion.id,question:onlineQuestion,bank:selectedBankFile,scores:onlineScores,timer:onlineTimerSeconds,deadline:onlineDeadline,num:onlineQuestionNumber,limit:onlineQuestionLimit,countdownEnd};$("onlineLobby").classList.add("hidden");$("home").classList.add("hidden");$("onlineGame").classList.remove("hidden");onlineStarting=false;sendOnline(startPayload).then(ok=>{if(!ok&&onlinePhase==="answer")$("onlineWait").textContent="Connection issue — reconnecting…"});runOnlineCountdown(countdownEnd,()=>renderOnlineQuestion(false))};
-$("replayOnline").onclick=requestReplay;$("mainMenuOnline").onclick=leaveOnline;$("onlineExit").onclick=()=>{$("exitOnlineModal").classList.remove("hidden")};
+function inviteUrl(){let u=new URL(location.href);u.searchParams.delete("_fresh");u.searchParams.set("room",onlineRoom||"");return u.href}
+async function copyText(text){try{await navigator.clipboard.writeText(text);return true}catch(e){try{let ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.opacity="0";document.body.append(ta);ta.select();let ok=document.execCommand("copy");ta.remove();return ok}catch(_e){return false}}}
+$("shareRoom").onclick=async()=>{if(onlineRole!=="host"||!onlineRoom)return;let url=inviteUrl();try{if(navigator.share){await navigator.share({title:"Language Training",text:"Join my Language Training game",url});$("lobbyShareStatus").textContent="Invite shared"}else if(await copyText(url))$("lobbyShareStatus").textContent="Invite link copied";else $("lobbyShareStatus").textContent="Could not copy invite"}catch(e){if(e?.name!=="AbortError")$("lobbyShareStatus").textContent="Could not share invite"}}
+function clearRoomInviteParam(){let u=new URL(location.href);if(!u.searchParams.has("room"))return;u.searchParams.delete("room");history.replaceState(null,"",u.pathname+u.search+u.hash)}
+function applyRoomInviteFromUrl(){let u=new URL(location.href),code=(u.searchParams.get("room")||"").replace(/\D/g,"").slice(0,6);if(code.length!==6)return;showL("onlineMenu");showOnlineEntry();$("onlineEntry").classList.add("hidden");$("joinGameFlow").classList.remove("hidden");$("roomCodeInput").value=code;onlineStatus("Invite loaded. Tap Join room.")}
+$("createRoom").onclick=async()=>{closeQuizPickers();await unlockAudio();let b=$("createRoom"),s=b.querySelector("span");b.disabled=true;s.textContent="Creating…";onlineStatus("");onlineTimerSeconds=selectedTimer();onlineQuestionLimit=selectedAmount();let lastError=null;for(let attempt=0;attempt<4;attempt++){try{await openRoom(makeCode(),"host");lastError=null;break}catch(e){lastError=e;if(!/collision/i.test(e.message||""))break}}if(lastError){onlineStatus(lastError.message||"Could not create room.");b.disabled=false;s.textContent="Create room"}};
+$("joinRoom").onclick=async()=>{await unlockAudio();let c=$("roomCodeInput").value,b=$("joinRoom"),s=b.querySelector("span");if(c.length!==6)return onlineStatus("Enter the room code.");b.disabled=true;s.textContent="Joining…";onlineStatus("");try{await openRoom(c,"player");resetJoinCode()}catch(e){onlineStatus(e.message||"Could not join room.");b.disabled=false;s.textContent="Join room"}};
+$("startOnline").onclick=async()=>{clearWinFireworks();winFireworksPlayed=false;await unlockAudio();if(onlineStarting||onlineRole!=="host")return;if(onlinePlayers.length<2)return onlineStatus("Waiting for another player.");if(!bank||!bank.length)return onlineStatus("Quiz library is not ready.");onlineStarting=true;onlineStatus("");syncLobby();onlinePlayers.forEach(p=>{p.active=true;p.connected=true});onlineScores={};onlinePlayers.forEach(p=>onlineScores[p.id]=0);onlineQuestionNumber=0;onlineReplayReady=initStateForActive(false);let countdownEnd=Date.now()+3000;if(!hostNextQuestion(false,false,countdownEnd)){onlineStarting=false;syncLobby();return}onlineCountdownEnd=countdownEnd;let startPayload={t:"start",id:onlineQuestion.id,question:onlineQuestion,players:onlinePlayers,hostId:onlineHostId,bank:selectedBankFile,scores:onlineScores,timer:onlineTimerSeconds,deadline:onlineDeadline,num:onlineQuestionNumber,limit:onlineQuestionLimit,countdownEnd};$("onlineLobby").classList.add("hidden");$("home").classList.add("hidden");$("onlineGame").classList.remove("hidden");onlineStarting=false;sendOnline(startPayload).then(ok=>{if(!ok&&onlinePhase==="answer")$("onlineWait").textContent="Connection issue — reconnecting…"});runOnlineCountdown(countdownEnd,()=>renderOnlineQuestion(false))};
+$("replayOnline").onclick=requestReplay;$("mainMenuOnline").onclick=leaveOnline;$("onlineExit").onclick=()=>{$("exitOnlineText").textContent=onlineRole==="host"?"Leaving will end the online game for everyone.":"You will leave this room. The other players can continue.";$("exitOnlineModal").classList.remove("hidden")};
 $("exitOnlineCancel").onclick=()=>{$("exitOnlineModal").classList.add("hidden")};
 $("exitOnlineConfirm").onclick=async()=>{$("exitOnlineModal").classList.add("hidden");await leaveOnline()};
 $("exitOnlineModal").onclick=e=>{if(e.target===$("exitOnlineModal"))$("exitOnlineModal").classList.add("hidden")};
-initQB();})();
-</script><script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=42").then(r=>r.update()).catch(()=>{}))}</script>
-<!-- Build v42 · One-time fresh session reload -->
+initQB().finally(()=>applyRoomInviteFromUrl());})();
+</script><script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=43").then(r=>r.update()).catch(()=>{}))}</script>
+<!-- Build v43 · Four-player online rooms + invite links -->
 </body></html>
