@@ -1,4 +1,40 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#263f5d"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><title>Language Training</title>
+<script>
+/* v42 one-time fresh load per browser session; preserves localStorage/question deck */
+(()=> {
+  const SESSION_KEY="turkishFreshSessionV1";
+  const CACHE_PARAM="_fresh";
+  let url=new URL(location.href);
+
+  if(!sessionStorage.getItem(SESSION_KEY)){
+    sessionStorage.setItem(SESSION_KEY,"1");
+    url.searchParams.set(CACHE_PARAM,Date.now().toString(36));
+
+    const refresh=()=>location.replace(url.href);
+
+    if("serviceWorker" in navigator){
+      navigator.serviceWorker.getRegistration()
+        .then(async reg=>{
+          if(!reg)return;
+          try{
+            await reg.update();
+            if(reg.waiting)reg.waiting.postMessage({type:"SKIP_WAITING"});
+          }catch(e){}
+        })
+        .finally(refresh);
+    }else{
+      refresh();
+    }
+    return;
+  }
+
+  if(url.searchParams.has(CACHE_PARAM)){
+    url.searchParams.delete(CACHE_PARAM);
+    history.replaceState(null,"",url.pathname+url.search+url.hash);
+  }
+})();
+</script>
+
 <style>
 :root{--bg:#f7f4ee;--card:#fffdf9;--text:#252a33;--muted:#747d8b;--line:#dedbd2;--accent:#66768b;--good:#dff2e5;--bad:#f8e5e2;--wait:#eeeae2}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,sans-serif}.hidden{display:none!important}button,label{font:inherit}button{cursor:pointer}
@@ -1395,6 +1431,152 @@ h1,h2,h3,strong{color:var(--ink)}
   }
 }
 </style>
+
+<style>
+/* v41 multiplayer color cleanup + touch highlight fix */
+
+/* Remove browser tap flash / blue tap rectangles on touch devices. */
+html,body,#app,*{
+  -webkit-tap-highlight-color:transparent!important;
+}
+button,a,label,input,select,textarea,[role="button"]{
+  -webkit-tap-highlight-color:transparent!important;
+}
+:focus:not(:focus-visible){
+  outline:none!important;
+}
+
+/* Keep keyboard accessibility on real keyboard/precision-pointer devices. */
+@media (hover:hover) and (pointer:fine){
+  button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[role="button"]:focus-visible{
+    outline:3px solid rgba(54,91,130,.28)!important;
+    outline-offset:2px!important;
+  }
+}
+/* On touch, do not leave a blue/outlined focus box after a tap. */
+@media (hover:none) and (pointer:coarse){
+  button:focus,button:focus-visible,
+  a:focus,a:focus-visible,
+  label:focus,label:focus-visible,
+  [role="button"]:focus,[role="button"]:focus-visible{
+    outline:none!important;
+  }
+}
+
+/* Multiplayer mode cards use exactly the same neutral/navy treatment. */
+#twoMenu .modeCard,
+#localMenu .modeCard,
+#onlineEntry .flowCard,
+#onlineEntry .flowCreate,
+#onlineEntry .flowJoin{
+  background:#fff!important;
+  color:var(--ink)!important;
+  border:1px solid var(--navy-border)!important;
+  box-shadow:0 10px 25px rgba(38,63,93,.09)!important;
+}
+#twoMenu .modeCard:hover,
+#localMenu .modeCard:hover,
+#onlineEntry .flowCard:hover,
+#onlineEntry .flowCreate:hover,
+#onlineEntry .flowJoin:hover{
+  background:#f8fbff!important;
+  border-color:var(--navy-mid)!important;
+  box-shadow:0 13px 30px rgba(38,63,93,.14),0 0 20px rgba(75,127,183,.09)!important;
+}
+#onlineEntry .flowIcon,
+#onlineEntry .flowCreate .flowIcon,
+#onlineEntry .flowJoin .flowIcon{
+  background:var(--navy-soft)!important;
+  color:var(--navy-dark)!important;
+  border:1px solid var(--navy-border)!important;
+}
+#onlineEntry .flowArrow{
+  color:var(--navy-mid)!important;
+}
+#onlineEntry .flowCard small{
+  color:var(--muted)!important;
+}
+
+/* Explicitly remove the old beige/green sticky online header treatment. */
+.onlineTop{
+  position:sticky!important;
+  top:0!important;
+  z-index:5!important;
+  padding:5px 0 10px!important;
+  margin:0 auto 12px!important;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(238,243,249,.985) 0%,
+      rgba(238,243,249,.985) 74%,
+      rgba(238,243,249,0) 100%
+    )!important;
+}
+.onlineTop .scoreChip,
+#scoreP1,#scoreP2{
+  background:#fff!important;
+  color:var(--ink)!important;
+  border:1px solid var(--border)!important;
+  box-shadow:0 5px 15px rgba(31,39,50,.07)!important;
+}
+.onlineTop .scoreChip.me,
+#scoreP1.me,#scoreP2.me{
+  background:var(--navy-soft)!important;
+  color:var(--navy-dark)!important;
+  border:2px solid var(--navy-border)!important;
+}
+.onlineTop .scoreChip span,
+#scoreP1 span,#scoreP2 span{
+  background:var(--navy-soft)!important;
+  color:var(--navy-dark)!important;
+}
+.onlineTop .scoreChip.me span,
+#scoreP1.me span,#scoreP2.me span{
+  background:#cddff2!important;
+}
+.onlineTop .exitOnline{
+  background:#fff!important;
+  color:var(--navy)!important;
+  border:1px solid var(--border)!important;
+  box-shadow:0 4px 12px rgba(31,39,50,.06)!important;
+}
+.onlineTop .exitOnline:hover{
+  background:var(--navy-soft)!important;
+  color:var(--navy-dark)!important;
+  border-color:var(--navy-border)!important;
+}
+
+/* Also remove residual old colored setup selectors that could win through specificity. */
+#onlineMenu .setupCard,
+#onlineMenu .codeCard,
+#onlineMenu .lobbyCard,
+#onlineMenu .playerBadge{
+  background:#fff!important;
+  color:var(--ink)!important;
+  border-color:var(--border)!important;
+}
+#onlineMenu .amountChoice.sel{
+  background:var(--navy-soft)!important;
+  color:var(--navy-dark)!important;
+  border-color:var(--navy-border)!important;
+  box-shadow:none!important;
+}
+#onlineMenu .switchTrack{
+  background:#cfd8e3!important;
+}
+#onlineMenu .timerSwitch input:checked+.switchTrack{
+  background:var(--navy)!important;
+}
+
+/* Prevent native pressed/focus appearance from reintroducing platform color. */
+button{
+  -webkit-appearance:none;
+  appearance:none;
+}
+button:active{
+  -webkit-tap-highlight-color:transparent!important;
+}
+</style>
 </head><body><div id="app">
 <section id="home" class="home">
 <div id="mainMenu" class="menuScreen"><div class="mainMenuBackdrop" aria-hidden="true"><span class="cloud cloudA"></span><span class="cloud cloudB"></span><span class="cloud cloudC"></span><span class="cloud cloudD"></span></div><h1>Language Training</h1>
@@ -1798,6 +1980,6 @@ $("exitOnlineCancel").onclick=()=>{$("exitOnlineModal").classList.add("hidden")}
 $("exitOnlineConfirm").onclick=async()=>{$("exitOnlineModal").classList.add("hidden");await leaveOnline()};
 $("exitOnlineModal").onclick=e=>{if(e.target===$("exitOnlineModal"))$("exitOnlineModal").classList.add("hidden")};
 initQB();})();
-</script><script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=40").then(r=>r.update()).catch(()=>{}))}</script>
-<!-- Build v40 · Unified navy visual system + win fireworks -->
+</script><script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=42").then(r=>r.update()).catch(()=>{}))}</script>
+<!-- Build v42 · One-time fresh session reload -->
 </body></html>
