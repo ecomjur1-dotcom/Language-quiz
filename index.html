@@ -1771,10 +1771,109 @@ button:active{
   .finalLeaderBadge{width:36px;height:36px}
 }
 </style>
+
+<style>
+/* v44 flow UX: direct home actions + live multiplayer wait/disconnect feedback */
+#mainMenu .mainLaunchGrid{
+  position:relative;
+  z-index:3;
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+#mainMenu .mainLaunchCard{
+  min-width:0;
+  min-height:132px!important;
+  padding:19px 15px!important;
+  text-align:left;
+}
+#mainMenu .mainLaunchCard strong{
+  display:block;
+  font-size:clamp(1.05rem,3.4vw,1.22rem);
+}
+#mainMenu .mainLaunchCard span{
+  display:block;
+  margin-top:6px;
+  color:var(--muted);
+  font-size:.84rem;
+  line-height:1.3;
+}
+#mainMenu .mainSoloAction{
+  position:relative;
+  z-index:3;
+  width:100%;
+  min-height:52px;
+  margin-top:12px;
+  padding:11px 15px;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:9px;
+  text-align:left;
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:#fff;
+  color:var(--ink);
+  box-shadow:0 7px 18px rgba(31,39,50,.07);
+}
+#mainMenu .mainSoloAction strong{font-size:.96rem}
+#mainMenu .mainSoloAction span{color:var(--muted);font-size:.82rem}
+#mainMenu .mainSoloAction b{color:var(--navy-mid);font-size:18px}
+#mainMenu .mainSoloAction:hover:not(:disabled){
+  border-color:var(--navy-border);
+  background:#f8fbff;
+}
+#mainMenu .mainSoloAction:disabled{
+  opacity:.58;
+  cursor:not-allowed;
+}
+.scoreMini.disconnected{
+  opacity:1!important;
+  border-color:var(--wrong-border)!important;
+  background:var(--wrong-bg)!important;
+}
+.scoreMini.disconnected span{
+  background:#ead2d8!important;
+  color:var(--wrong-text)!important;
+}
+.scoreDisconnectCountdown{
+  min-width:28px;
+  padding:3px 5px;
+  border-radius:7px;
+  background:#fff;
+  color:var(--wrong-text);
+  font-style:normal;
+  font-size:10px;
+  font-weight:950;
+  line-height:1;
+  text-align:center;
+  box-shadow:0 1px 4px rgba(104,38,51,.08);
+}
+#onlineWait,.readyState{
+  min-height:22px;
+  letter-spacing:.01em;
+}
+@media(max-width:620px){
+  #mainMenu .mainLaunchGrid{
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+  #mainMenu .mainLaunchCard{
+    min-height:92px!important;
+    padding:16px!important;
+  }
+}
+</style>
 </head><body><div id="app">
 <section id="home" class="home">
 <div id="mainMenu" class="menuScreen"><div class="mainMenuBackdrop" aria-hidden="true"><span class="cloud cloudA"></span><span class="cloud cloudB"></span><span class="cloud cloudC"></span><span class="cloud cloudD"></span></div><h1>Language Training</h1>
-<div class="mainModes"><button id="soloStart" class="modeCard" disabled><strong>One Player</strong><span>Practice solo</span></button><button id="twoFlow" class="modeCard" disabled><strong>Multiplayer</strong><span>Play together</span></button></div>
+<div class="mainLaunchGrid">
+  <button id="mainCreateGame" class="modeCard mainLaunchCard" disabled><strong>Create Game</strong><span>Start an online room</span></button>
+  <button id="mainJoinGame" class="modeCard mainLaunchCard" disabled><strong>Join Game</strong><span>Enter an online room</span></button>
+  <button id="mainLocalGame" class="modeCard mainLaunchCard" disabled><strong>Local Game</strong><span>Play on this phone</span></button>
+</div>
+<button id="soloStart" class="mainSoloAction" disabled><strong>One Player</strong><span>Solo practice</span><b>→</b></button>
 <div id="status" class="status hidden">Loading quiz library…</div><div id="err" class="error hidden"></div></div>
 <div id="soloMenu" class="menuScreen hidden setupScreen">
   <div class="screenHead"><button id="soloBack" class="backBtn">← Back</button><h2>One Player</h2></div>
@@ -1998,7 +2097,7 @@ function closeQuizPickers(){[["soloBankPanel","soloQuizPicker"],["createBankPane
 function toggleQuizPicker(panelId,buttonId){let panel=$(panelId),btn=$(buttonId),opening=panel.classList.contains("hidden");closeQuizPickers();if(opening){panel.classList.remove("hidden");btn.setAttribute("aria-expanded","true");panel.scrollIntoView({block:"nearest",behavior:"smooth"})}}
 function renderBankChoices(id){let x=$(id);if(!x)return;x.innerHTML="";quizCatalog.forEach(o=>{let f=typeof o==="string"?o:o.file,n=typeof o==="string"?nice(f):(o.name||nice(f)),b=document.createElement("button");b.className="bankCard"+(f===selectedBankFile?" selected":"");b.innerHTML="<strong></strong><span></span>";b.children[0].textContent=n;b.children[1].textContent=f===selectedBankFile?"Selected":"Select";b.onclick=async()=>{try{await loadQB(f,n);closeQuizPickers()}catch(e){$("err").textContent=e.message;$("err").classList.remove("hidden")}};x.appendChild(b)})}
 function drawBanks(){renderBankChoices("soloBankList");renderBankChoices("createBankList");updateQuizPickerLabels()}
-async function loadQB(f,n){let r=await fetch("./quiz-banks/"+encodeURIComponent(f)+"?v=10",{cache:"no-store"});if(!r.ok)throw Error("Could not load "+f+" ("+r.status+")");bank=valid(csv(await r.text()));selectedBankFile=f;console.info("[Quiz bank]",f,bank.length+" rows",new Set(bank.map(q=>q.id)).size+" unique IDs",new Set(bank.map(q=>q.question)).size+" unique question texts");$("status").textContent=bank.length+" questions ready";$("soloStart").disabled=false;$("twoFlow").disabled=false;localStorage.setItem("turkishQuizBank",f);drawBanks()}
+async function loadQB(f,n){let r=await fetch("./quiz-banks/"+encodeURIComponent(f)+"?v=10",{cache:"no-store"});if(!r.ok)throw Error("Could not load "+f+" ("+r.status+")");bank=valid(csv(await r.text()));selectedBankFile=f;console.info("[Quiz bank]",f,bank.length+" rows",new Set(bank.map(q=>q.id)).size+" unique IDs",new Set(bank.map(q=>q.question)).size+" unique question texts");$("status").textContent=bank.length+" questions ready";$("soloStart").disabled=false;$("mainCreateGame").disabled=false;$("mainJoinGame").disabled=false;$("mainLocalGame").disabled=false;localStorage.setItem("turkishQuizBank",f);drawBanks()}
 async function initQB(){try{let r=await fetch("./quiz-banks/index.json?v=10",{cache:"no-store"});quizCatalog=await r.json();let s=localStorage.getItem("turkishQuizBank"),o=quizCatalog.find(x=>(typeof x==="string"?x:x.file)===s)||quizCatalog[0];if(!o)throw Error("No quiz banks found.");await loadQB(typeof o==="string"?o:o.file,typeof o==="string"?nice(o):o.name)}catch(e){$("status").textContent="Quiz library unavailable";$("err").textContent=e.message;$("err").classList.remove("hidden")}}
 $("soloStart").onclick=()=>{closeQuizPickers();drawBanks();showL("soloMenu")};
 $("soloQuizPicker").onclick=()=>toggleQuizPicker("soloBankPanel","soloQuizPicker");
@@ -2010,11 +2109,17 @@ $("soloExit").onclick=()=>{stopSoloTimer();$("soloGame").classList.add("hidden")
 document.querySelectorAll(".soloAmountChoice").forEach(b=>b.onclick=()=>{document.querySelectorAll(".soloAmountChoice").forEach(x=>x.classList.remove("sel"));b.classList.add("sel")});
 $("soloTimerEnabled").onchange=()=>{$("soloTimerSecondsWrap").classList.toggle("hidden",!$("soloTimerEnabled").checked)};
 $("soloTimerSecondsInput").oninput=()=>{let v=$("soloTimerSecondsInput").value.replace?.(/\D/g,"");if(v!==undefined&&v!=="")$("soloTimerSecondsInput").value=Math.min(600,Math.max(1,Number(v)))};
-$("twoFlow").onclick=()=>showL("twoMenu");$("twoBack").onclick=()=>showL("mainMenu");$("localOpen").onclick=()=>showL("localMenu");$("localBack").onclick=()=>showL("twoMenu");$("onlineOpen").onclick=()=>{showL("onlineMenu");showOnlineEntry()};$("onlineBack").onclick=async()=>{if(onlineChannel){await leaveOnline();showL("twoMenu")}else{clearOnlineSessionUI();showL("twoMenu")}};
+$("twoBack").onclick=()=>showL("mainMenu");
+$("localOpen").onclick=()=>showL("localMenu");
+$("localBack").onclick=()=>showL("mainMenu");
+$("onlineOpen").onclick=()=>{showL("onlineMenu");showOnlineEntry()};
+$("onlineBack").onclick=async()=>{if(onlineChannel)await leaveOnline();else clearOnlineSessionUI();showL("mainMenu")};
 function resetJoinCode(){$("roomCodeInput").value=""}
 function clearJoinHandshake(){if(onlineJoinTimer){clearTimeout(onlineJoinTimer);onlineJoinTimer=null}if(onlineJoinRetryId){clearInterval(onlineJoinRetryId);onlineJoinRetryId=null}onlineJoinResolve=null;onlineJoinReject=null}
 function clearPlayerGrace(id){let g=onlineDisconnectTimers.get(id);if(!g)return;if(g.timeout)clearTimeout(g.timeout);if(g.interval)clearInterval(g.interval);onlineDisconnectTimers.delete(id)}
-function clearAllPlayerGrace(){[...onlineDisconnectTimers.keys()].forEach(clearPlayerGrace)}
+function clearAllPlayerGrace(){[...onlineDisconnectTimers.keys()].forEach(clearPlayerGrace);stopDisconnectUiTicker()}
+function stopDisconnectUiTicker(){if(onlineDisconnectUiId){clearInterval(onlineDisconnectUiId);onlineDisconnectUiId=null}}
+function ensureDisconnectUiTicker(){let live=onlinePlayers.some(p=>p.active!==false&&p.connected===false&&Number(p.disconnectDeadline)>Date.now());if(!live){stopDisconnectUiTicker();return}if(onlineDisconnectUiId)return;onlineDisconnectUiId=setInterval(()=>{let still=onlinePlayers.some(p=>p.active!==false&&p.connected===false&&Number(p.disconnectDeadline)>Date.now());renderOnlineScores();refreshOnlineWaitLabels();if(!still)stopDisconnectUiTicker()},250)}
 function clearOnlineSessionUI(){
   stopTimer();stopReadyRetry();stopReplayRetry();stopOnlineCountdown();stopHostGrace();stopAnswerRetry();clearJoinHandshake();clearAllPlayerGrace();clearWinFireworks();winFireworksPlayed=false;resetJoinCode();
   onlineRoom=null;onlineRole=null;onlineHostId=null;onlinePlayers=[];onlineQuestion=null;onlineScores={};onlineAnswers={};onlineReady={};onlineReplayReady={};onlinePendingAnswer=null;onlineStarting=false;onlinePhase="lobby";onlineQuestionNumber=0;onlineQuestionLimit=10;onlineDeadline=0;onlineCountdownEnd=0;onlineSelfAwayAt=0;onlineJoinedAt=0;onlineAwayPlayers.clear();
@@ -2022,14 +2127,19 @@ function clearOnlineSessionUI(){
 }
 function showOnlineEntry(){resetJoinCode();$("onlineLobby").classList.add("hidden");$("onlineEntry").classList.remove("hidden");$("createGameFlow").classList.add("hidden");$("joinGameFlow").classList.add("hidden");$("createRoom").disabled=false;$("createRoom").querySelector("span").textContent="Create room";$("joinRoom").disabled=false;$("joinRoom").querySelector("span").textContent="Join room";$("startOnline").disabled=false;$("startOnline").querySelector("span").textContent="Start game";$("onlineMsg").textContent=""}
 function resetOnlineEntry(){showOnlineEntry()}
-$("createFlowOpen").onclick=()=>{closeQuizPickers();drawBanks();$("onlineEntry").classList.add("hidden");$("createGameFlow").classList.remove("hidden")};
-$("joinFlowOpen").onclick=()=>{resetJoinCode();$("onlineEntry").classList.add("hidden");$("joinGameFlow").classList.remove("hidden");$("roomCodeInput").focus()};
+function openCreateGameFlow(){showL("onlineMenu");showOnlineEntry();closeQuizPickers();drawBanks();$("onlineEntry").classList.add("hidden");$("createGameFlow").classList.remove("hidden")}
+function openJoinGameFlow(){showL("onlineMenu");showOnlineEntry();resetJoinCode();$("onlineEntry").classList.add("hidden");$("joinGameFlow").classList.remove("hidden");$("roomCodeInput").focus()}
+$("createFlowOpen").onclick=openCreateGameFlow;
+$("joinFlowOpen").onclick=openJoinGameFlow;
+$("mainCreateGame").onclick=openCreateGameFlow;
+$("mainJoinGame").onclick=openJoinGameFlow;
+$("mainLocalGame").onclick=()=>showL("localMenu");
 $("layoutSide").onclick=()=>{layout="side";startGame()};$("layoutOpp").onclick=()=>{layout="opposite";startGame()};
 
 /* v43 Supabase online multiplayer: host-authoritative, 2–4 players. */
 const SB_URL="https://weqwbvlyxpcdueupinbd.supabase.co",SB_KEY="sb_publishable_i8xAsf80hKZWSLhPwPM7gg_1SKr1_Bi",MAX_ONLINE_PLAYERS=4;
 function sessionPlayerId(){let id="";try{id=sessionStorage.getItem("turkishOnlinePlayerId")||"";if(!id){id=(crypto.randomUUID?.()||("p-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2)));sessionStorage.setItem("turkishOnlinePlayerId",id)}}catch(e){id="p-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2)}return id}
-let sb=null,onlineChannel=null,onlineRole=null,onlineRoom=null,onlineAuthUser=null,onlinePlayerId=sessionPlayerId(),onlineJoinedAt=0,onlineHostId=null,onlinePlayers=[],onlineQuestion=null,onlineScores={},onlineAnswers={},onlineReady={},onlinePhase="lobby",onlineTimerSeconds=0,onlineTimerId=null,onlineDeadline=0,onlineIntentionalLeave=false,onlineQuestionLimit=10,onlineQuestionNumber=0,onlineReplayReady={},onlineReadyRetryId=null,onlineReplayRetryId=null,onlineStarting=false,onlineCountdownId=null,onlineCountdownEnd=0,onlineHostGraceId=null,onlineHostGraceDeadline=0,onlineSelfAwayAt=0,onlineAnswerRetryId=null,onlinePendingAnswer=null,onlineRecovering=false,onlineDisconnectTimers=new Map(),onlineAwayPlayers=new Set(),onlineJoinResolve=null,onlineJoinReject=null,onlineJoinTimer=null,onlineJoinRetryId=null,winFireworksPlayed=false;const onlineLetters=["A","B","C","D"];
+let sb=null,onlineChannel=null,onlineRole=null,onlineRoom=null,onlineAuthUser=null,onlinePlayerId=sessionPlayerId(),onlineJoinedAt=0,onlineHostId=null,onlinePlayers=[],onlineQuestion=null,onlineScores={},onlineAnswers={},onlineReady={},onlinePhase="lobby",onlineTimerSeconds=0,onlineTimerId=null,onlineDeadline=0,onlineIntentionalLeave=false,onlineQuestionLimit=10,onlineQuestionNumber=0,onlineReplayReady={},onlineReadyRetryId=null,onlineReplayRetryId=null,onlineStarting=false,onlineCountdownId=null,onlineCountdownEnd=0,onlineHostGraceId=null,onlineHostGraceDeadline=0,onlineSelfAwayAt=0,onlineAnswerRetryId=null,onlinePendingAnswer=null,onlineRecovering=false,onlineDisconnectTimers=new Map(),onlineDisconnectUiId=null,onlineAwayPlayers=new Set(),onlineJoinResolve=null,onlineJoinReject=null,onlineJoinTimer=null,onlineJoinRetryId=null,winFireworksPlayed=false;const onlineLetters=["A","B","C","D"];
 function gameSound(k){unlockAudio().then(()=>{if(k==="tick")playToneSequence([880],"sine",.035,.045,.05);else if(k==="countdown")playToneSequence([440],"sine",.11,.10,.06);else if(k==="go")playToneSequence([523.25,783.99],"sine",.14,.16,.08);else if(k==="new")playToneSequence([392,523.25],"sine",.07,.10,.07);else if(k==="correct")playToneSequence([523.25,659.25,783.99],"sine",.13,.16,.09);else if(k==="wrong"||k==="timeout")playToneSequence([220,164.81],"triangle",.11,.22,.09)})}
 async function ensureSB(){if(!window.supabase)throw Error("Could not load Supabase.");if(!sb)sb=window.supabase.createClient(SB_URL,SB_KEY);let{data:{session}}=await sb.auth.getSession();if(!session){let r=await sb.auth.signInAnonymously();if(r.error)throw r.error;session=r.data.session}onlineAuthUser=session.user.id}
 function onlineStatus(t){$("onlineMsg").textContent=t||""}
@@ -2042,7 +2152,7 @@ function selectedAmount(){return Number(document.querySelector(".amountChoice.se
 $("roomCodeInput").oninput=e=>e.target.value=e.target.value.replace(/\D/g,"").slice(0,6);$("roomCodeInput").onkeydown=e=>{if(e.key==="Enter")$("joinRoom").click()};
 function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
 function cloneMap(v){return v&&typeof v==="object"&&!Array.isArray(v)?{...v}:{}}
-function cleanPlayers(list){return(Array.isArray(list)?list:[]).slice(0,MAX_ONLINE_PLAYERS).filter(p=>p&&p.id).map((p,i)=>({id:String(p.id),label:p.label||("P"+(i+1)),role:p.role==="host"?"host":"player",connected:p.connected!==false,active:p.active!==false,joinedAt:Number(p.joinedAt)||0}))}
+function cleanPlayers(list){return(Array.isArray(list)?list:[]).slice(0,MAX_ONLINE_PLAYERS).filter(p=>p&&p.id).map((p,i)=>({id:String(p.id),label:p.label||("P"+(i+1)),role:p.role==="host"?"host":"player",connected:p.connected!==false,active:p.active!==false,joinedAt:Number(p.joinedAt)||0,disconnectDeadline:Number(p.disconnectDeadline)||0,disconnectReason:String(p.disconnectReason||"")}))}
 function playerById(id){return onlinePlayers.find(p=>p.id===String(id))||null}
 function ownPlayer(){return playerById(onlinePlayerId)}
 function activePlayers(){return onlinePlayers.filter(p=>p.active!==false)}
@@ -2064,6 +2174,12 @@ function initStateForActive(defaultValue=null){let o={};activeIds().forEach(id=>
 function waitingForAnswers(){return activePlayers().filter(p=>onlineAnswers[p.id]==null).length}
 function waitingForReady(){return activePlayers().filter(p=>!onlineReady[p.id]).length}
 function waitingForReplay(){return activePlayers().filter(p=>!onlineReplayReady[p.id]).length}
+function playerWaitText(n,done="Starting…"){return n>0?"Waiting for "+n+" player"+(n===1?"":"s"):done}
+function refreshOnlineWaitLabels(){
+  if(onlinePhase==="answer"&&onlineAnswers[onlinePlayerId]!=null)$("onlineWait").textContent="Answer locked · "+playerWaitText(waitingForAnswers(),"All players answered");
+  if(onlinePhase==="result"&&onlineReady[onlinePlayerId])$("readyState").textContent="Ready · "+playerWaitText(waitingForReady());
+  if(onlinePhase==="finished"&&onlineReplayReady[onlinePlayerId])$("replayState").textContent="Ready · "+playerWaitText(waitingForReplay());
+}
 function allActiveAnswered(){let ids=activeIds();return ids.length>=2&&ids.every(id=>onlineAnswers[id]!=null)}
 function allActiveReady(){let ids=activeIds();return ids.length>=2&&ids.every(id=>onlineReady[id])}
 function allActiveReplayReady(){let ids=activeIds();return ids.length>=2&&ids.every(id=>onlineReplayReady[id])}
@@ -2079,12 +2195,12 @@ function stopOnlineCountdown(){if(onlineCountdownId!==null){cancelAnimationFrame
 function runOnlineCountdown(end,done){stopOnlineCountdown();onlineCountdownEnd=Number(end)||Date.now()+3000;$("onlineCountdown").classList.remove("hidden");$("onlinePlayView").classList.add("hidden");$("onlineResultView").classList.add("hidden");$("onlineFinalView").classList.add("hidden");let last=null,finished=false;let frame=()=>{if(finished)return;let ms=onlineCountdownEnd-Date.now();if(ms<=0){finished=true;onlineCountdownId=null;$("onlineCountdown").classList.add("hidden");gameSound("go");done?.();return}let n=Math.max(1,Math.min(3,Math.ceil(ms/1000)));if(n!==last){let el=$("onlineCountdownNumber");el.textContent=n;el.classList.remove("pulse");void el.offsetWidth;el.classList.add("pulse");gameSound("countdown");last=n}onlineCountdownId=requestAnimationFrame(frame)};frame()}
 function buildOnlineSnapshot(){return{phase:onlinePhase,id:onlineQuestion?.id||null,question:onlineQuestion,bank:selectedBankFile,players:onlinePlayers,hostId:onlineHostId,scores:onlineScores,answers:onlineAnswers,ready:onlineReady,replayReady:onlineReplayReady,timer:onlineTimerSeconds,deadline:onlineDeadline,num:onlineQuestionNumber,limit:onlineQuestionLimit,countdownEnd:onlineCountdownEnd}}
 async function applyOnlineSnapshot(s){if(!s)return;if(s.players)onlinePlayers=cleanPlayers(s.players);onlineHostId=s.hostId||onlinePlayers.find(p=>p.role==="host")?.id||onlineHostId;onlineScores=cloneMap(s.scores);onlineAnswers=cloneMap(s.answers);onlineReady=cloneMap(s.ready);onlineReplayReady=cloneMap(s.replayReady);onlineTimerSeconds=+s.timer||0;onlineDeadline=+s.deadline||0;onlineQuestionNumber=Number(s.num||onlineQuestionNumber);onlineQuestionLimit=Number(s.limit??onlineQuestionLimit);onlineCountdownEnd=Number(s.countdownEnd||0);onlinePhase=s.phase||onlinePhase;let me=ownPlayer();if(me&&me.active===false){showOnlineEnded("You left the game","Your reconnect window expired.");return}let q=await resolveOnlineQuestion(s);if(q){onlineQuestion=q;markDeckQuestionSeen(q.id)}$("onlineLobby").classList.add("hidden");$("home").classList.add("hidden");$("onlineGame").classList.remove("hidden");renderOnlineScores();if(onlinePhase==="answer"&&onlineQuestion){if(onlineCountdownEnd>Date.now())runOnlineCountdown(onlineCountdownEnd,()=>{renderOnlineQuestion(false);restoreOwnAnswerState()});else{renderOnlineQuestion(false);restoreOwnAnswerState()}}else if(onlinePhase==="result"&&onlineQuestion){renderOnlineReveal(false,true)}else if(onlinePhase==="finished")renderOnlineFinal()}
-function restoreOwnAnswerState(){let a=onlineAnswers[onlinePlayerId];if(a){[...$("onlineOpts").children].forEach(x=>x.disabled=true);$("onlineWait").textContent="Answer locked · waiting for other players"}if(onlineRole!=="host"){if(onlineAnswers[onlinePlayerId]){onlinePendingAnswer=null;stopAnswerRetry()}else if(onlinePendingAnswer&&onlinePendingAnswer.num===onlineQuestionNumber)sendPendingAnswer()}}
+function restoreOwnAnswerState(){let a=onlineAnswers[onlinePlayerId];if(a){[...$("onlineOpts").children].forEach(x=>x.disabled=true);refreshOnlineWaitLabels()}if(onlineRole!=="host"){if(onlineAnswers[onlinePlayerId]){onlinePendingAnswer=null;stopAnswerRetry()}else if(onlinePendingAnswer&&onlinePendingAnswer.num===onlineQuestionNumber)sendPendingAnswer()}}
 function stopHostGrace(){if(onlineHostGraceId){clearInterval(onlineHostGraceId);onlineHostGraceId=null}onlineHostGraceDeadline=0;$("connectionGrace").classList.add("hidden")}
 function beginHostGrace(){if(onlineRole==="host"||onlineIntentionalLeave||onlinePhase==="lobby"||!onlineRoom||onlineHostGraceId)return;stopTimer();onlineHostGraceDeadline=Date.now()+20000;$("connectionGraceTitle").textContent="Host disconnected";$("connectionGraceText").textContent="Waiting for the host to return.";$("connectionGrace").classList.remove("hidden");let tick=()=>{let sec=Math.max(0,Math.ceil((onlineHostGraceDeadline-Date.now())/1000));$("connectionGraceSeconds").textContent=sec;if(sec<=0){stopHostGrace();showOnlineEnded("Host disconnected","The host did not reconnect within 20 seconds.")}};tick();onlineHostGraceId=setInterval(tick,250)}
-function markPlayerDisconnected(id){if(onlineRole!=="host"||id===onlinePlayerId)return;let p=playerById(id);if(!p||p.active===false)return;p.connected=false;renderOnlineScores();broadcastRoster();if(onlineDisconnectTimers.has(id))return;let deadline=Date.now()+20000,timeout=setTimeout(()=>dropPlayer(id,"Disconnected for more than 20 seconds"),20000);onlineDisconnectTimers.set(id,{deadline,timeout,interval:null})}
-function restorePlayerConnected(id){if(onlineRole!=="host")return;let p=playerById(id);if(!p)return;if(p.active===false){sendOnline({t:"player_dropped",target:id,reason:"Your reconnect window expired."});return}if(p.connected!==false&&!onlineDisconnectTimers.has(id))return;p.connected=true;clearPlayerGrace(id);broadcastRoster();renderOnlineScores();sendOnline({t:"sync_state",target:id,state:buildOnlineSnapshot()})}
-function dropPlayer(id,reason="Player left",notify=true){if(onlineRole!=="host")return;let p=playerById(id);if(!p||p.role==="host"||p.active===false)return;p.active=false;p.connected=false;onlineAwayPlayers.delete(String(id));clearPlayerGrace(id);if(notify)sendOnline({t:"player_dropped",target:id,reason});broadcastRoster();renderOnlineScores();if(activePlayers().length<2){endHostOnlyGame();return}if(onlinePhase==="answer"&&allActiveAnswered())hostReveal(false);else if(onlinePhase==="result"&&allActiveReady())hostNextQuestion();else if(onlinePhase==="finished"&&allActiveReplayReady())hostRestart()}
+function markPlayerDisconnected(id,reason="Player disconnected"){if(onlineRole!=="host"||id===onlinePlayerId)return;let p=playerById(id);if(!p||p.active===false)return;if(onlineDisconnectTimers.has(id)){renderOnlineScores();ensureDisconnectUiTicker();return}let deadline=Date.now()+20000;p.connected=false;p.disconnectDeadline=deadline;p.disconnectReason=reason;let timeout=setTimeout(()=>dropPlayer(id,reason==="Player left the game"?"Player left the game":"Disconnected for more than 20 seconds"),20000);onlineDisconnectTimers.set(id,{deadline,timeout,interval:null});renderOnlineScores();ensureDisconnectUiTicker();broadcastRoster();refreshOnlineWaitLabels()}
+function restorePlayerConnected(id){if(onlineRole!=="host")return;let p=playerById(id);if(!p)return;if(p.active===false){sendOnline({t:"player_dropped",target:id,reason:"Your reconnect window expired."});return}if(p.connected!==false&&!onlineDisconnectTimers.has(id))return;p.connected=true;p.disconnectDeadline=0;p.disconnectReason="";clearPlayerGrace(id);broadcastRoster();renderOnlineScores();ensureDisconnectUiTicker();refreshOnlineWaitLabels();sendOnline({t:"sync_state",target:id,state:buildOnlineSnapshot()})}
+function dropPlayer(id,reason="Player left",notify=true){if(onlineRole!=="host")return;let p=playerById(id);if(!p||p.role==="host"||p.active===false)return;p.active=false;p.connected=false;p.disconnectDeadline=0;p.disconnectReason=reason;onlineAwayPlayers.delete(String(id));clearPlayerGrace(id);if(notify)sendOnline({t:"player_dropped",target:id,reason});broadcastRoster();renderOnlineScores();ensureDisconnectUiTicker();refreshOnlineWaitLabels();if(activePlayers().length<2){endHostOnlyGame();return}if(onlinePhase==="answer"&&allActiveAnswered())hostReveal(false);else if(onlinePhase==="result"&&allActiveReady())hostNextQuestion();else if(onlinePhase==="finished"&&allActiveReplayReady())hostRestart()}
 function hostHandlePresence(){if(onlineRole!=="host"||onlinePhase==="lobby")return;let ids=presenceIds();onlinePlayers.forEach(p=>{if(p.id===onlinePlayerId||p.active===false)return;ids.has(p.id)&&!onlineAwayPlayers.has(p.id)?restorePlayerConnected(p.id):markPlayerDisconnected(p.id)})}
 function guestHandleHostPresence(){if(onlineRole==="host"||onlinePhase==="lobby"||!onlineHostId)return;presenceIds().has(onlineHostId)?stopHostGrace():beginHostGrace()}
 function handlePresenceHealth(){if(!onlineRoom||onlineIntentionalLeave)return;if(onlineRole==="host"){if(onlinePhase==="lobby")hostReconcileLobby();else hostHandlePresence()}else guestHandleHostPresence()}
@@ -2110,7 +2226,7 @@ async function handleOnline(m){if(!m)return;if(m.target&&m.target!==onlinePlayer
   if(m.t==="join_accept"&&onlineRole!=="host"){onlinePlayers=cleanPlayers(m.players);onlineHostId=m.hostId||onlinePlayers.find(p=>p.role==="host")?.id||null;finishJoinDecision(true);syncLobby();return}
   if(m.t==="room_full"&&onlineRole!=="host"){finishJoinDecision(false,"This room already has 4 players.");return}
   if(m.t==="room_locked"&&onlineRole!=="host"){finishJoinDecision(false,"This game has already started.");return}
-  if(m.t==="roster"){onlinePlayers=cleanPlayers(m.players);onlineHostId=m.hostId||onlineHostId;if(onlinePhase==="lobby")syncLobby();else renderOnlineScores();return}
+  if(m.t==="roster"){onlinePlayers=cleanPlayers(m.players);onlineHostId=m.hostId||onlineHostId;if(onlinePhase==="lobby")syncLobby();else{renderOnlineScores();ensureDisconnectUiTicker();refreshOnlineWaitLabels()}return}
   if(m.t==="away"){
     if(onlineRole==="host"&&m.playerId!==onlinePlayerId){onlineAwayPlayers.add(String(m.playerId));markPlayerDisconnected(m.playerId)}else if(onlineRole!=="host"&&m.playerId===onlineHostId)beginHostGrace();return
   }
@@ -2124,31 +2240,32 @@ async function handleOnline(m){if(!m)return;if(m.target&&m.target!==onlinePlayer
     stopHostGrace();let n=Number(m.num||onlineQuestionNumber+1);if(n<onlineQuestionNumber)return;if(n===onlineQuestionNumber&&onlinePhase==="answer"&&String(onlineQuestion?.id)===String(m.id))return;stopReadyRetry();stopAnswerRetry();onlinePendingAnswer=null;await applyRoundPacket(m,false);return
   }
   if(m.t==="answer"&&onlineRole==="host"&&Number(m.num||onlineQuestionNumber)===onlineQuestionNumber&&onlinePhase==="answer"){
-    let id=String(m.playerId||""),p=playerById(id);if(!p?.active)return;onlineAwayPlayers.delete(id);if(p.connected===false){p.connected=true;clearPlayerGrace(id);broadcastRoster();renderOnlineScores()}onlineAnswers[id]=m.answer;sendOnline({t:"answer_ack",target:id,num:onlineQuestionNumber,answer:m.answer});if(allActiveAnswered())hostReveal();return
+    let id=String(m.playerId||""),p=playerById(id);if(!p?.active)return;onlineAwayPlayers.delete(id);if(p.connected===false){p.connected=true;clearPlayerGrace(id);broadcastRoster();renderOnlineScores()}onlineAnswers[id]=m.answer;sendOnline({t:"answer_ack",target:id,num:onlineQuestionNumber,answer:m.answer,answers:onlineAnswers});sendOnline({t:"answer_state",answers:onlineAnswers,num:onlineQuestionNumber});refreshOnlineWaitLabels();if(allActiveAnswered())hostReveal();return
   }
-  if(m.t==="answer_ack"&&onlineRole!=="host"&&onlinePendingAnswer&&Number(m.num)===onlinePendingAnswer.num){onlinePendingAnswer=null;stopAnswerRetry();return}
+  if(m.t==="answer_ack"&&onlineRole!=="host"&&Number(m.num)===onlineQuestionNumber){if(m.answers)onlineAnswers=cloneMap(m.answers);if(onlinePendingAnswer&&Number(m.num)===onlinePendingAnswer.num){onlinePendingAnswer=null;stopAnswerRetry()}refreshOnlineWaitLabels();return}
+  if(m.t==="answer_state"&&onlineRole!=="host"&&Number(m.num)===onlineQuestionNumber){onlineAnswers=cloneMap(m.answers);refreshOnlineWaitLabels();return}
   if(m.t==="reveal"&&onlineRole!=="host"){stopHostGrace();onlinePlayers=cleanPlayers(m.players||onlinePlayers);onlineScores=cloneMap(m.scores);onlineAnswers=cloneMap(m.answers);onlinePendingAnswer=null;stopAnswerRetry();onlinePhase="result";renderOnlineReveal(!!m.timedOut);return}
   if(m.t==="ready"&&onlineRole==="host"&&onlinePhase==="result"){
     let id=String(m.playerId||""),p=playerById(id);if(Number(m.num)!==onlineQuestionNumber||!p?.active)return;onlineAwayPlayers.delete(id);if(p.connected===false){p.connected=true;clearPlayerGrace(id);broadcastRoster();renderOnlineScores()}onlineReady[id]=true;sendOnline({t:"ready_ack",target:id,num:onlineQuestionNumber,ready:onlineReady});sendOnline({t:"ready_state",ready:onlineReady,num:onlineQuestionNumber});if(allActiveReady())hostNextQuestion();return
   }
-  if(m.t==="ready_ack"&&onlineRole!=="host"&&Number(m.num)===onlineQuestionNumber){stopReadyRetry();if(m.ready)onlineReady=cloneMap(m.ready);let n=waitingForReady();$("readyState").textContent=n?"Waiting for "+n+" player"+(n===1?"":"s"):"Starting…";return}
-  if(m.t==="ready_state"&&onlineRole!=="host"&&Number(m.num)===onlineQuestionNumber){onlineReady=cloneMap(m.ready);if(onlineReady[onlinePlayerId]){let n=waitingForReady();$("readyState").textContent=n?"Waiting for "+n+" player"+(n===1?"":"s"):"Starting…"}return}
+  if(m.t==="ready_ack"&&onlineRole!=="host"&&Number(m.num)===onlineQuestionNumber){stopReadyRetry();if(m.ready)onlineReady=cloneMap(m.ready);let n=waitingForReady();$("readyState").textContent="Ready · "+playerWaitText(n);return}
+  if(m.t==="ready_state"&&onlineRole!=="host"&&Number(m.num)===onlineQuestionNumber){onlineReady=cloneMap(m.ready);if(onlineReady[onlinePlayerId]){let n=waitingForReady();$("readyState").textContent="Ready · "+playerWaitText(n)}return}
   if(m.t==="finish"&&onlineRole!=="host"){stopHostGrace();onlinePlayers=cleanPlayers(m.players||onlinePlayers);onlineScores=cloneMap(m.scores);onlinePhase="finished";renderOnlineFinal();return}
   if(m.t==="replay"&&onlineRole==="host"&&onlinePhase==="finished"){
     let id=String(m.playerId||""),p=playerById(id);if(!p?.active)return;onlineAwayPlayers.delete(id);if(p.connected===false){p.connected=true;clearPlayerGrace(id);broadcastRoster();renderOnlineScores()}onlineReplayReady[id]=true;sendOnline({t:"replay_ack",target:id,replayReady:onlineReplayReady});sendOnline({t:"replay_state",replayReady:onlineReplayReady});if(allActiveReplayReady())hostRestart();return
   }
-  if(m.t==="replay_ack"&&onlineRole!=="host"){stopReplayRetry();if(m.replayReady)onlineReplayReady=cloneMap(m.replayReady);let n=waitingForReplay();$("replayState").textContent=n?"Waiting for "+n+" player"+(n===1?"":"s"):"Starting…";return}
-  if(m.t==="replay_state"&&onlineRole!=="host"){onlineReplayReady=cloneMap(m.replayReady);if(onlineReplayReady[onlinePlayerId]){let n=waitingForReplay();$("replayState").textContent=n?"Waiting for "+n+" player"+(n===1?"":"s"):"Starting…"}return}
+  if(m.t==="replay_ack"&&onlineRole!=="host"){stopReplayRetry();if(m.replayReady)onlineReplayReady=cloneMap(m.replayReady);let n=waitingForReplay();$("replayState").textContent="Ready · "+playerWaitText(n);return}
+  if(m.t==="replay_state"&&onlineRole!=="host"){onlineReplayReady=cloneMap(m.replayReady);if(onlineReplayReady[onlinePlayerId]){let n=waitingForReplay();$("replayState").textContent="Ready · "+playerWaitText(n)}return}
   if(m.t==="leave"&&onlineRole==="host"){
-    let id=String(m.playerId||"");if(onlinePhase==="lobby"){onlinePlayers=onlinePlayers.filter(p=>p.id!==id);assignPlayerLabels();syncLobby();broadcastRoster()}else dropPlayer(id,"Player left the game",false);return
+    let id=String(m.playerId||"");if(onlinePhase==="lobby"){onlinePlayers=onlinePlayers.filter(p=>p.id!==id);assignPlayerLabels();syncLobby();broadcastRoster()}else markPlayerDisconnected(id,"Player left the game");return
   }
   if(m.t==="host_left"&&onlineRole!=="host"){showOnlineEnded("Host left the game","The online game has ended.");return}
   if(m.t==="player_dropped"&&onlineRole!=="host"){showOnlineEnded("Disconnected too long",m.reason||"Your reconnect window expired.");return}
   if(m.t==="game_ended"){showOnlineEnded("Online game ended",m.reason||"The game has ended.");return}
 }
-function renderOnlineScores(){let root=$("onlineScoreStrip");root.replaceChildren();onlinePlayers.forEach(p=>{let chip=document.createElement("div");chip.className="scoreMini"+(p.id===onlinePlayerId?" me":"")+(p.connected===false?" disconnected":"")+(p.active===false?" inactive":"");chip.title=playerName(p)+(p.id===onlinePlayerId?" (You)":"");let lab=document.createElement("span"),scoreEl=document.createElement("strong");lab.textContent=p.label;scoreEl.textContent=Number(onlineScores[p.id]||0);chip.append(lab,scoreEl);root.append(chip)})}
-function renderOnlineQuestion(playSound=true){if(!onlineQuestion?.question)return false;renderOnlineScores();$("onlineFinalView").classList.add("hidden");$("questionProgress").textContent=onlineQuestionLimit>0?("Question "+onlineQuestionNumber+" of "+onlineQuestionLimit):("Question "+onlineQuestionNumber);$("onlinePlayView").classList.remove("hidden");$("onlineResultView").classList.add("hidden");$("onlineWait").textContent="";setQuestionContent($("onlineQ"),onlineQuestion);let b=$("onlineOpts");b.replaceChildren();onlineLetters.forEach(l=>{let x=document.createElement("button");x.className="soloOpt";x.textContent=onlineQuestion["option_"+l.toLowerCase()];x.onclick=e=>{e.stopPropagation();onlineAnswer(l)};b.append(x)});startTimer();if(playSound)gameSound("new");return true}
-function onlineAnswer(l){unlockAudio();if(onlinePhase!=="answer"||!ownPlayer()?.active)return;if(onlineAnswers[onlinePlayerId])return;onlineAnswers[onlinePlayerId]=l;[...$("onlineOpts").children].forEach(x=>x.disabled=true);$("onlineWait").textContent="Answer locked · waiting for other players";if(onlineRole!=="host"){onlinePendingAnswer={answer:l,num:onlineQuestionNumber};sendPendingAnswer()}else if(allActiveAnswered())hostReveal()}
+function renderOnlineScores(){let root=$("onlineScoreStrip");root.replaceChildren();activePlayers().forEach(p=>{let chip=document.createElement("div");chip.className="scoreMini"+(p.id===onlinePlayerId?" me":"")+(p.connected===false?" disconnected":"");chip.title=playerName(p)+(p.id===onlinePlayerId?" (You)":"");let lab=document.createElement("span"),scoreEl=document.createElement("strong");lab.textContent=p.label;scoreEl.textContent=Number(onlineScores[p.id]||0);chip.append(lab,scoreEl);if(p.connected===false&&Number(p.disconnectDeadline)>0){let sec=Math.max(0,Math.ceil((Number(p.disconnectDeadline)-Date.now())/1000)),count=document.createElement("em");count.className="scoreDisconnectCountdown";count.textContent=sec+"s";count.title="Reconnect time remaining";chip.append(count)}root.append(chip)})}
+function renderOnlineQuestion(playSound=true){if(!onlineQuestion?.question)return false;renderOnlineScores();ensureDisconnectUiTicker();$("onlineFinalView").classList.add("hidden");$("questionProgress").textContent=onlineQuestionLimit>0?("Question "+onlineQuestionNumber+" of "+onlineQuestionLimit):("Question "+onlineQuestionNumber);$("onlinePlayView").classList.remove("hidden");$("onlineResultView").classList.add("hidden");$("onlineWait").textContent="";setQuestionContent($("onlineQ"),onlineQuestion);let b=$("onlineOpts");b.replaceChildren();onlineLetters.forEach(l=>{let x=document.createElement("button");x.className="soloOpt";x.textContent=onlineQuestion["option_"+l.toLowerCase()];x.onclick=e=>{e.stopPropagation();onlineAnswer(l)};b.append(x)});startTimer();if(playSound)gameSound("new");return true}
+function onlineAnswer(l){unlockAudio();if(onlinePhase!=="answer"||!ownPlayer()?.active)return;if(onlineAnswers[onlinePlayerId])return;onlineAnswers[onlinePlayerId]=l;[...$("onlineOpts").children].forEach(x=>x.disabled=true);refreshOnlineWaitLabels();if(onlineRole!=="host"){onlinePendingAnswer={answer:l,num:onlineQuestionNumber};sendPendingAnswer()}else{sendOnline({t:"answer_state",answers:onlineAnswers,num:onlineQuestionNumber});if(allActiveAnswered())hostReveal()}}
 function hostReveal(timedOut=false){if(onlineRole!=="host"||onlinePhase!=="answer")return;stopTimer();onlinePhase="result";activePlayers().forEach(p=>{if(onlineAnswers[p.id]===onlineQuestion.correct)onlineScores[p.id]=Number(onlineScores[p.id]||0)+1});sendOnline({t:"reveal",players:onlinePlayers,answers:onlineAnswers,scores:onlineScores,timedOut,view:"result"});renderOnlineReveal(timedOut);if(allActiveReady())hostNextQuestion()}
 function renderOnlineReveal(timedOut=false,silent=false){stopTimer();$("timerText").textContent="";$("timerBar").classList.add("hidden");$("timerFill").style.transform="scaleX(0)";renderOnlineScores();let a=onlineAnswers[onlinePlayerId],ok=a===onlineQuestion.correct;$("onlinePlayView").classList.add("hidden");$("onlineResultView").classList.remove("hidden");$("resultMark").textContent=ok?"Correct":"Incorrect";$("resultMark").classList.toggle("correctState",ok);$("resultMark").classList.toggle("wrongState",!ok);$("resultAnswer").textContent=onlineQuestion["option_"+onlineQuestion.correct.toLowerCase()];$("onlineFeedback").textContent=onlineQuestion["feedback_"+onlineQuestion.correct.toLowerCase()];$("onlineContinue").disabled=!ownPlayer()?.active;$("onlineContinue").textContent="Next";$("readyState").textContent="";if(!silent)gameSound(ok?"correct":timedOut&&a==null?"timeout":"wrong")}
 function hostFinishGame(){stopTimer();stopReadyRetry();stopAnswerRetry();stopOnlineCountdown();onlinePhase="finished";onlineReplayReady=initStateForActive(false);sendOnline({t:"finish",players:onlinePlayers,scores:onlineScores});renderOnlineFinal()}
@@ -2156,9 +2273,9 @@ function clearWinFireworks(){let root=$("winFireworks");if(root)root.replaceChil
 function launchWinFireworks(){if(winFireworksPlayed||window.matchMedia?.("(prefers-reduced-motion: reduce)").matches)return;let root=$("winFireworks");if(!root)return;winFireworksPlayed=true;clearWinFireworks();const colors=["#ffffff","#9bc8f5","#6fa6dc","#406f9f","#b8d9fb"],bursts=[[18,28,0],[78,23,.18],[32,63,.34],[68,58,.52],[50,36,.72],[85,67,.92]];bursts.forEach(([x,y,d],bi)=>{let burst=document.createElement("div");burst.className="winFireworkBurst";burst.style.left=x+"%";burst.style.top=y+"%";burst.style.setProperty("--burst-delay",d+"s");for(let i=0;i<16;i++){let spark=document.createElement("i");spark.className="winFireworkSpark";spark.style.setProperty("--angle",(i*22.5+(Math.random()-.5)*10)+"deg");spark.style.setProperty("--distance",(64+Math.random()*66)+"px");spark.style.setProperty("--spark",colors[(i+bi)%colors.length]);burst.appendChild(spark)}root.appendChild(burst)});setTimeout(clearWinFireworks,2600)}
 function rankedPlayers(){let rows=onlinePlayers.map(p=>({p,score:Number(onlineScores[p.id]||0)})).sort((a,b)=>b.score-a.score||a.p.label.localeCompare(b.p.label));let last=null,rank=0;rows.forEach((r,i)=>{if(r.score!==last){rank=i+1;last=r.score}r.rank=rank});return rows}
 function renderOnlineFinal(){stopTimer();$("onlinePlayView").classList.add("hidden");$("onlineResultView").classList.add("hidden");$("questionProgress").textContent="";$("onlineFinalView").classList.remove("hidden");let root=$("finalLeaderboard");root.replaceChildren();let rows=rankedPlayers();rows.forEach(r=>{let row=document.createElement("div");row.className="finalLeaderRow"+(r.p.id===onlinePlayerId?" me":"");let rank=document.createElement("div"),badge=document.createElement("div"),name=document.createElement("div"),strong=document.createElement("strong"),small=document.createElement("small"),score=document.createElement("div");rank.className="finalRank";rank.textContent=r.rank;badge.className="finalLeaderBadge";badge.textContent=r.p.label;name.className="finalLeaderName";strong.textContent=playerName(r.p);small.textContent=(r.p.id===onlinePlayerId?"You · ":"")+(r.p.active===false?"Left game":r.p.role==="host"?"Host":"Player");name.append(strong,small);score.className="finalLeaderScore";score.textContent=r.score;row.append(rank,badge,name,score);root.append(row)});let own=rows.find(r=>r.p.id===onlinePlayerId),top=rows[0]?.score??0,winners=rows.filter(r=>r.score===top),won=own?.rank===1&&winners.length===1;$("finalMessage").textContent=won?"You win":own?.rank===1?"Tied for first":"Game complete";$("onlineFinalView").classList.toggle("winState",!!won);if(won)launchWinFireworks();else clearWinFireworks();$("replayOnline").disabled=!ownPlayer()?.active;$("replayOnline").textContent="Replay";$("replayState").textContent=""}
-function requestReplay(){if(onlinePhase!=="finished"||!ownPlayer()?.active||onlineReplayReady[onlinePlayerId])return;onlineReplayReady[onlinePlayerId]=true;$("replayOnline").disabled=true;$("replayOnline").textContent="Ready";let n=waitingForReplay();$("replayState").textContent=n?"Waiting for "+n+" player"+(n===1?"":"s"):"Starting…";if(onlineRole!=="host")sendReplayReady();else{sendOnline({t:"replay_state",replayReady:onlineReplayReady});if(allActiveReplayReady())hostRestart()}}
+function requestReplay(){if(onlinePhase!=="finished"||!ownPlayer()?.active||onlineReplayReady[onlinePlayerId])return;onlineReplayReady[onlinePlayerId]=true;$("replayOnline").disabled=true;$("replayOnline").textContent="Ready";let n=waitingForReplay();$("replayState").textContent="Ready · "+playerWaitText(n);if(onlineRole!=="host")sendReplayReady();else{sendOnline({t:"replay_state",replayReady:onlineReplayReady});if(allActiveReplayReady())hostRestart()}}
 function hostRestart(){if(onlineRole!=="host")return;stopReadyRetry();stopReplayRetry();stopAnswerRetry();onlinePendingAnswer=null;clearWinFireworks();winFireworksPlayed=false;onlinePlayers=onlinePlayers.filter(p=>p.active!==false);assignPlayerLabels();onlineScores={};onlinePlayers.forEach(p=>onlineScores[p.id]=0);onlineQuestionNumber=0;onlineReplayReady=initStateForActive(false);$("onlineFinalView").classList.add("hidden");let countdownEnd=Date.now()+3000;if(!hostNextQuestion(false,false,countdownEnd))return;onlineCountdownEnd=countdownEnd;let payload={t:"restart",id:onlineQuestion.id,question:onlineQuestion,players:onlinePlayers,hostId:onlineHostId,scores:onlineScores,bank:selectedBankFile,timer:onlineTimerSeconds,deadline:onlineDeadline,num:onlineQuestionNumber,limit:onlineQuestionLimit,countdownEnd};sendOnline(payload);runOnlineCountdown(countdownEnd,()=>renderOnlineQuestion(false))}
-function onlineReadyNext(){if(onlinePhase!=="result"||!ownPlayer()?.active||onlineReady[onlinePlayerId])return;onlineReady[onlinePlayerId]=true;$("onlineContinue").disabled=true;$("onlineContinue").textContent="Ready";let n=waitingForReady();$("readyState").textContent=n?"Waiting for "+n+" player"+(n===1?"":"s"):"Starting…";if(onlineRole!=="host")sendPlayerReady();else{sendOnline({t:"ready_state",ready:onlineReady,num:onlineQuestionNumber});if(allActiveReady())hostNextQuestion()}}
+function onlineReadyNext(){if(onlinePhase!=="result"||!ownPlayer()?.active||onlineReady[onlinePlayerId])return;onlineReady[onlinePlayerId]=true;$("onlineContinue").disabled=true;$("onlineContinue").textContent="Ready";let n=waitingForReady();$("readyState").textContent="Ready · "+playerWaitText(n);if(onlineRole!=="host")sendPlayerReady();else{sendOnline({t:"ready_state",ready:onlineReady,num:onlineQuestionNumber});if(allActiveReady())hostNextQuestion()}}
 $("onlineContinue").onclick=onlineReadyNext;
 async function showOnlineEnded(title,text){if(onlineIntentionalLeave)return;stopTimer();stopHostGrace();stopOnlineCountdown();stopAnswerRetry();stopReadyRetry();stopReplayRetry();clearAllPlayerGrace();try{if(onlineChannel)await sb.removeChannel(onlineChannel)}catch(e){}onlineChannel=null;clearOnlineSessionUI();$("home").classList.remove("hidden");showL("onlineMenu");showOnlineEntry();$("playerLeftTitle").textContent=title||"Online game ended";$("playerLeftText").textContent=text||"The room is no longer available.";$("playerLeftModal").classList.remove("hidden")}
 function endHostOnlyGame(){if(onlineRole!=="host")return;sendOnline({t:"game_ended",reason:"No other players remain in the room."});showOnlineEnded("Players left","No other players remain in the room.")}
@@ -2172,11 +2289,11 @@ function applyRoomInviteFromUrl(){let u=new URL(location.href),code=(u.searchPar
 $("createRoom").onclick=async()=>{closeQuizPickers();await unlockAudio();let b=$("createRoom"),s=b.querySelector("span");b.disabled=true;s.textContent="Creating…";onlineStatus("");onlineTimerSeconds=selectedTimer();onlineQuestionLimit=selectedAmount();let lastError=null;for(let attempt=0;attempt<4;attempt++){try{await openRoom(makeCode(),"host");lastError=null;break}catch(e){lastError=e;if(!/collision/i.test(e.message||""))break}}if(lastError){onlineStatus(lastError.message||"Could not create room.");b.disabled=false;s.textContent="Create room"}};
 $("joinRoom").onclick=async()=>{await unlockAudio();let c=$("roomCodeInput").value,b=$("joinRoom"),s=b.querySelector("span");if(c.length!==6)return onlineStatus("Enter the room code.");b.disabled=true;s.textContent="Joining…";onlineStatus("");try{await openRoom(c,"player");resetJoinCode()}catch(e){onlineStatus(e.message||"Could not join room.");b.disabled=false;s.textContent="Join room"}};
 $("startOnline").onclick=async()=>{clearWinFireworks();winFireworksPlayed=false;await unlockAudio();if(onlineStarting||onlineRole!=="host")return;if(onlinePlayers.length<2)return onlineStatus("Waiting for another player.");if(!bank||!bank.length)return onlineStatus("Quiz library is not ready.");onlineStarting=true;onlineStatus("");syncLobby();onlinePlayers.forEach(p=>{p.active=true;p.connected=true});onlineScores={};onlinePlayers.forEach(p=>onlineScores[p.id]=0);onlineQuestionNumber=0;onlineReplayReady=initStateForActive(false);let countdownEnd=Date.now()+3000;if(!hostNextQuestion(false,false,countdownEnd)){onlineStarting=false;syncLobby();return}onlineCountdownEnd=countdownEnd;let startPayload={t:"start",id:onlineQuestion.id,question:onlineQuestion,players:onlinePlayers,hostId:onlineHostId,bank:selectedBankFile,scores:onlineScores,timer:onlineTimerSeconds,deadline:onlineDeadline,num:onlineQuestionNumber,limit:onlineQuestionLimit,countdownEnd};$("onlineLobby").classList.add("hidden");$("home").classList.add("hidden");$("onlineGame").classList.remove("hidden");onlineStarting=false;sendOnline(startPayload).then(ok=>{if(!ok&&onlinePhase==="answer")$("onlineWait").textContent="Connection issue — reconnecting…"});runOnlineCountdown(countdownEnd,()=>renderOnlineQuestion(false))};
-$("replayOnline").onclick=requestReplay;$("mainMenuOnline").onclick=leaveOnline;$("onlineExit").onclick=()=>{$("exitOnlineText").textContent=onlineRole==="host"?"Leaving will end the online game for everyone.":"You will leave this room. The other players can continue.";$("exitOnlineModal").classList.remove("hidden")};
+$("replayOnline").onclick=requestReplay;$("mainMenuOnline").onclick=async()=>{await leaveOnline();showL("mainMenu")};$("onlineExit").onclick=()=>{$("exitOnlineText").textContent=onlineRole==="host"?"Leaving will end the online game for everyone.":"You will leave this room. The other players can continue.";$("exitOnlineModal").classList.remove("hidden")};
 $("exitOnlineCancel").onclick=()=>{$("exitOnlineModal").classList.add("hidden")};
 $("exitOnlineConfirm").onclick=async()=>{$("exitOnlineModal").classList.add("hidden");await leaveOnline()};
 $("exitOnlineModal").onclick=e=>{if(e.target===$("exitOnlineModal"))$("exitOnlineModal").classList.add("hidden")};
 initQB().finally(()=>applyRoomInviteFromUrl());})();
-</script><script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=43").then(r=>r.update()).catch(()=>{}))}</script>
-<!-- Build v43 · Four-player online rooms + invite links -->
+</script><script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=44").then(r=>r.update()).catch(()=>{}))}</script>
+<!-- Build v44 · Multiplayer flow UX + live disconnect/wait counts -->
 </body></html>
