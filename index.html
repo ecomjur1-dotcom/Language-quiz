@@ -2075,12 +2075,162 @@ body.onlineChatAvailable #onlineLobby{margin-bottom:max(66px,calc(env(safe-area-
 }
 @media(prefers-reduced-motion:reduce){.roomChatButton,.roomChatPanel{transition:none!important}}
 </style>
+
+<style>
+/* v46 inline Join Game flow */
+#mainMenu .mainJoinBlock{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+#mainMenu .mainJoinBlock .mainLaunchCard{width:100%}
+#mainMenu .mainJoinInline{
+  position:relative;
+  z-index:3;
+  padding:10px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:#fff;
+  box-shadow:0 6px 16px rgba(31,39,50,.06);
+}
+#mainMenu .mainJoinInline label{
+  display:block;
+  margin:0 0 6px;
+  color:var(--muted);
+  font-size:.76rem;
+  font-weight:800;
+  letter-spacing:.025em;
+}
+#mainMenu .mainJoinControls{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:7px;
+  align-items:center;
+}
+#mainMenu #roomCodeInput{
+  width:100%!important;
+  min-width:0!important;
+  height:43px!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+  padding:0 11px!important;
+  border:1px solid var(--border)!important;
+  border-radius:11px!important;
+  background:#fff!important;
+  color:var(--ink)!important;
+  text-align:left!important;
+  font:800 15px/1 system-ui!important;
+  letter-spacing:.04em!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8)!important;
+}
+#mainMenu #roomCodeInput:focus{border-color:var(--navy-mid)!important}
+#mainMenu #joinRoom{
+  height:43px;
+  min-width:78px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  padding:0 12px;
+  border:1px solid #365f87;
+  border-radius:11px;
+  background:linear-gradient(180deg,#315273 0%,#263f5d 100%);
+  color:#fff;
+  font-weight:900;
+  box-shadow:0 6px 14px rgba(38,63,93,.18);
+}
+#mainMenu #joinRoom:disabled{
+  background:#d8e0e9;
+  color:#7b8795;
+  border-color:#c8d1dc;
+  box-shadow:none;
+}
+#mainMenu .mainJoinStatus{
+  min-height:0;
+  margin-top:6px;
+  color:var(--muted);
+  font-size:.76rem;
+  line-height:1.3;
+}
+#mainMenu .mainJoinStatus:empty{display:none}
+@media(max-width:620px){
+  #mainMenu .mainJoinBlock{gap:7px}
+  #mainMenu .mainJoinInline{padding:9px}
+}
+</style>
+
+<style>
+/* v47 chat micro-interactions + reconnect grace hardening */
+.roomChatButton.notifyPulse{
+  animation:chatNotifyButton .58s cubic-bezier(.2,.8,.25,1);
+}
+.roomChatBadge.badgePop{
+  animation:chatBadgePop .48s cubic-bezier(.2,.9,.3,1);
+}
+@keyframes chatNotifyButton{
+  0%{transform:translateY(0) scale(1)}
+  24%{transform:translateY(-3px) scale(1.06)}
+  48%{transform:translateY(1px) scale(.985)}
+  72%{transform:translateY(-1px) scale(1.02)}
+  100%{transform:translateY(0) scale(1)}
+}
+@keyframes chatBadgePop{
+  0%{transform:scale(.55);opacity:.35}
+  55%{transform:scale(1.18);opacity:1}
+  100%{transform:scale(1);opacity:1}
+}
+.chatMessage.fresh{
+  transform-origin:left bottom;
+  animation:chatMessageArrive .22s cubic-bezier(.22,.8,.28,1) both;
+}
+.chatMessage.me.fresh{
+  transform-origin:right bottom;
+  animation-name:chatMessageArriveMe;
+}
+@keyframes chatMessageArrive{
+  from{opacity:0;transform:translate3d(-8px,5px,0) scale(.985)}
+  to{opacity:1;transform:translate3d(0,0,0) scale(1)}
+}
+@keyframes chatMessageArriveMe{
+  from{opacity:0;transform:translate3d(8px,5px,0) scale(.985)}
+  to{opacity:1;transform:translate3d(0,0,0) scale(1)}
+}
+#roomChatSend.sendPulse{
+  animation:chatSendPulse .34s cubic-bezier(.2,.8,.25,1);
+}
+@keyframes chatSendPulse{
+  0%{transform:scale(1)}
+  38%{transform:scale(.92)}
+  68%{transform:scale(1.045)}
+  100%{transform:scale(1)}
+}
+@media(prefers-reduced-motion:reduce){
+  .roomChatButton.notifyPulse,
+  .roomChatBadge.badgePop,
+  .chatMessage.fresh,
+  .chatMessage.me.fresh,
+  #roomChatSend.sendPulse{
+    animation:none!important;
+  }
+}
+</style>
 </head><body><div id="app">
 <section id="home" class="home">
 <div id="mainMenu" class="menuScreen"><div class="mainMenuBackdrop" aria-hidden="true"><span class="cloud cloudA"></span><span class="cloud cloudB"></span><span class="cloud cloudC"></span><span class="cloud cloudD"></span></div><h1>Language Training</h1>
 <div class="mainLaunchGrid">
   <button id="mainCreateGame" class="modeCard mainLaunchCard" disabled><strong>Create Game</strong><span>Start an online room</span></button>
-  <button id="mainJoinGame" class="modeCard mainLaunchCard" disabled><strong>Join Game</strong><span>Enter an online room</span></button>
+  <div class="mainJoinBlock">
+    <button id="mainJoinGame" class="modeCard mainLaunchCard" disabled><strong>Join Game</strong><span>Enter an online room</span></button>
+    <div id="mainJoinInline" class="mainJoinInline">
+      <label for="roomCodeInput">Game code</label>
+      <div class="mainJoinControls">
+        <input id="roomCodeInput" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" enterkeyhint="go" maxlength="6" placeholder="Game code" aria-label="Game code">
+        <button id="joinRoom" type="button"><span>Join</span><b>→</b></button>
+      </div>
+      <div id="mainJoinStatus" class="mainJoinStatus" aria-live="polite"></div>
+    </div>
+  </div>
   <button id="mainLocalGame" class="modeCard mainLaunchCard" disabled><strong>Local Game</strong><span>Play on this phone</span></button>
 </div>
 <button id="soloStart" class="mainSoloAction" disabled><strong>One Player</strong><span>Solo practice</span><b>→</b></button>
@@ -2146,11 +2296,6 @@ body.onlineChatAvailable #onlineLobby{margin-bottom:max(66px,calc(env(safe-area-
     </div>
     <button id="createRoom" class="flowPrimary"><span>Create room</span><b>→</b></button>
   </div>
-</div>
-<div id="joinGameFlow" class="onlineSubFlow hidden">
-  
-  <div class="codeCard"><label for="roomCodeInput">Game code</label><input id="roomCodeInput" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" enterkeyhint="go" maxlength="6" placeholder="000000"></div>
-  <button id="joinRoom" class="flowPrimary"><span>Join room</span><b>→</b></button>
 </div>
 <div id="onlineLobby" class="hidden lobbyCard">
   <div id="lobbyHead" class="lobbyHead">
@@ -2357,24 +2502,24 @@ function clearOnlineSessionUI(){
   onlineRoom=null;onlineRole=null;onlineHostId=null;onlinePlayers=[];onlineQuestion=null;onlineScores={};onlineAnswers={};onlineReady={};onlineReplayReady={};onlinePendingAnswer=null;onlineStarting=false;onlinePhase="lobby";onlineQuestionNumber=0;onlineQuestionLimit=10;onlineDeadline=0;onlineCountdownEnd=0;onlineSelfAwayAt=0;onlineJoinedAt=0;onlineAwayPlayers.clear();
   $("roomCodeLabel").textContent="------";$("lobbyPlayers").replaceChildren();$("lobbyCapacity").textContent="0 / 4";$("lobbyShareStatus").textContent="";$("shareRoom").classList.add("hidden");$("startOnline").classList.add("hidden");$("onlineLobby").classList.add("hidden");$("onlineGame").classList.add("hidden");$("onlineCountdown").classList.add("hidden");$("connectionGrace").classList.add("hidden");$("onlinePlayView").classList.remove("hidden");$("onlineResultView").classList.add("hidden");$("onlineFinalView").classList.add("hidden");$("onlineScoreStrip").replaceChildren();$("finalLeaderboard").replaceChildren();$("timerText").textContent="";$("timerBar").classList.add("hidden");$("questionProgress").textContent="";$("onlineWait").textContent="";$("readyState").textContent="";$("replayState").textContent="";$("exitOnlineModal").classList.add("hidden")
 }
-function showOnlineEntry(){resetJoinCode();$("onlineLobby").classList.add("hidden");$("onlineEntry").classList.remove("hidden");$("createGameFlow").classList.add("hidden");$("joinGameFlow").classList.add("hidden");$("createRoom").disabled=false;$("createRoom").querySelector("span").textContent="Create room";$("joinRoom").disabled=false;$("joinRoom").querySelector("span").textContent="Join room";$("startOnline").disabled=false;$("startOnline").querySelector("span").textContent="Start game";$("onlineMsg").textContent=""}
+function showOnlineEntry(){resetJoinCode();$("onlineLobby").classList.add("hidden");$("onlineEntry").classList.remove("hidden");$("createGameFlow").classList.add("hidden");$("createRoom").disabled=false;$("createRoom").querySelector("span").textContent="Create room";$("joinRoom").disabled=false;$("joinRoom").querySelector("span").textContent="Join";$("startOnline").disabled=false;$("startOnline").querySelector("span").textContent="Start game";$("onlineMsg").textContent="";$("mainJoinStatus").textContent=""}
 function resetOnlineEntry(){showOnlineEntry()}
 function openCreateGameFlow(){showL("onlineMenu");showOnlineEntry();closeQuizPickers();drawBanks();$("onlineEntry").classList.add("hidden");$("createGameFlow").classList.remove("hidden")}
-function openJoinGameFlow(){showL("onlineMenu");showOnlineEntry();resetJoinCode();$("onlineEntry").classList.add("hidden");$("joinGameFlow").classList.remove("hidden");$("roomCodeInput").focus()}
+function openJoinGameFlow(){showL("mainMenu");resetJoinCode();$("mainJoinStatus").textContent="";requestAnimationFrame(()=>$("roomCodeInput").focus())}
 $("createFlowOpen").onclick=openCreateGameFlow;
 $("joinFlowOpen").onclick=openJoinGameFlow;
 $("mainCreateGame").onclick=openCreateGameFlow;
-$("mainJoinGame").onclick=openJoinGameFlow;
+$("mainJoinGame").onclick=()=>{if($("mainJoinGame").disabled)return;$("mainJoinStatus").textContent="";$("roomCodeInput").focus()};
 $("mainLocalGame").onclick=()=>showL("localMenu");
 $("layoutSide").onclick=()=>{layout="side";startGame()};$("layoutOpp").onclick=()=>{layout="opposite";startGame()};
 
 /* v43 Supabase online multiplayer: host-authoritative, 2–4 players. */
 const SB_URL="https://weqwbvlyxpcdueupinbd.supabase.co",SB_KEY="sb_publishable_i8xAsf80hKZWSLhPwPM7gg_1SKr1_Bi",MAX_ONLINE_PLAYERS=4;
 function sessionPlayerId(){let id="";try{id=sessionStorage.getItem("turkishOnlinePlayerId")||"";if(!id){id=(crypto.randomUUID?.()||("p-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2)));sessionStorage.setItem("turkishOnlinePlayerId",id)}}catch(e){id="p-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2)}return id}
-let sb=null,onlineChannel=null,onlineRole=null,onlineRoom=null,onlineAuthUser=null,onlinePlayerId=sessionPlayerId(),onlineJoinedAt=0,onlineHostId=null,onlinePlayers=[],onlineQuestion=null,onlineScores={},onlineAnswers={},onlineReady={},onlinePhase="lobby",onlineTimerSeconds=0,onlineTimerId=null,onlineDeadline=0,onlineIntentionalLeave=false,onlineQuestionLimit=10,onlineQuestionNumber=0,onlineReplayReady={},onlineReadyRetryId=null,onlineReplayRetryId=null,onlineStarting=false,onlineCountdownId=null,onlineCountdownEnd=0,onlineHostGraceId=null,onlineHostGraceDeadline=0,onlineSelfAwayAt=0,onlineAnswerRetryId=null,onlinePendingAnswer=null,onlineRecovering=false,onlineDisconnectTimers=new Map(),onlineDisconnectUiId=null,onlineAwayPlayers=new Set(),onlineJoinResolve=null,onlineJoinReject=null,onlineJoinTimer=null,onlineJoinRetryId=null,winFireworksPlayed=false,onlineChatHistory=[],onlineChatSeq=0,onlineChatUnread=0,onlineChatReadSeq=0,onlineChatOpen=false,onlineChatInitialized=false,onlineChatLocalLastAt=0,onlineChatLocalQuickText="",onlineChatLocalQuickAt=0,onlineChatRate=new Map(),onlineChatClientIds=new Set();const onlineLetters=["A","B","C","D"],CHAT_MAX_LENGTH=280,CHAT_HISTORY_LIMIT=50,CHAT_MIN_INTERVAL=900,CHAT_BURST_WINDOW=10000,CHAT_BURST_LIMIT=5,CHAT_QUICK_DUPLICATE_MS=1600,CHAT_EMOJIS=["👍","😂","🔥","🎉","👀","🤝"],CHAT_PHRASES=["Nice!","Ready","Wait","GG"];
+let sb=null,onlineChannel=null,onlineRole=null,onlineRoom=null,onlineAuthUser=null,onlinePlayerId=sessionPlayerId(),onlineJoinedAt=0,onlineHostId=null,onlinePlayers=[],onlineQuestion=null,onlineScores={},onlineAnswers={},onlineReady={},onlinePhase="lobby",onlineTimerSeconds=0,onlineTimerId=null,onlineDeadline=0,onlineIntentionalLeave=false,onlineQuestionLimit=10,onlineQuestionNumber=0,onlineReplayReady={},onlineReadyRetryId=null,onlineReplayRetryId=null,onlineStarting=false,onlineCountdownId=null,onlineCountdownEnd=0,onlineHostGraceId=null,onlineHostGraceDeadline=0,onlineHostGraceGeneration=0,onlineSelfAwayAt=0,onlineAnswerRetryId=null,onlinePendingAnswer=null,onlineRecovering=false,onlineDisconnectTimers=new Map(),onlineDisconnectUiId=null,onlineAwayPlayers=new Set(),onlineJoinResolve=null,onlineJoinReject=null,onlineJoinTimer=null,onlineJoinRetryId=null,winFireworksPlayed=false,onlineChatHistory=[],onlineChatSeq=0,onlineChatUnread=0,onlineChatReadSeq=0,onlineChatOpen=false,onlineChatInitialized=false,onlineChatLocalLastAt=0,onlineChatLocalQuickText="",onlineChatLocalQuickAt=0,onlineChatRate=new Map(),onlineChatClientIds=new Set(),onlineChatAnimateSeq=0;const onlineLetters=["A","B","C","D"],CHAT_MAX_LENGTH=280,CHAT_HISTORY_LIMIT=50,CHAT_MIN_INTERVAL=900,CHAT_BURST_WINDOW=10000,CHAT_BURST_LIMIT=5,CHAT_QUICK_DUPLICATE_MS=1600,CHAT_EMOJIS=["👍","😂","🔥","🎉","👀","🤝"],CHAT_PHRASES=["Nice!","Ready","Wait","GG"];
 function gameSound(k){unlockAudio().then(()=>{if(k==="tick")playToneSequence([880],"sine",.035,.045,.05);else if(k==="countdown")playToneSequence([440],"sine",.11,.10,.06);else if(k==="go")playToneSequence([523.25,783.99],"sine",.14,.16,.08);else if(k==="new")playToneSequence([392,523.25],"sine",.07,.10,.07);else if(k==="correct")playToneSequence([523.25,659.25,783.99],"sine",.13,.16,.09);else if(k==="wrong"||k==="timeout")playToneSequence([220,164.81],"triangle",.11,.22,.09)})}
 async function ensureSB(){if(!window.supabase)throw Error("Could not load Supabase.");if(!sb)sb=window.supabase.createClient(SB_URL,SB_KEY);let{data:{session}}=await sb.auth.getSession();if(!session){let r=await sb.auth.signInAnonymously();if(r.error)throw r.error;session=r.data.session}onlineAuthUser=session.user.id}
-function onlineStatus(t){$("onlineMsg").textContent=t||""}
+function onlineStatus(t){let v=t||"";$("onlineMsg").textContent=v;$("mainJoinStatus").textContent=v}
 function makeCode(){return String(Math.floor(100000+Math.random()*900000))}
 function selectedTimer(){if(!$("timerEnabled").checked)return 0;let n=Math.floor(Number($("timerSecondsInput").value));if(!Number.isFinite(n)||n<1)n=1;if(n>600)n=600;$("timerSecondsInput").value=n;return n}
 $("timerEnabled").onchange=()=>{$("timerSecondsWrap").classList.toggle("hidden",!$("timerEnabled").checked)};
@@ -2394,15 +2539,17 @@ function playerName(p){return"Player "+String(p?.label||"").replace(/^P/,"")}
 function sanitizeChatText(value){return String(value??"").replace(/[\r\n\t]+/g," ").replace(/\s{2,}/g," ").trim().slice(0,CHAT_MAX_LENGTH)}
 function chatClientId(){return onlinePlayerId+"-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,8)}
 function chatIsQuickValue(text){return CHAT_EMOJIS.includes(text)||CHAT_PHRASES.includes(text)}
-function resetChatState(){onlineChatHistory=[];onlineChatSeq=0;onlineChatUnread=0;onlineChatReadSeq=0;onlineChatOpen=false;onlineChatInitialized=false;onlineChatLocalLastAt=0;onlineChatLocalQuickText="";onlineChatLocalQuickAt=0;onlineChatRate.clear();onlineChatClientIds.clear();document.body.classList.remove("onlineChatAvailable","roomChatOpen");$("roomChatButton").classList.add("hidden");$("roomChatOverlay").classList.add("hidden");$("roomChatBadge").classList.add("hidden");$("roomChatBadge").textContent="0";$("roomChatMessages").replaceChildren();$("roomChatInput").value="";$("roomChatCount").textContent="0 / "+CHAT_MAX_LENGTH;$("roomChatStatus").textContent=""}
+function resetChatState(){onlineChatHistory=[];onlineChatSeq=0;onlineChatUnread=0;onlineChatReadSeq=0;onlineChatOpen=false;onlineChatInitialized=false;onlineChatLocalLastAt=0;onlineChatLocalQuickText="";onlineChatLocalQuickAt=0;onlineChatRate.clear();onlineChatClientIds.clear();onlineChatAnimateSeq=0;document.body.classList.remove("onlineChatAvailable","roomChatOpen");$("roomChatButton").classList.add("hidden");$("roomChatOverlay").classList.add("hidden");$("roomChatBadge").classList.add("hidden");$("roomChatBadge").textContent="0";$("roomChatMessages").replaceChildren();$("roomChatInput").value="";$("roomChatCount").textContent="0 / "+CHAT_MAX_LENGTH;$("roomChatStatus").textContent=""}
 function setChatAvailable(available){let show=!!available&&!!onlineRoom;document.body.classList.toggle("onlineChatAvailable",show);$("roomChatButton").classList.toggle("hidden",!show);if(!show)closeRoomChat()}
 function updateChatBadge(){let b=$("roomChatBadge"),n=Math.max(0,Number(onlineChatUnread)||0);b.textContent=n>9?"9+":String(n);b.setAttribute("aria-label",n+" unread message"+(n===1?"":"s"));b.classList.toggle("hidden",n===0)}
-function renderChatMessages(){let root=$("roomChatMessages");root.replaceChildren();if(!onlineChatHistory.length){let empty=document.createElement("div");empty.className="roomChatEmpty";empty.textContent="No messages yet.";root.append(empty);return}onlineChatHistory.slice(-CHAT_HISTORY_LIMIT).forEach(m=>{let row=document.createElement("div");row.className="chatMessage"+(m.playerId===onlinePlayerId?" me":"")+(m.kind==="quick"?" quick":"");let meta=document.createElement("div"),bubble=document.createElement("div");meta.className="chatMessageMeta";meta.textContent=String(m.label||"Player")+(m.playerId===onlinePlayerId?" · You":"");bubble.className="chatMessageBubble";bubble.textContent=String(m.text||"");row.append(meta,bubble);root.append(row)});requestAnimationFrame(()=>{root.scrollTop=root.scrollHeight})}
+function animateChatNotification(){let btn=$("roomChatButton"),badge=$("roomChatBadge");if(btn.classList.contains("hidden"))return;btn.classList.remove("notifyPulse");badge.classList.remove("badgePop");void btn.offsetWidth;btn.classList.add("notifyPulse");badge.classList.add("badgePop");setTimeout(()=>{btn.classList.remove("notifyPulse");badge.classList.remove("badgePop")},720)}
+function animateChatSend(){let b=$("roomChatSend");b.classList.remove("sendPulse");void b.offsetWidth;b.classList.add("sendPulse");setTimeout(()=>b.classList.remove("sendPulse"),420)}
+function renderChatMessages(){let root=$("roomChatMessages");root.replaceChildren();if(!onlineChatHistory.length){let empty=document.createElement("div");empty.className="roomChatEmpty";empty.textContent="No messages yet.";root.append(empty);return}let freshSeq=onlineChatAnimateSeq;onlineChatHistory.slice(-CHAT_HISTORY_LIMIT).forEach(m=>{let row=document.createElement("div");row.className="chatMessage"+(m.playerId===onlinePlayerId?" me":"")+(m.kind==="quick"?" quick":"")+(Number(m.seq)===freshSeq?" fresh":"");let meta=document.createElement("div"),bubble=document.createElement("div");meta.className="chatMessageMeta";meta.textContent=String(m.label||"Player")+(m.playerId===onlinePlayerId?" · You":"");bubble.className="chatMessageBubble";bubble.textContent=String(m.text||"");row.append(meta,bubble);root.append(row)});requestAnimationFrame(()=>{root.scrollTop=root.scrollHeight;if(onlineChatAnimateSeq===freshSeq)onlineChatAnimateSeq=0})}
 function openRoomChat(){if(!onlineRoom)return;onlineChatOpen=true;document.body.classList.add("roomChatOpen");$("roomChatOverlay").classList.remove("hidden");onlineChatUnread=0;onlineChatReadSeq=Math.max(onlineChatReadSeq,onlineChatSeq);updateChatBadge();renderChatMessages();setTimeout(()=>$("roomChatInput").focus({preventScroll:true}),20)}
 function closeRoomChat(){onlineChatOpen=false;document.body.classList.remove("roomChatOpen");$("roomChatOverlay").classList.add("hidden")}
 function normalizedChatMessage(m){let text=sanitizeChatText(m?.text),seq=Number(m?.seq)||0;if(!text||!seq)return null;return{id:String(m.id||("chat-"+seq)),clientId:String(m.clientId||""),seq,playerId:String(m.playerId||""),label:String(m.label||"Player"),text,kind:m.kind==="quick"?"quick":"text",ts:Number(m.ts)||Date.now()}}
-function receiveChatMessage(raw,countUnread=true){let m=normalizedChatMessage(raw);if(!m)return false;if(onlineChatHistory.some(x=>x.id===m.id||x.seq===m.seq))return false;onlineChatHistory.push(m);onlineChatHistory.sort((a,b)=>a.seq-b.seq);if(onlineChatHistory.length>CHAT_HISTORY_LIMIT)onlineChatHistory=onlineChatHistory.slice(-CHAT_HISTORY_LIMIT);onlineChatSeq=Math.max(onlineChatSeq,m.seq);if(countUnread&&m.playerId!==onlinePlayerId&&!onlineChatOpen){onlineChatUnread++;updateChatBadge()}if(onlineChatOpen){onlineChatReadSeq=Math.max(onlineChatReadSeq,m.seq);renderChatMessages()}return true}
-function mergeChatHistory(list,countUnread=false){let incoming=(Array.isArray(list)?list:[]).map(normalizedChatMessage).filter(Boolean).sort((a,b)=>a.seq-b.seq);let added=0;incoming.forEach(m=>{if(onlineChatHistory.some(x=>x.id===m.id||x.seq===m.seq))return;onlineChatHistory.push(m);if(countUnread&&m.playerId!==onlinePlayerId&&!onlineChatOpen&&m.seq>onlineChatReadSeq)added++});onlineChatHistory.sort((a,b)=>a.seq-b.seq);if(onlineChatHistory.length>CHAT_HISTORY_LIMIT)onlineChatHistory=onlineChatHistory.slice(-CHAT_HISTORY_LIMIT);onlineChatSeq=Math.max(onlineChatSeq,...onlineChatHistory.map(x=>x.seq),0);if(added){onlineChatUnread+=added;updateChatBadge()}if(onlineChatOpen)renderChatMessages();onlineChatInitialized=true}
+function receiveChatMessage(raw,countUnread=true){let m=normalizedChatMessage(raw);if(!m)return false;if(onlineChatHistory.some(x=>x.id===m.id||x.seq===m.seq))return false;onlineChatHistory.push(m);onlineChatHistory.sort((a,b)=>a.seq-b.seq);if(onlineChatHistory.length>CHAT_HISTORY_LIMIT)onlineChatHistory=onlineChatHistory.slice(-CHAT_HISTORY_LIMIT);onlineChatSeq=Math.max(onlineChatSeq,m.seq);if(countUnread&&m.playerId!==onlinePlayerId&&!onlineChatOpen){onlineChatUnread++;updateChatBadge();animateChatNotification()}if(onlineChatOpen){onlineChatReadSeq=Math.max(onlineChatReadSeq,m.seq);onlineChatAnimateSeq=m.seq;renderChatMessages()}return true}
+function mergeChatHistory(list,countUnread=false){let incoming=(Array.isArray(list)?list:[]).map(normalizedChatMessage).filter(Boolean).sort((a,b)=>a.seq-b.seq);let added=0;incoming.forEach(m=>{if(onlineChatHistory.some(x=>x.id===m.id||x.seq===m.seq))return;onlineChatHistory.push(m);if(countUnread&&m.playerId!==onlinePlayerId&&!onlineChatOpen&&m.seq>onlineChatReadSeq)added++});onlineChatHistory.sort((a,b)=>a.seq-b.seq);if(onlineChatHistory.length>CHAT_HISTORY_LIMIT)onlineChatHistory=onlineChatHistory.slice(-CHAT_HISTORY_LIMIT);onlineChatSeq=Math.max(onlineChatSeq,...onlineChatHistory.map(x=>x.seq),0);if(added){onlineChatUnread+=added;updateChatBadge();animateChatNotification()}if(onlineChatOpen)renderChatMessages();onlineChatInitialized=true}
 function chatRateAllowed(id,text,kind){let now=Date.now(),state=onlineChatRate.get(id)||{last:0,recent:[],quickText:"",quickAt:0};state.recent=state.recent.filter(t=>now-t<CHAT_BURST_WINDOW);if(now-state.last<CHAT_MIN_INTERVAL)return{ok:false,reason:"Please wait a moment before sending again."};if(state.recent.length>=CHAT_BURST_LIMIT)return{ok:false,reason:"Too many messages. Try again shortly."};if(kind==="quick"&&state.quickText===text&&now-state.quickAt<CHAT_QUICK_DUPLICATE_MS)return{ok:false,reason:"Please wait before repeating that reaction."};state.last=now;state.recent.push(now);if(kind==="quick"){state.quickText=text;state.quickAt=now}onlineChatRate.set(id,state);return{ok:true}}
 function hostAcceptChat(payload){if(onlineRole!=="host")return false;let id=String(payload?.playerId||""),p=playerById(id),kind=payload?.kind==="quick"?"quick":"text",text=sanitizeChatText(payload?.text),clientId=String(payload?.clientId||"");if(!id||!p||p.active===false||!text)return false;if(kind==="quick"&&!chatIsQuickValue(text))return false;if(clientId&&onlineChatClientIds.has(clientId))return false;let rate=chatRateAllowed(id,text,kind);if(!rate.ok){if(id!==onlinePlayerId)sendOnline({t:"chat_reject",target:id,clientId,reason:rate.reason});else $("roomChatStatus").textContent=rate.reason;return false}if(clientId)onlineChatClientIds.add(clientId);let msg={t:"chat_message",hostId:onlinePlayerId,id:(onlineRoom||"room")+"-"+(++onlineChatSeq),clientId,seq:onlineChatSeq,playerId:id,label:p.label||"Player",text,kind,ts:Date.now()};receiveChatMessage(msg,id!==onlinePlayerId);sendOnline(msg);if(onlineChatClientIds.size>120)onlineChatClientIds=new Set(onlineChatHistory.map(x=>x.clientId).filter(Boolean));return true}
 function submitRoomChat(value,kind="text"){let text=sanitizeChatText(value);if(!text||!onlineRoom||!ownPlayer()||ownPlayer().active===false)return false;kind=kind==="quick"?"quick":"text";if(kind==="quick"&&!chatIsQuickValue(text))return false;let now=Date.now();if(now-onlineChatLocalLastAt<650){$("roomChatStatus").textContent="Please wait a moment before sending again.";return false}if(kind==="quick"&&onlineChatLocalQuickText===text&&now-onlineChatLocalQuickAt<CHAT_QUICK_DUPLICATE_MS){$("roomChatStatus").textContent="Please wait before repeating that reaction.";return false}onlineChatLocalLastAt=now;if(kind==="quick"){onlineChatLocalQuickText=text;onlineChatLocalQuickAt=now}$("roomChatStatus").textContent="";let payload={t:"chat_submit",playerId:onlinePlayerId,clientId:chatClientId(),text,kind};if(onlineRole==="host")return hostAcceptChat(payload);sendOnline(payload).then(ok=>{if(!ok)$("roomChatStatus").textContent="Message could not be sent."});return true}
@@ -2418,7 +2565,7 @@ function renderLobbyPlayers(){let root=$("lobbyPlayers");root.replaceChildren();
 function syncLobby(){let count=onlinePlayers.length,host=onlineRole==="host";$("lobbyTitle").textContent="Players";$("lobbySubtitle").textContent=host?(count<MAX_ONLINE_PLAYERS?"Share the code or invite link":"Room is full"):"Waiting for the host to start";$("lobbyCapacity").textContent=count+" / "+MAX_ONLINE_PLAYERS;$("roomCodeLabel").textContent=onlineRoom||"------";$("shareRoom").classList.toggle("hidden",!host);renderLobbyPlayers();if(host){$("startOnline").classList.remove("hidden");$("startOnline").disabled=count<2||onlineStarting;$("startOnline").querySelector("span").textContent=onlineStarting?"Starting…":count<2?"Waiting for players":"Start game"}else $("startOnline").classList.add("hidden")}
 function finishJoinDecision(ok,msg=""){let resolve=onlineJoinResolve,reject=onlineJoinReject;clearJoinHandshake();if(ok)resolve?.(true);else reject?.(Error(msg||"Could not join room."))}
 function requestJoinDecision(){return new Promise((resolve,reject)=>{onlineJoinResolve=resolve;onlineJoinReject=reject;let req=()=>sendOnline({t:"join_request",playerId:onlinePlayerId,joinedAt:onlineJoinedAt});req();onlineJoinRetryId=setInterval(req,700);onlineJoinTimer=setTimeout(()=>finishJoinDecision(false,"Room not found or host is offline."),5000)})}
-async function openRoom(c,r){resetChatState();onlineIntentionalLeave=false;onlineRoom=c;onlineRole=r;onlineJoinedAt=Date.now();onlinePhase="lobby";onlineQuestionNumber=0;onlinePlayers=r==="host"?[{id:onlinePlayerId,label:"P1",role:"host",connected:true,active:true,joinedAt:onlineJoinedAt}]:[];onlineHostId=r==="host"?onlinePlayerId:null;onlineScores={};onlineAnswers={};onlineReady={};onlineReplayReady={};$("onlineGame").dataset.role=r;await subscribeOnlineChannel(c,r);if(r==="host"){await sleep(180);let collision=presencePlayers().some(p=>p.role==="host"&&p.id!==onlinePlayerId);if(collision){try{await sb.removeChannel(onlineChannel)}catch(e){}onlineChannel=null;throw Error("Room code collision. Try again.")}hostReconcileLobby()}else{try{await requestJoinDecision()}catch(e){try{if(onlineChannel)await sb.removeChannel(onlineChannel)}catch(_e){}onlineChannel=null;throw e}}$("onlineEntry").classList.add("hidden");$("createGameFlow").classList.add("hidden");$("joinGameFlow").classList.add("hidden");$("onlineLobby").classList.toggle("hidden",onlinePhase!=="lobby");$("roomCodeLabel").textContent=c;if(onlinePhase==="lobby")syncLobby();setChatAvailable(true);if(r!=="host")clearRoomInviteParam()}
+async function openRoom(c,r){resetChatState();onlineIntentionalLeave=false;onlineRoom=c;onlineRole=r;onlineJoinedAt=Date.now();onlinePhase="lobby";onlineQuestionNumber=0;onlinePlayers=r==="host"?[{id:onlinePlayerId,label:"P1",role:"host",connected:true,active:true,joinedAt:onlineJoinedAt}]:[];onlineHostId=r==="host"?onlinePlayerId:null;onlineScores={};onlineAnswers={};onlineReady={};onlineReplayReady={};$("onlineGame").dataset.role=r;await subscribeOnlineChannel(c,r);if(r==="host"){await sleep(180);let collision=presencePlayers().some(p=>p.role==="host"&&p.id!==onlinePlayerId);if(collision){try{await sb.removeChannel(onlineChannel)}catch(e){}onlineChannel=null;throw Error("Room code collision. Try again.")}hostReconcileLobby()}else{try{await requestJoinDecision()}catch(e){try{if(onlineChannel)await sb.removeChannel(onlineChannel)}catch(_e){}onlineChannel=null;throw e}}$("onlineEntry").classList.add("hidden");$("createGameFlow").classList.add("hidden");$("onlineLobby").classList.toggle("hidden",onlinePhase!=="lobby");$("roomCodeLabel").textContent=c;if(onlinePhase==="lobby")syncLobby();setChatAvailable(true);if(r!=="host")clearRoomInviteParam()}
 function initStateForActive(defaultValue=null){let o={};activeIds().forEach(id=>o[id]=defaultValue);return o}
 function waitingForAnswers(){return activePlayers().filter(p=>onlineAnswers[p.id]==null).length}
 function waitingForReady(){return activePlayers().filter(p=>!onlineReady[p.id]).length}
@@ -2445,13 +2592,13 @@ function runOnlineCountdown(end,done){stopOnlineCountdown();onlineCountdownEnd=N
 function buildOnlineSnapshot(){return{phase:onlinePhase,id:onlineQuestion?.id||null,question:onlineQuestion,bank:selectedBankFile,players:onlinePlayers,hostId:onlineHostId,scores:onlineScores,answers:onlineAnswers,ready:onlineReady,replayReady:onlineReplayReady,timer:onlineTimerSeconds,deadline:onlineDeadline,num:onlineQuestionNumber,limit:onlineQuestionLimit,countdownEnd:onlineCountdownEnd,chat:onlineChatHistory.slice(-CHAT_HISTORY_LIMIT),chatSeq:onlineChatSeq}}
 async function applyOnlineSnapshot(s){if(!s)return;if(s.players)onlinePlayers=cleanPlayers(s.players);onlineHostId=s.hostId||onlinePlayers.find(p=>p.role==="host")?.id||onlineHostId;onlineScores=cloneMap(s.scores);onlineAnswers=cloneMap(s.answers);onlineReady=cloneMap(s.ready);onlineReplayReady=cloneMap(s.replayReady);onlineTimerSeconds=+s.timer||0;onlineDeadline=+s.deadline||0;onlineQuestionNumber=Number(s.num||onlineQuestionNumber);onlineQuestionLimit=Number(s.limit??onlineQuestionLimit);onlineCountdownEnd=Number(s.countdownEnd||0);let hadChat=onlineChatInitialized;mergeChatHistory(s.chat,hadChat);onlineChatSeq=Math.max(onlineChatSeq,Number(s.chatSeq)||0);onlinePhase=s.phase||onlinePhase;let me=ownPlayer();if(me&&me.active===false){showOnlineEnded("You left the game","Your reconnect window expired.");return}let q=await resolveOnlineQuestion(s);if(q){onlineQuestion=q;markDeckQuestionSeen(q.id)}$("onlineLobby").classList.add("hidden");$("home").classList.add("hidden");$("onlineGame").classList.remove("hidden");setChatAvailable(true);renderOnlineScores();if(onlinePhase==="answer"&&onlineQuestion){if(onlineCountdownEnd>Date.now())runOnlineCountdown(onlineCountdownEnd,()=>{renderOnlineQuestion(false);restoreOwnAnswerState()});else{renderOnlineQuestion(false);restoreOwnAnswerState()}}else if(onlinePhase==="result"&&onlineQuestion){renderOnlineReveal(false,true)}else if(onlinePhase==="finished")renderOnlineFinal()}
 function restoreOwnAnswerState(){let a=onlineAnswers[onlinePlayerId];if(a){[...$("onlineOpts").children].forEach(x=>x.disabled=true);refreshOnlineWaitLabels()}if(onlineRole!=="host"){if(onlineAnswers[onlinePlayerId]){onlinePendingAnswer=null;stopAnswerRetry()}else if(onlinePendingAnswer&&onlinePendingAnswer.num===onlineQuestionNumber)sendPendingAnswer()}}
-function stopHostGrace(){if(onlineHostGraceId){clearInterval(onlineHostGraceId);onlineHostGraceId=null}onlineHostGraceDeadline=0;$("connectionGrace").classList.add("hidden")}
-function beginHostGrace(){if(onlineRole==="host"||onlineIntentionalLeave||onlinePhase==="lobby"||!onlineRoom||onlineHostGraceId)return;stopTimer();onlineHostGraceDeadline=Date.now()+20000;$("connectionGraceTitle").textContent="Host disconnected";$("connectionGraceText").textContent="Waiting for the host to return.";$("connectionGrace").classList.remove("hidden");let tick=()=>{let sec=Math.max(0,Math.ceil((onlineHostGraceDeadline-Date.now())/1000));$("connectionGraceSeconds").textContent=sec;if(sec<=0){stopHostGrace();showOnlineEnded("Host disconnected","The host did not reconnect within 20 seconds.")}};tick();onlineHostGraceId=setInterval(tick,250)}
+function stopHostGrace(){onlineHostGraceGeneration++;if(onlineHostGraceId){clearInterval(onlineHostGraceId);onlineHostGraceId=null}onlineHostGraceDeadline=0;$("connectionGraceSeconds").textContent="20";$("connectionGrace").classList.add("hidden")}
+function beginHostGrace(){if(onlineRole==="host"||onlineIntentionalLeave||onlinePhase==="lobby"||!onlineRoom||onlineHostGraceId)return;stopTimer();let generation=++onlineHostGraceGeneration,deadline=Date.now()+20000;onlineHostGraceDeadline=deadline;$("connectionGraceTitle").textContent="Host disconnected";$("connectionGraceText").textContent="Waiting for the host to return.";$("connectionGraceSeconds").textContent="20";$("connectionGrace").classList.remove("hidden");let tick=()=>{if(generation!==onlineHostGraceGeneration||deadline!==onlineHostGraceDeadline)return;let sec=Math.max(0,Math.ceil((deadline-Date.now())/1000));$("connectionGraceSeconds").textContent=sec;if(sec<=0){if(generation!==onlineHostGraceGeneration||deadline!==onlineHostGraceDeadline)return;stopHostGrace();showOnlineEnded("Host disconnected","The host did not reconnect within 20 seconds.")}};tick();onlineHostGraceId=setInterval(tick,250)}
 function markPlayerDisconnected(id,reason="Player disconnected"){if(onlineRole!=="host"||id===onlinePlayerId)return;let p=playerById(id);if(!p||p.active===false)return;if(onlineDisconnectTimers.has(id)){renderOnlineScores();ensureDisconnectUiTicker();return}let deadline=Date.now()+20000;p.connected=false;p.disconnectDeadline=deadline;p.disconnectReason=reason;let timeout=setTimeout(()=>dropPlayer(id,reason==="Player left the game"?"Player left the game":"Disconnected for more than 20 seconds"),20000);onlineDisconnectTimers.set(id,{deadline,timeout,interval:null});renderOnlineScores();ensureDisconnectUiTicker();broadcastRoster();refreshOnlineWaitLabels()}
 function restorePlayerConnected(id){if(onlineRole!=="host")return;let p=playerById(id);if(!p)return;if(p.active===false){sendOnline({t:"player_dropped",target:id,reason:"Your reconnect window expired."});return}if(p.connected!==false&&!onlineDisconnectTimers.has(id))return;p.connected=true;p.disconnectDeadline=0;p.disconnectReason="";clearPlayerGrace(id);broadcastRoster();renderOnlineScores();ensureDisconnectUiTicker();refreshOnlineWaitLabels();sendOnline({t:"sync_state",target:id,state:buildOnlineSnapshot()})}
 function dropPlayer(id,reason="Player left",notify=true){if(onlineRole!=="host")return;let p=playerById(id);if(!p||p.role==="host"||p.active===false)return;p.active=false;p.connected=false;p.disconnectDeadline=0;p.disconnectReason=reason;onlineAwayPlayers.delete(String(id));clearPlayerGrace(id);if(notify)sendOnline({t:"player_dropped",target:id,reason});broadcastRoster();renderOnlineScores();ensureDisconnectUiTicker();refreshOnlineWaitLabels();if(activePlayers().length<2){endHostOnlyGame();return}if(onlinePhase==="answer"&&allActiveAnswered())hostReveal(false);else if(onlinePhase==="result"&&allActiveReady())hostNextQuestion();else if(onlinePhase==="finished"&&allActiveReplayReady())hostRestart()}
 function hostHandlePresence(){if(onlineRole!=="host"||onlinePhase==="lobby")return;let ids=presenceIds();onlinePlayers.forEach(p=>{if(p.id===onlinePlayerId||p.active===false)return;ids.has(p.id)&&!onlineAwayPlayers.has(p.id)?restorePlayerConnected(p.id):markPlayerDisconnected(p.id)})}
-function guestHandleHostPresence(){if(onlineRole==="host"||onlinePhase==="lobby"||!onlineHostId)return;presenceIds().has(onlineHostId)?stopHostGrace():beginHostGrace()}
+function guestHandleHostPresence(){if(onlineRole==="host"||onlinePhase==="lobby"||!onlineHostId)return;let hostPresent=presenceIds().has(onlineHostId);if(hostPresent){stopHostGrace()}else beginHostGrace()}
 function handlePresenceHealth(){if(!onlineRoom||onlineIntentionalLeave)return;if(onlineRole==="host"){if(onlinePhase==="lobby")hostReconcileLobby();else hostHandlePresence()}else guestHandleHostPresence()}
 async function recoverOnlineConnection(){if(onlineRecovering||!onlineRoom||!onlineRole||onlineIntentionalLeave)return;onlineRecovering=true;try{await subscribeOnlineChannel(onlineRoom,onlineRole);sendOnline({t:"back",playerId:onlinePlayerId,role:onlineRole,num:onlineQuestionNumber});if(onlineRole==="host"){broadcastRoster();sendOnline({t:"sync_state",state:buildOnlineSnapshot()});if(onlinePhase==="answer"){if(onlineTimerSeconds&&onlineDeadline<=Date.now())hostTimeout();else if(onlineCountdownEnd>Date.now())runOnlineCountdown(onlineCountdownEnd,()=>renderOnlineQuestion(false));else{renderOnlineQuestion(false);startTimer()}}}else sendOnline({t:"sync_request",playerId:onlinePlayerId,num:onlineQuestionNumber});handlePresenceHealth()}catch(e){if(onlineRole!=="host")beginHostGrace()}finally{onlineRecovering=false}}
 document.addEventListener("visibilitychange",()=>{if(!onlineRoom||onlineIntentionalLeave||onlinePhase==="lobby")return;if(document.hidden){onlineSelfAwayAt=Date.now();stopTimer();sendOnline({t:"away",playerId:onlinePlayerId,role:onlineRole,num:onlineQuestionNumber})}else{onlineSelfAwayAt=0;recoverOnlineConnection()}});
@@ -2540,22 +2687,22 @@ $("roomChatClose").onclick=closeRoomChat;
 $("roomChatOverlay").onclick=e=>{if(e.target===$("roomChatOverlay"))closeRoomChat()};
 $("roomChatInput").oninput=e=>{let raw=String(e.target.value||"").replace(/[\r\n\t]+/g," ");if(raw.length>CHAT_MAX_LENGTH)raw=raw.slice(0,CHAT_MAX_LENGTH);if(raw!==e.target.value)e.target.value=raw;$("roomChatCount").textContent=e.target.value.length+" / "+CHAT_MAX_LENGTH;$("roomChatStatus").textContent=""};
 $("roomChatInput").onkeydown=e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("roomChatForm").requestSubmit()}};
-$("roomChatForm").onsubmit=e=>{e.preventDefault();let input=$("roomChatInput"),text=sanitizeChatText(input.value);if(!text)return;if(submitRoomChat(text,"text")){input.value="";$("roomChatCount").textContent="0 / "+CHAT_MAX_LENGTH}};
+$("roomChatForm").onsubmit=e=>{e.preventDefault();let input=$("roomChatInput"),text=sanitizeChatText(input.value);if(!text)return;if(submitRoomChat(text,"text")){animateChatSend();input.value="";$("roomChatCount").textContent="0 / "+CHAT_MAX_LENGTH}};
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&onlineChatOpen)closeRoomChat()});
 
 function inviteUrl(){let u=new URL(location.href);u.searchParams.delete("_fresh");u.searchParams.set("room",onlineRoom||"");return u.href}
 async function copyText(text){try{await navigator.clipboard.writeText(text);return true}catch(e){try{let ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.opacity="0";document.body.append(ta);ta.select();let ok=document.execCommand("copy");ta.remove();return ok}catch(_e){return false}}}
 $("shareRoom").onclick=async()=>{if(onlineRole!=="host"||!onlineRoom)return;let url=inviteUrl();try{if(navigator.share){await navigator.share({title:"Language Training",text:"Join my Language Training game",url});$("lobbyShareStatus").textContent="Invite shared"}else if(await copyText(url))$("lobbyShareStatus").textContent="Invite link copied";else $("lobbyShareStatus").textContent="Could not copy invite"}catch(e){if(e?.name!=="AbortError")$("lobbyShareStatus").textContent="Could not share invite"}}
 function clearRoomInviteParam(){let u=new URL(location.href);if(!u.searchParams.has("room"))return;u.searchParams.delete("room");history.replaceState(null,"",u.pathname+u.search+u.hash)}
-function applyRoomInviteFromUrl(){let u=new URL(location.href),code=(u.searchParams.get("room")||"").replace(/\D/g,"").slice(0,6);if(code.length!==6)return;showL("onlineMenu");showOnlineEntry();$("onlineEntry").classList.add("hidden");$("joinGameFlow").classList.remove("hidden");$("roomCodeInput").value=code;onlineStatus("Invite loaded. Tap Join room.")}
+function applyRoomInviteFromUrl(){let u=new URL(location.href),code=(u.searchParams.get("room")||"").replace(/\D/g,"").slice(0,6);if(code.length!==6)return;showL("mainMenu");$("roomCodeInput").value=code;onlineStatus("Invite loaded. Tap Join.")}
 $("createRoom").onclick=async()=>{closeQuizPickers();await unlockAudio();let b=$("createRoom"),s=b.querySelector("span");b.disabled=true;s.textContent="Creating…";onlineStatus("");onlineTimerSeconds=selectedTimer();onlineQuestionLimit=selectedAmount();let lastError=null;for(let attempt=0;attempt<4;attempt++){try{await openRoom(makeCode(),"host");lastError=null;break}catch(e){lastError=e;if(!/collision/i.test(e.message||""))break}}if(lastError){onlineStatus(lastError.message||"Could not create room.");b.disabled=false;s.textContent="Create room"}};
-$("joinRoom").onclick=async()=>{await unlockAudio();let c=$("roomCodeInput").value,b=$("joinRoom"),s=b.querySelector("span");if(c.length!==6)return onlineStatus("Enter the room code.");b.disabled=true;s.textContent="Joining…";onlineStatus("");try{await openRoom(c,"player");resetJoinCode()}catch(e){onlineStatus(e.message||"Could not join room.");b.disabled=false;s.textContent="Join room"}};
+$("joinRoom").onclick=async()=>{await unlockAudio();let c=$("roomCodeInput").value,b=$("joinRoom"),s=b.querySelector("span");if(c.length!==6)return onlineStatus("Enter the game code.");b.disabled=true;s.textContent="Joining…";onlineStatus("");try{await openRoom(c,"player");resetJoinCode();s.textContent="Join";b.disabled=false;showL("onlineMenu")}catch(e){onlineStatus(e.message||"Could not join room.");b.disabled=false;s.textContent="Join"}};
 $("startOnline").onclick=async()=>{clearWinFireworks();winFireworksPlayed=false;await unlockAudio();if(onlineStarting||onlineRole!=="host")return;if(onlinePlayers.length<2)return onlineStatus("Waiting for another player.");if(!bank||!bank.length)return onlineStatus("Quiz library is not ready.");onlineStarting=true;onlineStatus("");syncLobby();onlinePlayers.forEach(p=>{p.active=true;p.connected=true});onlineScores={};onlinePlayers.forEach(p=>onlineScores[p.id]=0);onlineQuestionNumber=0;onlineReplayReady=initStateForActive(false);let countdownEnd=Date.now()+3000;if(!hostNextQuestion(false,false,countdownEnd)){onlineStarting=false;syncLobby();return}onlineCountdownEnd=countdownEnd;let startPayload={t:"start",id:onlineQuestion.id,question:onlineQuestion,players:onlinePlayers,hostId:onlineHostId,bank:selectedBankFile,scores:onlineScores,timer:onlineTimerSeconds,deadline:onlineDeadline,num:onlineQuestionNumber,limit:onlineQuestionLimit,countdownEnd};$("onlineLobby").classList.add("hidden");$("home").classList.add("hidden");$("onlineGame").classList.remove("hidden");onlineStarting=false;sendOnline(startPayload).then(ok=>{if(!ok&&onlinePhase==="answer")$("onlineWait").textContent="Connection issue — reconnecting…"});runOnlineCountdown(countdownEnd,()=>renderOnlineQuestion(false))};
 $("replayOnline").onclick=requestReplay;$("mainMenuOnline").onclick=async()=>{await leaveOnline();showL("mainMenu")};$("onlineExit").onclick=()=>{$("exitOnlineText").textContent=onlineRole==="host"?"Leaving will end the online game for everyone.":"You will leave this room. The other players can continue.";$("exitOnlineModal").classList.remove("hidden")};
 $("exitOnlineCancel").onclick=()=>{$("exitOnlineModal").classList.add("hidden")};
 $("exitOnlineConfirm").onclick=async()=>{$("exitOnlineModal").classList.add("hidden");await leaveOnline()};
 $("exitOnlineModal").onclick=e=>{if(e.target===$("exitOnlineModal"))$("exitOnlineModal").classList.add("hidden")};
 initQB().finally(()=>applyRoomInviteFromUrl());})();
-</script><script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=45").then(r=>r.update()).catch(()=>{}))}</script>
-<!-- Build v45 · Ephemeral synchronized room chat -->
+</script><script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=47").then(r=>r.update()).catch(()=>{}))}</script>
+<!-- Build v47 · Chat micro-interactions + reconnect grace reset fix -->
 </body></html>
