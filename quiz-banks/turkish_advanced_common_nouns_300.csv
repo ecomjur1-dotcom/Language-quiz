@@ -1,0 +1,301 @@
+﻿id,turkish,english,level,category
+ADV001,kavram,concept,B1,Abstract & Thinking
+ADV002,yaklaşım,approach,B2,Abstract & Thinking
+ADV003,varsayım,assumption,B2,Abstract & Thinking
+ADV004,çıkarım,inference,B2,Abstract & Thinking
+ADV005,ölçüt,criterion,B2,Abstract & Thinking
+ADV006,bağlam,context,B2,Abstract & Thinking
+ADV007,kapsam,scope,B2,Abstract & Thinking
+ADV008,ayrıntı,detail,B1,Abstract & Thinking
+ADV009,nitelik,quality; attribute,B2,Abstract & Thinking
+ADV010,unsur,element; component,B2,Abstract & Thinking
+ADV011,etken,factor,B2,Abstract & Thinking
+ADV012,olasılık,probability; possibility,B2,Abstract & Thinking
+ADV013,öncelik,priority,B1,Abstract & Thinking
+ADV014,gereksinim,requirement; need,B2,Abstract & Thinking
+ADV015,farkındalık,awareness,B2,Abstract & Thinking
+ADV016,algı,perception,B2,Abstract & Thinking
+ADV017,bakış açısı,perspective; point of view,B1,Abstract & Thinking
+ADV018,çelişki,contradiction,B2,Abstract & Thinking
+ADV019,tutarlılık,consistency,B2,Abstract & Thinking
+ADV020,belirsizlik,uncertainty,B2,Abstract & Thinking
+ADV021,ifade,expression; statement,B1,Communication & Ideas
+ADV022,anlatım,expression; narration,B2,Communication & Ideas
+ADV023,yorum,comment; interpretation,B1,Communication & Ideas
+ADV024,görüş,opinion; view,B1,Communication & Ideas
+ADV025,iddia,claim; assertion,B2,Communication & Ideas
+ADV026,kanıt,evidence; proof,B2,Communication & Ideas
+ADV027,gerekçe,reason; justification,B2,Communication & Ideas
+ADV028,eleştiri,criticism; critique,B2,Communication & Ideas
+ADV029,öneri,suggestion; proposal,B1,Communication & Ideas
+ADV030,talep,request; demand,B2,Communication & Ideas
+ADV031,yanıt,response; answer,B1,Communication & Ideas
+ADV032,açıklama,explanation,B1,Communication & Ideas
+ADV033,vurgu,emphasis,B2,Communication & Ideas
+ADV034,ima,implication; insinuation,C1,Communication & Ideas
+ADV035,söylenti,rumor,B2,Communication & Ideas
+ADV036,haberleşme,communication; correspondence,B2,Communication & Ideas
+ADV037,iletişim,communication,B1,Communication & Ideas
+ADV038,etkileşim,interaction,B2,Communication & Ideas
+ADV039,uzlaşma,compromise; agreement,B2,Communication & Ideas
+ADV040,anlaşmazlık,disagreement; dispute,B2,Communication & Ideas
+ADV041,girişim,initiative; venture,B2,Work & Projects
+ADV042,çaba,effort,B1,Work & Projects
+ADV043,katkı,contribution,B1,Work & Projects
+ADV044,sorumluluk,responsibility,B1,Work & Projects
+ADV045,yetki,authority; authorization,B2,Work & Projects
+ADV046,görev,duty; task,B1,Work & Projects
+ADV047,hedef,target; goal,B1,Work & Projects
+ADV048,amaç,purpose; aim,B1,Work & Projects
+ADV049,planlama,planning,B1,Work & Projects
+ADV050,strateji,strategy,B2,Work & Projects
+ADV051,uygulama,implementation; application,B2,Work & Projects
+ADV052,aşama,stage; step,B1,Work & Projects
+ADV053,süreç,process,B2,Work & Projects
+ADV054,verimlilik,efficiency; productivity,B2,Work & Projects
+ADV055,performans,performance,B1,Work & Projects
+ADV056,işbirliği,collaboration,B2,Work & Projects
+ADV057,koordinasyon,coordination,B2,Work & Projects
+ADV058,denetim,supervision; inspection,B2,Work & Projects
+ADV059,değerlendirme,evaluation; assessment,B2,Work & Projects
+ADV060,ilerleme,progress,B1,Work & Projects
+ADV061,toplum,society,B1,Society & Institutions
+ADV062,kurum,institution,B2,Society & Institutions
+ADV063,kuruluş,organization; establishment,B1,Society & Institutions
+ADV064,yönetim,management; administration,B1,Society & Institutions
+ADV065,politika,policy,B2,Society & Institutions
+ADV066,hizmet,service,B1,Society & Institutions
+ADV067,altyapı,infrastructure,B2,Society & Institutions
+ADV068,nüfus,population,B1,Society & Institutions
+ADV069,kamu,public sector; public,B2,Society & Institutions
+ADV070,kaynak,resource; source,B1,Society & Institutions
+ADV071,bütçe,budget,B1,Society & Institutions
+ADV072,yatırım,investment,B2,Society & Institutions
+ADV073,istihdam,employment,B2,Society & Institutions
+ADV074,sektör,sector; industry,B1,Society & Institutions
+ADV075,üretim,production,B1,Society & Institutions
+ADV076,tüketim,consumption,B2,Society & Institutions
+ADV077,dağılım,distribution,B2,Society & Institutions
+ADV078,eşitsizlik,inequality,B2,Society & Institutions
+ADV079,dayanışma,solidarity,B2,Society & Institutions
+ADV080,kalkınma,development; advancement,B2,Society & Institutions
+ADV081,kaygı,anxiety; concern,B2,Emotions & Psychology
+ADV082,endişe,worry; concern,B1,Emotions & Psychology
+ADV083,merak,curiosity,B1,Emotions & Psychology
+ADV084,sabır,patience,B1,Emotions & Psychology
+ADV085,cesaret,courage,B1,Emotions & Psychology
+ADV086,özgüven,self-confidence,B2,Emotions & Psychology
+ADV087,özlem,longing,B2,Emotions & Psychology
+ADV088,hayal kırıklığı,disappointment,B1,Emotions & Psychology
+ADV089,memnuniyet,satisfaction,B2,Emotions & Psychology
+ADV090,şaşkınlık,surprise; astonishment,B2,Emotions & Psychology
+ADV091,öfke,anger,B1,Emotions & Psychology
+ADV092,kıskançlık,jealousy,B1,Emotions & Psychology
+ADV093,pişmanlık,regret,B2,Emotions & Psychology
+ADV094,gurur,pride,B1,Emotions & Psychology
+ADV095,utanma,embarrassment; shame,B1,Emotions & Psychology
+ADV096,heyecan,excitement,B1,Emotions & Psychology
+ADV097,istek,desire; wish,B1,Emotions & Psychology
+ADV098,heves,enthusiasm; eagerness,B2,Emotions & Psychology
+ADV099,motivasyon,motivation,B1,Emotions & Psychology
+ADV100,gerginlik,tension; nervousness,B2,Emotions & Psychology
+ADV101,ilişki,relationship,B1,Relationships & Social Life
+ADV102,bağlantı,connection; link,B1,Relationships & Social Life
+ADV103,dostluk,friendship,B1,Relationships & Social Life
+ADV104,yakınlık,closeness; intimacy,B2,Relationships & Social Life
+ADV105,güven,trust,B1,Relationships & Social Life
+ADV106,saygı,respect,B1,Relationships & Social Life
+ADV107,nezaket,courtesy; politeness,B2,Relationships & Social Life
+ADV108,empati,empathy,B2,Relationships & Social Life
+ADV109,anlayış,understanding; tolerance,B1,Relationships & Social Life
+ADV110,destek,support,B1,Relationships & Social Life
+ADV111,paylaşım,sharing; exchange,B1,Relationships & Social Life
+ADV112,çatışma,conflict,B2,Relationships & Social Life
+ADV113,ortaklık,partnership,B2,Relationships & Social Life
+ADV114,rekabet,competition; rivalry,B2,Relationships & Social Life
+ADV115,uyum,harmony; adaptation,B2,Relationships & Social Life
+ADV116,mesafe,distance,B1,Relationships & Social Life
+ADV117,sınır,boundary; limit,B1,Relationships & Social Life
+ADV118,mahremiyet,privacy; intimacy,C1,Relationships & Social Life
+ADV119,bağlılık,commitment; loyalty,B2,Relationships & Social Life
+ADV120,aidiyet,sense of belonging,C1,Relationships & Social Life
+ADV121,bilgi,knowledge; information,B1,Learning & Knowledge
+ADV122,birikim,accumulated knowledge; savings,B2,Learning & Knowledge
+ADV123,deneyim,experience,B1,Learning & Knowledge
+ADV124,beceri,skill,B1,Learning & Knowledge
+ADV125,yetenek,ability; talent,B1,Learning & Knowledge
+ADV126,alışkanlık,habit,B1,Learning & Knowledge
+ADV127,yöntem,method,B1,Learning & Knowledge
+ADV128,teknik,technique,B1,Learning & Knowledge
+ADV129,araştırma,research,B1,Learning & Knowledge
+ADV130,inceleme,examination; review,B2,Learning & Knowledge
+ADV131,bulgu,finding,B2,Learning & Knowledge
+ADV132,veri,data,B2,Learning & Knowledge
+ADV133,örnek,example,B1,Learning & Knowledge
+ADV134,kaynakça,bibliography; references,B2,Learning & Knowledge
+ADV135,özet,summary,B1,Learning & Knowledge
+ADV136,tanım,definition,B1,Learning & Knowledge
+ADV137,açıklık,clarity; openness,B2,Learning & Knowledge
+ADV138,yanılgı,misconception; error,C1,Learning & Knowledge
+ADV139,hafıza,memory,B1,Learning & Knowledge
+ADV140,dikkat,attention,B1,Learning & Knowledge
+ADV141,değişim,change,B1,"Time, Change & Process"
+ADV142,dönüşüm,transformation,B2,"Time, Change & Process"
+ADV143,gelişim,development; growth,B1,"Time, Change & Process"
+ADV144,gerileme,decline; regression,B2,"Time, Change & Process"
+ADV145,süre,duration; period of time,B1,"Time, Change & Process"
+ADV146,dönem,period; era,B1,"Time, Change & Process"
+ADV147,evre,phase; stage,B2,"Time, Change & Process"
+ADV148,geçiş,transition; passage,B2,"Time, Change & Process"
+ADV149,başlangıç,beginning,B1,"Time, Change & Process"
+ADV150,sonlanma,ending; termination,B2,"Time, Change & Process"
+ADV151,erteleme,postponement,B2,"Time, Change & Process"
+ADV152,gecikme,delay,B1,"Time, Change & Process"
+ADV153,süreklilik,continuity,B2,"Time, Change & Process"
+ADV154,kesinti,interruption; outage,B2,"Time, Change & Process"
+ADV155,hızlanma,acceleration; speeding up,B2,"Time, Change & Process"
+ADV156,yavaşlama,slowdown,B2,"Time, Change & Process"
+ADV157,yenilik,innovation; novelty,B1,"Time, Change & Process"
+ADV158,güncelleme,update,B1,"Time, Change & Process"
+ADV159,uyarlama,adaptation; adjustment,B2,"Time, Change & Process"
+ADV160,döngü,cycle,B2,"Time, Change & Process"
+ADV161,sorun,problem,B1,"Problems, Risk & Solutions"
+ADV162,mesele,issue; matter,B1,"Problems, Risk & Solutions"
+ADV163,engel,obstacle,B1,"Problems, Risk & Solutions"
+ADV164,zorluk,difficulty; challenge,B1,"Problems, Risk & Solutions"
+ADV165,risk,risk,B1,"Problems, Risk & Solutions"
+ADV166,tehdit,threat,B2,"Problems, Risk & Solutions"
+ADV167,hata,error; mistake,B1,"Problems, Risk & Solutions"
+ADV168,eksiklik,deficiency; missing part,B2,"Problems, Risk & Solutions"
+ADV169,kayıp,loss,B1,"Problems, Risk & Solutions"
+ADV170,zarar,damage; harm,B1,"Problems, Risk & Solutions"
+ADV171,baskı,pressure,B1,"Problems, Risk & Solutions"
+ADV172,kriz,crisis,B1,"Problems, Risk & Solutions"
+ADV173,çözüm,solution,B1,"Problems, Risk & Solutions"
+ADV174,önlem,precaution; measure,B2,"Problems, Risk & Solutions"
+ADV175,müdahale,intervention,B2,"Problems, Risk & Solutions"
+ADV176,koruma,protection,B1,"Problems, Risk & Solutions"
+ADV177,iyileştirme,improvement,B2,"Problems, Risk & Solutions"
+ADV178,onarım,repair,B2,"Problems, Risk & Solutions"
+ADV179,telafi,compensation; making up for,B2,"Problems, Risk & Solutions"
+ADV180,tedbir,precaution; measure,B2,"Problems, Risk & Solutions"
+ADV181,gelir,income,B1,Economy & Business
+ADV182,gider,expense,B1,Economy & Business
+ADV183,kazanç,earnings; gain,B1,Economy & Business
+ADV184,maliyet,cost,B2,Economy & Business
+ADV185,fiyat,price,B1,Economy & Business
+ADV186,değer,value,B1,Economy & Business
+ADV187,arz,supply,B2,Economy & Business
+ADV188,piyasa,market,B2,Economy & Business
+ADV189,müşteri,customer,B1,Economy & Business
+ADV190,tüketici,consumer,B2,Economy & Business
+ADV191,üretici,producer; manufacturer,B2,Economy & Business
+ADV192,işletme,business; enterprise,B2,Economy & Business
+ADV193,şirket,company,B1,Economy & Business
+ADV194,marka,brand,B1,Economy & Business
+ADV195,ürün,product,B1,Economy & Business
+ADV196,sipariş,order,B1,Economy & Business
+ADV197,stok,stock; inventory,B2,Economy & Business
+ADV198,borç,debt,B1,Economy & Business
+ADV199,tasarruf,savings; conservation,B2,Economy & Business
+ADV200,harcama,spending; expenditure,B1,Economy & Business
+ADV201,teknoloji,technology,B1,Technology & Media
+ADV202,cihaz,device,B1,Technology & Media
+ADV203,yazılım,software,B2,Technology & Media
+ADV204,donanım,hardware,B2,Technology & Media
+ADV205,platform,platform,B1,Technology & Media
+ADV206,sistem,system,B1,Technology & Media
+ADV207,ağ,network,B2,Technology & Media
+ADV208,veritabanı,database,B2,Technology & Media
+ADV209,hesap,account,B1,Technology & Media
+ADV210,şifre,password,B1,Technology & Media
+ADV211,gizlilik,privacy,B2,Technology & Media
+ADV212,güvenlik,security,B1,Technology & Media
+ADV213,içerik,content,B1,Technology & Media
+ADV214,erişim,access,B2,Technology & Media
+ADV215,sinyal,signal,B1,Technology & Media
+ADV216,bildirim,notification,B1,Technology & Media
+ADV217,sürüm,version; release,B2,Technology & Media
+ADV218,dosya,file,B1,Technology & Media
+ADV219,depolama,storage,B2,Technology & Media
+ADV220,algoritma,algorithm,B2,Technology & Media
+ADV221,çevre,environment; surroundings,B1,Environment & City
+ADV222,doğa,nature,B1,Environment & City
+ADV223,iklim,climate,B1,Environment & City
+ADV224,hava,air; weather,B1,Environment & City
+ADV225,kirlilik,pollution,B1,Environment & City
+ADV226,atık,waste,B2,Environment & City
+ADV227,enerji,energy,B1,Environment & City
+ADV228,rezerv,reserve,B2,Environment & City
+ADV229,orman,forest,B1,Environment & City
+ADV230,tarım,agriculture,B2,Environment & City
+ADV231,kuraklık,drought,B2,Environment & City
+ADV232,sel,flood,B1,Environment & City
+ADV233,deprem,earthquake,B1,Environment & City
+ADV234,afet,disaster,B2,Environment & City
+ADV235,bölge,region,B1,Environment & City
+ADV236,mahalle,neighborhood,B1,Environment & City
+ADV237,ulaşım,transportation,B1,Environment & City
+ADV238,trafik,traffic,B1,Environment & City
+ADV239,kalabalık,crowd,B1,Environment & City
+ADV240,konum,location; position,B1,Environment & City
+ADV241,kural,rule,B1,"Rules, Law & Public Life"
+ADV242,yasa,law,B1,"Rules, Law & Public Life"
+ADV243,hak,right; entitlement,B1,"Rules, Law & Public Life"
+ADV244,özgürlük,freedom,B1,"Rules, Law & Public Life"
+ADV245,yükümlülük,obligation; liability,B2,"Rules, Law & Public Life"
+ADV246,izin,permission,B1,"Rules, Law & Public Life"
+ADV247,yasak,ban; prohibition,B1,"Rules, Law & Public Life"
+ADV248,ceza,penalty; punishment,B1,"Rules, Law & Public Life"
+ADV249,suç,crime; offense,B1,"Rules, Law & Public Life"
+ADV250,adalet,justice,B1,"Rules, Law & Public Life"
+ADV251,mahkeme,court,B1,"Rules, Law & Public Life"
+ADV252,dava,lawsuit; legal case,B2,"Rules, Law & Public Life"
+ADV253,hüküm,judgment; ruling,B2,"Rules, Law & Public Life"
+ADV254,belge,document,B1,"Rules, Law & Public Life"
+ADV255,kimlik,identity; ID,B1,"Rules, Law & Public Life"
+ADV256,başvuru,application; request,B2,"Rules, Law & Public Life"
+ADV257,onay,approval,B1,"Rules, Law & Public Life"
+ADV258,kontrol,control; check,B1,"Rules, Law & Public Life"
+ADV259,düzen,order; arrangement,B2,"Rules, Law & Public Life"
+ADV260,sözleşme,contract,B2,"Rules, Law & Public Life"
+ADV261,sağlık,health,B1,Health & Lifestyle
+ADV262,belirti,symptom; sign,B2,Health & Lifestyle
+ADV263,rahatsızlık,ailment; discomfort,B1,Health & Lifestyle
+ADV264,tedavi,treatment,B1,Health & Lifestyle
+ADV265,ilaç,medicine,B1,Health & Lifestyle
+ADV266,reçete,prescription,B1,Health & Lifestyle
+ADV267,muayene,medical examination,B1,Health & Lifestyle
+ADV268,tanı,diagnosis,B2,Health & Lifestyle
+ADV269,iyileşme,recovery,B1,Health & Lifestyle
+ADV270,beslenme,nutrition,B1,Health & Lifestyle
+ADV271,uyku,sleep,B1,Health & Lifestyle
+ADV272,yorgunluk,fatigue,B1,Health & Lifestyle
+ADV273,ağrı,pain,B1,Health & Lifestyle
+ADV274,stres,stress,B1,Health & Lifestyle
+ADV275,bağışıklık,immunity,B2,Health & Lifestyle
+ADV276,nefes,breath,B1,Health & Lifestyle
+ADV277,denge,balance,B1,Health & Lifestyle
+ADV278,hareket,movement,B1,Health & Lifestyle
+ADV279,egzersiz,exercise,B1,Health & Lifestyle
+ADV280,dayanıklılık,endurance; resilience,B2,Health & Lifestyle
+ADV281,alışveriş,shopping,B1,Culture & Everyday Life
+ADV282,seçenek,option; choice,B1,Culture & Everyday Life
+ADV283,tercih,preference; choice,B1,Culture & Everyday Life
+ADV284,ihtiyaç,need,B1,Culture & Everyday Life
+ADV285,imkân,means; possibility,B2,Culture & Everyday Life
+ADV286,fırsat,opportunity,B1,Culture & Everyday Life
+ADV287,izlenim,impression,B2,Culture & Everyday Life
+ADV288,etkinlik,event; activity,B1,Culture & Everyday Life
+ADV289,sergi,exhibition,B1,Culture & Everyday Life
+ADV290,gösteri,show; performance,B1,Culture & Everyday Life
+ADV291,mekân,place; venue,B2,Culture & Everyday Life
+ADV292,ortam,environment; setting,B1,Culture & Everyday Life
+ADV293,gelenek,tradition,B1,Culture & Everyday Life
+ADV294,kültür,culture,B1,Culture & Everyday Life
+ADV295,miras,heritage; inheritance,B2,Culture & Everyday Life
+ADV296,tarz,style; manner,B1,Culture & Everyday Life
+ADV297,zevk,taste; pleasure,B1,Culture & Everyday Life
+ADV298,kalite,quality,B1,Culture & Everyday Life
+ADV299,konfor,comfort,B1,Culture & Everyday Life
+ADV300,tasarım,design,B1,Culture & Everyday Life
