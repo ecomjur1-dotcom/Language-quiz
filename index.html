@@ -2084,7 +2084,6 @@ body.onlineChatAvailable #onlineLobby{margin-bottom:max(66px,calc(env(safe-area-
   flex-direction:column;
   gap:8px;
 }
-#mainMenu .mainJoinBlock .mainLaunchCard{width:100%}
 #mainMenu .mainJoinInline{
   position:relative;
   z-index:3;
@@ -2215,13 +2214,23 @@ body.onlineChatAvailable #onlineLobby{margin-bottom:max(66px,calc(env(safe-area-
   }
 }
 </style>
+
+<style>
+/* v48 main-menu join simplification */
+#mainMenu .mainJoinBlock{
+  justify-content:center;
+}
+#mainMenu .mainJoinInline{
+  width:100%;
+  box-sizing:border-box;
+}
+</style>
 </head><body><div id="app">
 <section id="home" class="home">
 <div id="mainMenu" class="menuScreen"><div class="mainMenuBackdrop" aria-hidden="true"><span class="cloud cloudA"></span><span class="cloud cloudB"></span><span class="cloud cloudC"></span><span class="cloud cloudD"></span></div><h1>Language Training</h1>
 <div class="mainLaunchGrid">
   <button id="mainCreateGame" class="modeCard mainLaunchCard" disabled><strong>Create Game</strong><span>Start an online room</span></button>
   <div class="mainJoinBlock">
-    <button id="mainJoinGame" class="modeCard mainLaunchCard" disabled><strong>Join Game</strong><span>Enter an online room</span></button>
     <div id="mainJoinInline" class="mainJoinInline">
       <label for="roomCodeInput">Game code</label>
       <div class="mainJoinControls">
@@ -2474,7 +2483,7 @@ function closeQuizPickers(){[["soloBankPanel","soloQuizPicker"],["createBankPane
 function toggleQuizPicker(panelId,buttonId){let panel=$(panelId),btn=$(buttonId),opening=panel.classList.contains("hidden");closeQuizPickers();if(opening){panel.classList.remove("hidden");btn.setAttribute("aria-expanded","true");panel.scrollIntoView({block:"nearest",behavior:"smooth"})}}
 function renderBankChoices(id){let x=$(id);if(!x)return;x.innerHTML="";quizCatalog.forEach(o=>{let f=typeof o==="string"?o:o.file,n=typeof o==="string"?nice(f):(o.name||nice(f)),b=document.createElement("button");b.className="bankCard"+(f===selectedBankFile?" selected":"");b.innerHTML="<strong></strong><span></span>";b.children[0].textContent=n;b.children[1].textContent=f===selectedBankFile?"Selected":"Select";b.onclick=async()=>{try{await loadQB(f,n);closeQuizPickers()}catch(e){$("err").textContent=e.message;$("err").classList.remove("hidden")}};x.appendChild(b)})}
 function drawBanks(){renderBankChoices("soloBankList");renderBankChoices("createBankList");updateQuizPickerLabels()}
-async function loadQB(f,n){let r=await fetch("./quiz-banks/"+encodeURIComponent(f)+"?v=10",{cache:"no-store"});if(!r.ok)throw Error("Could not load "+f+" ("+r.status+")");bank=valid(csv(await r.text()));selectedBankFile=f;console.info("[Quiz bank]",f,bank.length+" rows",new Set(bank.map(q=>q.id)).size+" unique IDs",new Set(bank.map(q=>q.question)).size+" unique question texts");$("status").textContent=bank.length+" questions ready";$("soloStart").disabled=false;$("mainCreateGame").disabled=false;$("mainJoinGame").disabled=false;$("mainLocalGame").disabled=false;localStorage.setItem("turkishQuizBank",f);drawBanks()}
+async function loadQB(f,n){let r=await fetch("./quiz-banks/"+encodeURIComponent(f)+"?v=10",{cache:"no-store"});if(!r.ok)throw Error("Could not load "+f+" ("+r.status+")");bank=valid(csv(await r.text()));selectedBankFile=f;console.info("[Quiz bank]",f,bank.length+" rows",new Set(bank.map(q=>q.id)).size+" unique IDs",new Set(bank.map(q=>q.question)).size+" unique question texts");$("status").textContent=bank.length+" questions ready";$("soloStart").disabled=false;$("mainCreateGame").disabled=false;$("mainLocalGame").disabled=false;localStorage.setItem("turkishQuizBank",f);drawBanks()}
 async function initQB(){try{let r=await fetch("./quiz-banks/index.json?v=10",{cache:"no-store"});quizCatalog=await r.json();let s=localStorage.getItem("turkishQuizBank"),o=quizCatalog.find(x=>(typeof x==="string"?x:x.file)===s)||quizCatalog[0];if(!o)throw Error("No quiz banks found.");await loadQB(typeof o==="string"?o:o.file,typeof o==="string"?nice(o):o.name)}catch(e){$("status").textContent="Quiz library unavailable";$("err").textContent=e.message;$("err").classList.remove("hidden")}}
 $("soloStart").onclick=()=>{closeQuizPickers();drawBanks();showL("soloMenu")};
 $("soloQuizPicker").onclick=()=>toggleQuizPicker("soloBankPanel","soloQuizPicker");
@@ -2509,7 +2518,6 @@ function openJoinGameFlow(){showL("mainMenu");resetJoinCode();$("mainJoinStatus"
 $("createFlowOpen").onclick=openCreateGameFlow;
 $("joinFlowOpen").onclick=openJoinGameFlow;
 $("mainCreateGame").onclick=openCreateGameFlow;
-$("mainJoinGame").onclick=()=>{if($("mainJoinGame").disabled)return;$("mainJoinStatus").textContent="";$("roomCodeInput").focus()};
 $("mainLocalGame").onclick=()=>showL("localMenu");
 $("layoutSide").onclick=()=>{layout="side";startGame()};$("layoutOpp").onclick=()=>{layout="opposite";startGame()};
 
@@ -2703,6 +2711,6 @@ $("exitOnlineCancel").onclick=()=>{$("exitOnlineModal").classList.add("hidden")}
 $("exitOnlineConfirm").onclick=async()=>{$("exitOnlineModal").classList.add("hidden");await leaveOnline()};
 $("exitOnlineModal").onclick=e=>{if(e.target===$("exitOnlineModal"))$("exitOnlineModal").classList.add("hidden")};
 initQB().finally(()=>applyRoomInviteFromUrl());})();
-</script><script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=47").then(r=>r.update()).catch(()=>{}))}</script>
-<!-- Build v47 · Chat micro-interactions + reconnect grace reset fix -->
+</script><script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=48").then(r=>r.update()).catch(()=>{}))}</script>
+<!-- Build v48 · Remove redundant Join Game button -->
 </body></html>
