@@ -18,6 +18,10 @@
   {
   "file":"turkish_advanced_common_nouns_300.csv",
   "name":"Advanced Common Nouns"
+  },
+  {
+    "file":"turkish_b1_everyday_life_comprehension_200.csv",
+    "name":"B1 Everyday Life Comprehension"
   }
 ]
 
